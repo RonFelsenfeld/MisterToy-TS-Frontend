@@ -1,0 +1,18 @@
+.toy-index {
+  .actions-container {
+    display: grid;
+    grid-template-columns: auto;
+    row-gap: em(10px);
+    margin-block-start: em(20px);
+
+    .actions-title {
+      font-size: em(18px);
+      font-family: $heading-font-family;
+      letter-spacing: 2px;
+      color: $surface-clr;
+    }
+
+    padding: em(15px);
+    background-color: $main-clr-10;
+  }
+}

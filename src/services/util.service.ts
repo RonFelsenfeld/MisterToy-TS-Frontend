@@ -25,16 +25,18 @@ function getRandomIntInclusive(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min
 }
 
-function debounce<T extends (...args: unknown[]) => unknown>(
+function debounce<T extends (...args: any[]) => unknown>(
   func: T,
-  timeout = 300
-): (...args: Parameters<T>) => void {
-  let timer: ReturnType<typeof setTimeout>
-  return (...args: Parameters<T>) => {
-    clearTimeout(timer)
-    timer = setTimeout(() => {
+  wait = 300
+): (...args: Parameters<T>) => unknown {
+  let timeout: ReturnType<typeof setTimeout>
+
+  return function (...args: Parameters<T>): void {
+    clearTimeout(timeout)
+
+    timeout = setTimeout(() => {
       func(...args)
-    }, timeout)
+    }, wait)
   }
 }
 

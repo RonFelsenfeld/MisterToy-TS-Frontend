@@ -1,17 +1,17 @@
 .app-header {
-  padding-block: 15px;
+  padding-block: 10px;
   color: $surface-clr;
   background-color: $main-clr-base;
 
   .logo {
-    font-size: em(42px);
+    font-size: em(36px);
   }
 
   .main-nav {
     gap: em(40px);
 
     .btn-nav-link {
-      font-size: em(18px);
+      font-size: em(16px);
       color: inherit;
     }
   }

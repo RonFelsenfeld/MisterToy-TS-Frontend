@@ -1,6 +1,6 @@
-import { Toy } from '../models/toy.model'
 import { storageService } from './async-storage.service'
 import { utilService } from './util.service'
+import { Toy, ToyFilterBy } from '../models/toy.model'
 
 const STORAGE_KEY = 'toyDB'
 _createDemoToys()
@@ -10,11 +10,14 @@ export const toyService = {
   getById,
   remove,
   save,
+  getDefaultFilterBy,
 }
 
-async function query() {
+async function query(filterBy: ToyFilterBy) {
   try {
-    const toys = storageService.query<Toy>(STORAGE_KEY)
+    let toys = await storageService.query<Toy>(STORAGE_KEY)
+    console.log(toys)
+    toys = _filterToys(toys, filterBy)
     return toys
   } catch (err) {
     console.log('Toy Service -> Had issues with loading toys:', err)
@@ -23,7 +26,7 @@ async function query() {
 }
 async function getById(toyId: string) {
   try {
-    const toy = storageService.get<Toy>(STORAGE_KEY, toyId)
+    const toy = await storageService.get<Toy>(STORAGE_KEY, toyId)
     return toy
   } catch (err) {
     console.log('Toy Service -> Had issues with loading toy:', err)
@@ -54,7 +57,33 @@ async function save(toy: Toy) {
 
 ////////////////////////////////////////////////////
 
+function getDefaultFilterBy(): ToyFilterBy {
+  return { name: '', inStock: null, maxPrice: 0 }
+}
+
+////////////////////////////////////////////////////
+
 // ! Private functions
+
+function _filterToys(toys: Toy[], filterBy: ToyFilterBy): Toy[] {
+  const { name, inStock, maxPrice } = filterBy
+  let toysToReturn = toys.slice()
+
+  if (name) {
+    const regExp = new RegExp(name, 'i')
+    toysToReturn = toysToReturn.filter(t => regExp.test(t.name))
+  }
+
+  if (inStock !== null) {
+    toysToReturn = toysToReturn.filter(t => t.inStock === inStock)
+  }
+
+  if (maxPrice) {
+    toysToReturn = toysToReturn.filter(t => t.price <= maxPrice)
+  }
+
+  return toysToReturn
+}
 
 function _createDemoToys() {
   let toys: Toy[] | undefined = utilService.loadFromStorage<Toy>(STORAGE_KEY)

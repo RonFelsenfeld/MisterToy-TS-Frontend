@@ -1,19 +1,25 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Toy } from '../../models/toy.model'
 import { toyService } from '../../services/toy.local.service'
+import { Toy, ToyFilterBy } from '../../models/toy.model'
 
 interface ToyState {
   toys: Toy[]
+  filterBy: ToyFilterBy
 }
 
 const initialState: ToyState = {
   toys: [],
+  filterBy: toyService.getDefaultFilterBy(),
 }
 
 const toySlice = createSlice({
   name: 'toyModule',
   initialState,
-  reducers: {},
+  reducers: {
+    setFilterBy: (state, action: PayloadAction<ToyFilterBy>) => {
+      state.filterBy = action.payload
+    },
+  },
   extraReducers(builder) {
     builder.addCase(loadToys.fulfilled, (state, action: PayloadAction<Toy[]>) => {
       state.toys = action.payload
@@ -21,9 +27,9 @@ const toySlice = createSlice({
   },
 })
 
-export const loadToys = createAsyncThunk('toyModule', async () => {
+export const loadToys = createAsyncThunk('toyModule', async (filterBy: ToyFilterBy) => {
   try {
-    const toys = await toyService.query()
+    const toys = await toyService.query(filterBy)
     return toys
   } catch (err) {
     console.log('Toy Slice -> Had issues with loading toys:', err)
@@ -31,4 +37,5 @@ export const loadToys = createAsyncThunk('toyModule', async () => {
   }
 })
 
+export const { setFilterBy } = toySlice.actions
 export default toySlice.reducer

@@ -2,19 +2,35 @@ import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { AppDispatch, RootState } from '../store/store'
-import { loadToys } from '../store/slices/toy.slice'
+import { loadToys, setFilterBy } from '../store/slices/toy.slice'
+import { ToyFilterBy } from '../models/toy.model'
 
 import ToyList from '../components/toy/ToyList'
+import ToyFilter from '../components/toy/ToyFilter'
 
 const ToyIndex = () => {
   const toys = useSelector((state: RootState) => state.toyModule.toys)
+  const filterBy = useSelector((state: RootState) => state.toyModule.filterBy)
   const dispatch = useDispatch<AppDispatch>()
 
   useEffect(() => {
-    dispatch(loadToys())
-  }, [])
+    dispatch(loadToys(filterBy))
+  }, [filterBy])
 
-  return <section className="toy-index">{<ToyList toys={toys} />}</section>
+  function onSetFilterBy(filterBy: ToyFilterBy) {
+    dispatch(setFilterBy(filterBy))
+  }
+
+  return (
+    <section className="toy-index">
+      <div className="actions-container">
+        <h2 className="actions-title">Filter & sort your toys</h2>
+        <ToyFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
+      </div>
+
+      <ToyList toys={toys} />
+    </section>
+  )
 }
 
 export default ToyIndex

@@ -1,8 +1,8 @@
 @function rem($size) {
-  $remSize: calc($size / 16px);
+  $remSize: calc($size / 10px);
   @return ($remSize) * 1rem;
 }
 
-@function em($pixels, $context: 14px) {
+@function em($pixels, $context: 10px) {
   @return calc($pixels/$context) * 1em;
 }

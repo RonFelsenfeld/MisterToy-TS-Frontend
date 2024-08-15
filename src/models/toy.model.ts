@@ -6,3 +6,9 @@ export interface Toy {
   createdAt: number
   inStock: boolean
 }
+
+export interface ToyFilterBy {
+  name: string
+  inStock: boolean | null
+  maxPrice: number
+}

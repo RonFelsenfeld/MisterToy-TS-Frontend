@@ -7,10 +7,18 @@ $main-font-family: PoppinsRegular, sans-serif;
 $heading-font-family: PoppinsBold, sans-serif;
 
 // Colors
+$main-clr-10: #186fa5;
 $main-clr-base: #389bd8;
+$main-clr--10: #81cdfb;
 
 $in-stock-clr: #07a507;
 $out-stock-clr: #ea7979;
 
 // Dimensions
 $toy-card-width: 300px;
+
+// Breakpoints
+$break-mobile: 450px;
+$break-small: 600px;
+$break-narrow: 750px;
+$break-normal: 1000px;
