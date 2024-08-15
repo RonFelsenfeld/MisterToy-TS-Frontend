@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
+import ToyIndex from './pages/ToyIndex'
 import AppHeader from './components/general/AppHeader'
 
 const App = () => {
@@ -9,7 +10,9 @@ const App = () => {
         <AppHeader />
 
         <main>
-          <Routes>{/* <Route path='/' element={<HomePage/>}/> */}</Routes>
+          <Routes>
+            <Route path="/" element={<ToyIndex />} />
+          </Routes>
         </main>
       </section>
     </Router>
