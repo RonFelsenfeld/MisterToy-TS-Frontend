@@ -3,6 +3,10 @@
 }
 
 html {
+  font-size: 0.625rem;
+  color: $main-font-clr;
+  font-family: $main-font-family;
+  background-color: $surface-clr;
 }
 
 body,
@@ -16,9 +20,12 @@ p,
 a {
   margin: 0;
   padding: 0;
+  font-weight: normal;
 }
 
 button {
+  background-color: transparent;
+
   cursor: pointer;
   border: none;
   font-family: inherit;
