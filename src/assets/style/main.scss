@@ -10,6 +10,9 @@
 @import 'basics/layout';
 
 // PAGES
+@import 'pages/toy-index';
 
 // COMPONENTS
 @import 'components/general/app-header';
+@import 'components/toy/toy-list';
+@import 'components/toy/toy-preview';

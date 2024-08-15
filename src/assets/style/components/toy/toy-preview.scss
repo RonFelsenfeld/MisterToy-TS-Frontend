@@ -1,0 +1,24 @@
+.toy-preview {
+  gap: em(15px);
+
+  .toy-name {
+    font-size: em(24px);
+  }
+
+  .toy-price {
+    font-size: em(18px);
+    font-family: $heading-font-family;
+  }
+
+  .toy-stock {
+    font-size: em(18px);
+
+    &.in-stock {
+      color: $in-stock-clr;
+    }
+
+    &.out-stock {
+      color: $out-stock-clr;
+    }
+  }
+}

@@ -5,6 +5,7 @@ export const utilService = {
   saveToStorage,
   loadFromStorage,
   getRandomTimestamp,
+  getFormattedCurrency,
 }
 
 function makeId(length: number = 6) {
@@ -59,4 +60,13 @@ function getRandomTimestamp() {
     Math.floor(Math.random() * (nowTimestamp - pastMonthTimestamp + 1)) + pastMonthTimestamp
 
   return randomTimestamp
+}
+
+function getFormattedCurrency(amount: number) {
+  const formattedAmount = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'ILS',
+  }).format(amount)
+
+  return formattedAmount
 }
