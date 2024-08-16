@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 import ToyIndex from './pages/ToyIndex'
+import ToyDetails from './pages/ToyDetails'
+
 import AppHeader from './components/general/AppHeader'
 
 const App = () => {
@@ -12,6 +14,7 @@ const App = () => {
         <main>
           <Routes>
             <Route path="/" element={<ToyIndex />} />
+            <Route path="/toy/:toyId" element={<ToyDetails />} />
           </Routes>
         </main>
       </section>

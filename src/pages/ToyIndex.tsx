@@ -28,7 +28,7 @@ const ToyIndex = () => {
         <ToyFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
       </div>
 
-      <ToyList toys={toys} />
+      {toys.length ? <ToyList toys={toys} /> : <div className="no-toys-msg">No toys found.</div>}
     </section>
   )
 }

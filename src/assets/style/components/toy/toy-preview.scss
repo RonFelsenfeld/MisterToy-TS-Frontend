@@ -1,7 +1,15 @@
 .toy-preview {
   gap: em(15px);
-  background-color: $main-clr--10;
   padding-block: em(20px);
+
+  background-color: $main-clr--10;
+  transition: all $hover-transition;
+  cursor: pointer;
+
+  &:hover {
+    scale: 1.05;
+    box-shadow: $toy-card-shadow;
+  }
 
   .toy-name {
     font-size: em(24px);

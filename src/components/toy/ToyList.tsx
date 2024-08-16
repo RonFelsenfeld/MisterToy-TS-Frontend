@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { Toy } from '../../models/toy.model'
 import ToyPreview from './ToyPreview'
 
@@ -10,7 +11,9 @@ const ToyList = ({ toys }: ToyListProps) => {
     <ul className="toy-list clean-list">
       {toys.map(toy => (
         <li key={toy._id}>
-          <ToyPreview toy={toy} />
+          <Link to={`/toy/${toy._id}`}>
+            <ToyPreview toy={toy} />
+          </Link>
         </li>
       ))}
     </ul>

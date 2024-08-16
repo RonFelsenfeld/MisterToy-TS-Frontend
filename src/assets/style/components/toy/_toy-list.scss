@@ -2,5 +2,5 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax($toy-card-width, 1fr));
   gap: 2em;
-  margin-block: em(30px);
+  margin-block-end: em(30px);
 }

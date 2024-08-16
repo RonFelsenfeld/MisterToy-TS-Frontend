@@ -3,7 +3,12 @@
     display: grid;
     grid-template-columns: auto;
     row-gap: em(10px);
-    margin-block-start: em(20px);
+
+    padding: em(15px);
+    margin-block: em(20px);
+
+    background-color: $main-clr-10;
+    box-shadow: $toy-card-shadow;
 
     .actions-title {
       font-size: em(18px);
@@ -11,8 +16,9 @@
       letter-spacing: 2px;
       color: $surface-clr;
     }
+  }
 
-    padding: em(15px);
-    background-color: $main-clr-10;
+  .no-toys-msg {
+    font-size: em(24px);
   }
 }

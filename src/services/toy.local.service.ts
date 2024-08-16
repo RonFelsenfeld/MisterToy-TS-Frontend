@@ -16,7 +16,6 @@ export const toyService = {
 async function query(filterBy: ToyFilterBy) {
   try {
     let toys = await storageService.query<Toy>(STORAGE_KEY)
-    console.log(toys)
     toys = _filterToys(toys, filterBy)
     return toys
   } catch (err) {
