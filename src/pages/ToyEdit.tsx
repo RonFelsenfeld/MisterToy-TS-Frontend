@@ -63,6 +63,7 @@ const ToyEdit = () => {
               placeholder="Enter new name"
               value={name}
               onChange={handleChange}
+              required
             />
           </div>
 
@@ -77,6 +78,7 @@ const ToyEdit = () => {
               placeholder="Enter new price"
               value={price || ''}
               onChange={handleChange}
+              required
             />
           </div>
 

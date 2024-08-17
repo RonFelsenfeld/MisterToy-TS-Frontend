@@ -10,6 +10,10 @@
     background-color: $main-clr-10;
     box-shadow: $toy-card-shadow;
 
+    .btn-add-toy {
+      @include btnAction($surface-clr, $main-font-clr);
+    }
+
     .actions-title {
       font-size: em(18px);
       font-family: $heading-font-family;

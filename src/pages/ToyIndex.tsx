@@ -7,6 +7,7 @@ import { ToyFilterBy } from '../models/toy.model'
 
 import ToyList from '../components/toy/ToyList'
 import ToyFilter from '../components/toy/ToyFilter'
+import { Link } from 'react-router-dom'
 
 const ToyIndex = () => {
   const toys = useSelector((state: RootState) => state.toyModule.toys)
@@ -24,6 +25,9 @@ const ToyIndex = () => {
   return (
     <section className="toy-index">
       <div className="actions-container">
+        <Link to="toy/edit">
+          <button className="btn-add-toy">Add toy</button>
+        </Link>
         <h2 className="actions-title">Filter & sort your toys</h2>
         <ToyFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
       </div>

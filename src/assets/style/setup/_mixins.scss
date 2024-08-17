@@ -22,12 +22,12 @@
   }
 }
 
-@mixin btnAction($bgColor) {
+@mixin btnAction($bgColor, $fontColor: $surface-clr) {
   padding: rem(10px) rem(20px);
   margin-block-end: rem(10px);
 
   font-size: em(16px);
-  color: $surface-clr;
+  color: $fontColor;
   background-color: $bgColor;
   transition: background-color $hover-transition;
 
