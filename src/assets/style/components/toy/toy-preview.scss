@@ -31,4 +31,18 @@
       color: $out-stock-clr;
     }
   }
+
+  .btn-action {
+    padding: rem(10px) rem(20px);
+    margin-block-end: rem(10px);
+
+    font-size: em(14px);
+    color: $surface-clr;
+    background-color: $main-clr-base;
+    transition: background-color $hover-transition;
+
+    &:hover {
+      background-color: darken($main-clr-base, 8%);
+    }
+  }
 }

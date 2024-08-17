@@ -10,6 +10,7 @@ export const toyService = {
   getById,
   remove,
   save,
+  getEmptyToy,
   getDefaultFilterBy,
 }
 
@@ -55,6 +56,15 @@ async function save(toy: Toy) {
 }
 
 ////////////////////////////////////////////////////
+
+function getEmptyToy(): Partial<Toy> {
+  return {
+    name: '',
+    price: 0,
+    labels: [],
+    inStock: true,
+  }
+}
 
 function getDefaultFilterBy(): ToyFilterBy {
   return { name: '', inStock: null, maxPrice: 0 }

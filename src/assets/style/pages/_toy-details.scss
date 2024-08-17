@@ -1,5 +1,5 @@
 .toy-details {
-  margin-block-start: rem(20px);
+  margin-block-start: $content-gap;
 
   .toy-name {
     font-size: em(32px);
@@ -23,21 +23,11 @@
   }
 
   .btn-back {
-    padding: rem(10px) rem(20px);
-    margin-block-end: rem(10px);
-
-    font-size: em(16px);
-    color: $surface-clr;
-    background-color: $main-clr-10;
-    transition: background-color $hover-transition;
-
-    &:hover {
-      background-color: darken($main-clr-10, 5%);
-    }
+    @include btnAction($main-clr-10);
   }
 }
 
 .loading-toy-msg {
-  margin-block-start: rem(20px);
+  margin-block-start: $content-gap;
   font-size: em(24px);
 }

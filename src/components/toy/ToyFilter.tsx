@@ -1,10 +1,8 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { utilService } from '../../services/util.service'
-import { ToyFilterBy } from '../../models/toy.model'
+import { ToyFieldValues, ToyFilterBy } from '../../models/toy.model'
 
 type InputEvent = ChangeEvent<HTMLInputElement | HTMLSelectElement>
-type FilterByValue = string | number | boolean | null
-
 interface ToyFilterProps {
   filterBy: ToyFilterBy
   onSetFilterBy: (filterBy: ToyFilterBy) => void
@@ -20,7 +18,7 @@ const ToyFilter = ({ filterBy, onSetFilterBy }: ToyFilterProps) => {
 
   function handleChange({ target }: InputEvent) {
     let { value: rawValue, name: field, type } = target
-    let value: FilterByValue = rawValue
+    let value: ToyFieldValues = rawValue
 
     if (type === 'number') value = +value
     if (type === 'select-one') {

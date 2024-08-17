@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 
 import { utilService } from '../services/util.service'
 import { toyService } from '../services/toy.local.service'
@@ -8,6 +8,7 @@ import { Toy } from '../models/toy.model'
 const ToyDetails = () => {
   const [toy, setToy] = useState<Toy | null>(null)
   const { toyId } = useParams()
+  const navigate = useNavigate()
 
   useEffect(() => {
     if (toyId) loadToy()
@@ -19,6 +20,7 @@ const ToyDetails = () => {
       setToy(toy)
     } catch (err) {
       console.log('Toy Details -> Had issues with loading toy :', err)
+      navigate('/')
     }
   }
 

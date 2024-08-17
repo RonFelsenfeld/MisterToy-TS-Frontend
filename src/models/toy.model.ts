@@ -12,3 +12,5 @@ export interface ToyFilterBy {
   inStock: boolean | null
   maxPrice: number
 }
+
+export type ToyFieldValues = string | number | boolean | null

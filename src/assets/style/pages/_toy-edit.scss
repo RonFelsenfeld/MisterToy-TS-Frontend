@@ -1,0 +1,60 @@
+.toy-edit {
+  padding-block: em(25px);
+  margin-block-start: $content-gap;
+  background-color: $main-clr--10;
+
+  .edit-heading {
+    margin-block-end: rem(20px);
+    font-size: em(32px);
+    font-family: $heading-font-family;
+  }
+
+  form {
+    gap: em(30px);
+
+    .inputs-container {
+      gap: em(30px);
+    }
+
+    .input-container {
+      width: 100%;
+      gap: em(15px);
+
+      &.stock {
+        justify-content: center;
+      }
+
+      label {
+        font-size: em(16px);
+      }
+
+      input {
+        padding: 3px;
+        font-size: em(14px);
+      }
+    }
+
+    .actions-container {
+      width: 100%;
+      gap: em(20px);
+
+      > * {
+        width: 50%;
+      }
+
+      .btn {
+        @include btnAction($main-clr-10);
+        border: 1px solid $btn-edit-border-clr;
+
+        &.btn-cancel {
+          color: $main-font-clr;
+          background-color: $surface-clr;
+
+          &:hover {
+            background-color: lighten($btn-edit-border-clr, 30%);
+          }
+        }
+      }
+    }
+  }
+}

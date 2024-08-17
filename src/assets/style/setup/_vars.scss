@@ -1,7 +1,8 @@
 // General
 $surface-clr: rgb(255, 255, 255);
+$content-gap: 20px;
 
-// Font
+// Fonts
 $main-font-clr: rgb(50, 51, 56);
 $main-font-family: PoppinsRegular, sans-serif;
 $heading-font-family: PoppinsBold, sans-serif;
@@ -9,13 +10,16 @@ $heading-font-family: PoppinsBold, sans-serif;
 // Colors
 $main-clr-10: #186fa5;
 $main-clr-base: #389bd8;
-$main-clr--10: #81cdfb;
+$main-clr--10: #bae4ff;
 
 $in-stock-clr: #07a507;
-$out-stock-clr: #ea7979;
+$out-stock-clr: #b60808;
 
 // Dimensions
 $toy-card-width: 300px;
+
+// Borders
+$btn-edit-border-clr: #7d7d7d;
 
 // Extra
 $hover-transition: 0.3s;

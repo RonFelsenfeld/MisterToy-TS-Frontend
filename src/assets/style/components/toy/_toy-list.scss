@@ -1,6 +1,6 @@
 .toy-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax($toy-card-width, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax($toy-card-width, 1fr));
   gap: 2em;
   margin-block-end: em(30px);
 }

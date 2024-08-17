@@ -5,7 +5,7 @@
     row-gap: em(10px);
 
     padding: em(15px);
-    margin-block: em(20px);
+    margin-block: $content-gap;
 
     background-color: $main-clr-10;
     box-shadow: $toy-card-shadow;
