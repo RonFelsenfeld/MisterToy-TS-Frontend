@@ -30,7 +30,7 @@ const ToyDetails = () => {
 
   if (!toy) return <h3 className="loading-toy-msg">Loading toy details...</h3>
 
-  const { name, price, inStock } = toy
+  const { name, price, inStock, labels } = toy
   return (
     <section className="toy-details">
       <Link to={`/`}>
@@ -39,6 +39,15 @@ const ToyDetails = () => {
 
       <h2 className="toy-name">{name}</h2>
       <h3 className="toy-price">{utilService.getFormattedCurrency(price)}</h3>
+
+      <ul className="label-list clean-list flex">
+        {labels.map(label => (
+          <li key={Math.random() + label} className="label">
+            {label}
+          </li>
+        ))}
+      </ul>
+
       <p className={`toy-stock ${getStockClass(inStock)}`}>{inStock ? 'In ' : 'Out of '}stock</p>
     </section>
   )

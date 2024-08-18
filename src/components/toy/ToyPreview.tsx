@@ -20,6 +20,7 @@ const ToyPreview = ({ toy }: ToyPreviewProps) => {
   }
 
   const { name, price, inStock } = toy
+
   return (
     <section className="toy-preview flex column center">
       <h3 className="toy-name">{name}</h3>

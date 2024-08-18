@@ -43,8 +43,9 @@
       }
 
       .btn {
-        @include btnAction($main-clr-10);
-        border: 1px solid $btn-edit-border-clr;
+        @include btnAction($main-clr-10) {
+          border: 1px solid $btn-edit-border-clr;
+        }
 
         &.btn-cancel {
           color: $main-font-clr;

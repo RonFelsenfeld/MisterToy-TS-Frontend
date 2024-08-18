@@ -1,6 +1,10 @@
 .toy-details {
   margin-block-start: $content-gap;
 
+  .btn-back {
+    @include btnAction($main-clr-10);
+  }
+
   .toy-name {
     font-size: em(32px);
     font-family: $heading-font-family;
@@ -8,6 +12,17 @@
 
   .toy-price {
     font-size: em(24px);
+  }
+
+  .label-list {
+    gap: 8px;
+
+    .label {
+      background-color: $main-clr--10;
+      padding: em(5px) em(10px);
+
+      font-size: em(14px);
+    }
   }
 
   .toy-stock {
@@ -20,10 +35,6 @@
     &.out-stock {
       color: $out-stock-clr;
     }
-  }
-
-  .btn-back {
-    @include btnAction($main-clr-10);
   }
 }
 

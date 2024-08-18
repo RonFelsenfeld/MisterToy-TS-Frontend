@@ -12,6 +12,7 @@ export const toyService = {
   save,
   getEmptyToy,
   getDefaultFilterBy,
+  getLabels,
 }
 
 async function query(filterBy: ToyFilterBy) {
@@ -70,6 +71,10 @@ function getDefaultFilterBy(): ToyFilterBy {
   return { name: '', inStock: null, maxPrice: 0 }
 }
 
+function getLabels() {
+  return ['On wheels', 'Box game', 'Art', 'Baby', 'Doll', 'Puzzle', 'Outdoor', 'Battery Powered']
+}
+
 ////////////////////////////////////////////////////
 
 // ! Private functions
@@ -109,11 +114,19 @@ function _createDemoToys() {
 }
 
 function _createDemoToy(): Toy {
+  const labels = getLabels()
+  let toyLabels: string[] = []
+
+  for (let i = 0; i < 2; i++) {
+    const label = labels[utilService.getRandomIntInclusive(0, labels.length - 1)]
+    if (!toyLabels.includes(label)) toyLabels.push(label)
+  }
+
   return {
     _id: utilService.makeId(),
     name: _getRandomToyName(),
     price: utilService.getRandomIntInclusive(20, 150),
-    labels: [],
+    labels: toyLabels,
     createdAt: utilService.getRandomTimestamp(),
     inStock: Math.random() > 0.5 ? true : false,
   }
