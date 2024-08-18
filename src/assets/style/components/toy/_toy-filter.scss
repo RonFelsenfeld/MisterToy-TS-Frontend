@@ -5,9 +5,8 @@
     > :is(input, select) {
       height: 48px;
 
-      padding: 0.5em;
-      border: 1px solid lightgray;
-      border-radius: 5px;
+      padding: 5px;
+      border: 1px solid $input-filter-border-clr;
     }
   }
 }

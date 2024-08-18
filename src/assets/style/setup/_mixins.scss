@@ -36,3 +36,12 @@
     background-color: darken($bgColor, 5%);
   }
 }
+
+@mixin clickEffect {
+  transition: scale 0.3s;
+  @content;
+
+  &:active {
+    scale: 0.9;
+  }
+}

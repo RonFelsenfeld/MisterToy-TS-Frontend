@@ -1,6 +1,7 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { utilService } from '../../services/util.service'
 import { ToyFieldValues, ToyFilterBy } from '../../models/toy.model'
+import LabelMultiSelect from '../general/LabelMultiSelect'
 
 type InputEvent = ChangeEvent<HTMLInputElement | HTMLSelectElement>
 interface ToyFilterProps {
@@ -11,6 +12,7 @@ interface ToyFilterProps {
 const ToyFilter = ({ filterBy, onSetFilterBy }: ToyFilterProps) => {
   const [filterByToEdit, setFilterByToEdit] = useState<ToyFilterBy>(filterBy)
   const debounceOnSetFilter = useRef(utilService.debounce(onSetFilterBy, 300))
+  console.log(`filterByToEdit`, filterByToEdit)
 
   useEffect(() => {
     debounceOnSetFilter.current(filterByToEdit)
@@ -30,10 +32,22 @@ const ToyFilter = ({ filterBy, onSetFilterBy }: ToyFilterProps) => {
     setFilterByToEdit(prevFilter => ({ ...prevFilter, [field]: value }))
   }
 
+  function onToggleLabel(label: string) {
+    let updatedLabels: string[]
+
+    if (filterByToEdit.labels.includes(label)) {
+      updatedLabels = filterByToEdit.labels.filter(l => l !== label)
+    } else {
+      updatedLabels = [...filterByToEdit.labels, label]
+    }
+
+    setFilterByToEdit(prevFilter => ({ ...prevFilter, labels: updatedLabels }))
+  }
+
   const { name, maxPrice } = filterByToEdit
   return (
     <section className="toy-filter">
-      <form className="flex align-center">
+      <form className="flex">
         <input
           type="text"
           id="name"
@@ -51,6 +65,8 @@ const ToyFilter = ({ filterBy, onSetFilterBy }: ToyFilterProps) => {
           value={maxPrice || ''}
           onChange={handleChange}
         />
+
+        <LabelMultiSelect onToggleLabel={onToggleLabel} selectedLabels={filterByToEdit.labels} />
 
         <select name="inStock" id="inStock" onChange={handleChange}>
           <option value="all">All</option>

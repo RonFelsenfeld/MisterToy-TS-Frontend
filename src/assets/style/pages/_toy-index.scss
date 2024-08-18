@@ -10,8 +10,11 @@
     background-color: $main-clr-10;
     box-shadow: $toy-card-shadow;
 
-    .btn-add-toy {
-      @include btnAction($surface-clr, $main-font-clr);
+    a {
+      width: fit-content;
+      .btn-add-toy {
+        @include btnAction($surface-clr, $main-font-clr);
+      }
     }
 
     .actions-title {

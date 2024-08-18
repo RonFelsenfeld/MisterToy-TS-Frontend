@@ -68,11 +68,11 @@ function getEmptyToy(): Partial<Toy> {
 }
 
 function getDefaultFilterBy(): ToyFilterBy {
-  return { name: '', inStock: null, maxPrice: 0 }
+  return { name: '', inStock: null, maxPrice: 0, labels: [] }
 }
 
 function getLabels() {
-  return ['On wheels', 'Box game', 'Art', 'Baby', 'Doll', 'Puzzle', 'Outdoor', 'Battery Powered']
+  return ['on wheels', 'box game', 'art', 'baby', 'doll', 'puzzle', 'outdoor', 'battery powered']
 }
 
 ////////////////////////////////////////////////////
@@ -80,7 +80,7 @@ function getLabels() {
 // ! Private functions
 
 function _filterToys(toys: Toy[], filterBy: ToyFilterBy): Toy[] {
-  const { name, inStock, maxPrice } = filterBy
+  const { name, inStock, maxPrice, labels } = filterBy
   let toysToReturn = toys.slice()
 
   if (name) {
@@ -94,6 +94,10 @@ function _filterToys(toys: Toy[], filterBy: ToyFilterBy): Toy[] {
 
   if (maxPrice) {
     toysToReturn = toysToReturn.filter(t => t.price <= maxPrice)
+  }
+
+  if (labels.length) {
+    toysToReturn = toysToReturn.filter(t => t.labels.some(l => labels.includes(l)))
   }
 
   return toysToReturn

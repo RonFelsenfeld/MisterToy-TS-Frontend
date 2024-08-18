@@ -1,0 +1,47 @@
+.label-multi-select {
+  position: relative;
+  padding-inline: 20px;
+  background-color: $surface-clr;
+
+  &.label-selected {
+    background-color: lighten($dropdown-item-hover-clr, 3%);
+
+    .dropdown-title {
+      font-family: $heading-font-family;
+    }
+  }
+
+  .dropdown-title {
+    @include clickEffect {
+      font-size: em(14px);
+      cursor: pointer;
+    }
+  }
+
+  .labels-dropdown {
+    position: absolute;
+    top: 100%;
+    z-index: 1;
+
+    .dropdown-item {
+      @include clickEffect {
+        padding: 10px 20px;
+        font-size: em(14px);
+        background-color: $surface-clr;
+        cursor: pointer;
+
+        &:is(:hover, .selected) {
+          background-color: $dropdown-item-hover-clr;
+        }
+
+        &:first-of-type {
+          border-block-start: 1px solid $dropdown-gap-border-clr;
+        }
+
+        &:not(:last-of-type) {
+          border-block-end: 1px solid $dropdown-gap-border-clr;
+        }
+      }
+    }
+  }
+}

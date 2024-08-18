@@ -24,6 +24,10 @@ const ToyDetails = () => {
     }
   }
 
+  function capitalizeLabel(label: string) {
+    return label.charAt(0).toUpperCase() + label.slice(1)
+  }
+
   function getStockClass(inStock: boolean) {
     return inStock ? 'in-stock' : 'out-stock'
   }
@@ -43,7 +47,7 @@ const ToyDetails = () => {
       <ul className="label-list clean-list flex">
         {labels.map(label => (
           <li key={Math.random() + label} className="label">
-            {label}
+            {capitalizeLabel(label)}
           </li>
         ))}
       </ul>

@@ -28,6 +28,7 @@ const ToyIndex = () => {
         <Link to="toy/edit">
           <button className="btn-add-toy">Add toy</button>
         </Link>
+
         <h2 className="actions-title">Filter & sort your toys</h2>
         <ToyFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
       </div>
