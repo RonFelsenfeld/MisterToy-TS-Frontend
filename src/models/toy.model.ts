@@ -1,3 +1,5 @@
+import { ReactMouseEvent } from './system.model'
+
 export interface Toy {
   _id: string
   name: string
@@ -13,5 +15,11 @@ export interface ToyFilterBy {
   maxPrice: number
   labels: string[]
 }
+
+export interface ToySortBy {
+  [fieldName: string]: 1 | -1
+}
+
+export type RemoveToyFn = (ev: ReactMouseEvent, toyId: string) => void
 
 export type ToyFieldValues = string | number | boolean | null

@@ -9,13 +9,15 @@ $heading-font-family: PoppinsBold, sans-serif;
 
 // Main Colors
 $main-clr-10: #186fa5;
-$main-clr-base: #389bd8;
+$main-clr-5: #4092d0;
+$main-clr-base: #7dbee6;
 $main-clr--10: #bae4ff;
 
 // Extra Colors
 $in-stock-clr: #07a507;
 $out-stock-clr: #b60808;
 $dropdown-item-hover-clr: #d4d4d4;
+$toy-remove-btn-clr: #ff4f4f;
 
 // Dimensions
 $toy-card-width: 300px;
@@ -28,6 +30,7 @@ $dropdown-gap-border-clr: #a7a7a779;
 // Extra
 $hover-transition: 0.3s;
 $toy-card-shadow: -5px 2px 13px 0px rgba(92, 92, 92, 0.267);
+$action-input-padding: 5px;
 
 // Breakpoints
 $break-mobile: 450px;

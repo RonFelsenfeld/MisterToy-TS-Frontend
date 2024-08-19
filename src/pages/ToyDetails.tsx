@@ -1,27 +1,30 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useQuery } from '@apollo/client'
 
 import { utilService } from '../services/util.service'
-import { toyService } from '../services/toy.local.service'
+import { toyService } from '../services/toy.service'
+
 import { Toy } from '../models/toy.model'
+import { GetToyByIdResponse } from '../models/server.model'
 
 const ToyDetails = () => {
   const [toy, setToy] = useState<Toy | null>(null)
-  const { toyId } = useParams()
   const navigate = useNavigate()
+  const { toyId } = useParams()
+
+  const { data, error } = useQuery<GetToyByIdResponse>(toyService.getById, {
+    variables: { toyId },
+  })
 
   useEffect(() => {
-    if (toyId) loadToy()
-  }, [])
+    if (data) setToy(data.toy)
+    if (error) handleError(error)
+  }, [data, error])
 
-  async function loadToy() {
-    try {
-      const toy = await toyService.getById(toyId!)
-      setToy(toy)
-    } catch (err) {
-      console.log('Toy Details -> Had issues with loading toy :', err)
-      navigate('/')
-    }
+  function handleError(err: Error) {
+    console.log('Toy Details -> Had issues with fetching toy:', err)
+    navigate('/')
   }
 
   function capitalizeLabel(label: string) {
@@ -42,7 +45,12 @@ const ToyDetails = () => {
       </Link>
 
       <h2 className="toy-name">{name}</h2>
-      <h3 className="toy-price">{utilService.getFormattedCurrency(price)}</h3>
+      <div className="price-stock-container flex">
+        <h3 className="toy-price">{utilService.getFormattedCurrency(price)} </h3>
+        <span className={`toy-stock ${getStockClass(inStock)}`}>
+          {inStock ? 'In ' : 'Out of '}stock
+        </span>
+      </div>
 
       <ul className="label-list clean-list flex">
         {labels.map(label => (
@@ -51,8 +59,6 @@ const ToyDetails = () => {
           </li>
         ))}
       </ul>
-
-      <p className={`toy-stock ${getStockClass(inStock)}`}>{inStock ? 'In ' : 'Out of '}stock</p>
     </section>
   )
 }

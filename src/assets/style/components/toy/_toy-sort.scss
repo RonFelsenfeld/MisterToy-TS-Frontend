@@ -1,0 +1,17 @@
+.toy-sort {
+  gap: 10px;
+
+  input,
+  select {
+    padding: $action-input-padding;
+  }
+
+  .dir-container {
+    padding: $action-input-padding;
+    background-color: $surface-clr;
+
+    label {
+      font-size: em(14px);
+    }
+  }
+}

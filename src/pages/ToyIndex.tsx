@@ -1,25 +1,43 @@
 import { useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
-import { AppDispatch, RootState } from '../store/store'
-import { loadToys, setFilterBy } from '../store/slices/toy.slice'
-import { ToyFilterBy } from '../models/toy.model'
+import { RootState, useAppDispatch } from '../store/store'
+import { loadToys, removeToy, setFilterBy, setSortBy } from '../store/slices/toy.slice'
+
+import { ToyFilterBy, ToySortBy } from '../models/toy.model'
+import { ReactMouseEvent } from '../models/system.model'
 
 import ToyList from '../components/toy/ToyList'
 import ToyFilter from '../components/toy/ToyFilter'
-import { Link } from 'react-router-dom'
+import ToySort from '../components/toy/ToySort'
 
 const ToyIndex = () => {
   const toys = useSelector((state: RootState) => state.toyModule.toys)
   const filterBy = useSelector((state: RootState) => state.toyModule.filterBy)
-  const dispatch = useDispatch<AppDispatch>()
+  const sortBy = useSelector((state: RootState) => state.toyModule.sortBy)
+  const dispatch = useAppDispatch()
 
   useEffect(() => {
-    dispatch(loadToys(filterBy))
-  }, [filterBy])
+    dispatch(loadToys({ filterBy, sortBy }))
+  }, [filterBy, sortBy])
+
+  async function onRemoveToy(ev: ReactMouseEvent, toyId: string) {
+    ev.preventDefault()
+
+    try {
+      await dispatch(removeToy(toyId))
+    } catch (err) {
+      console.log('Toy Index -> Had issues with removing toy:', err)
+    }
+  }
 
   function onSetFilterBy(filterBy: ToyFilterBy) {
     dispatch(setFilterBy(filterBy))
+  }
+
+  function onSetSortBy(sortBy: ToySortBy) {
+    dispatch(setSortBy(sortBy))
   }
 
   return (
@@ -30,10 +48,18 @@ const ToyIndex = () => {
         </Link>
 
         <h2 className="actions-title">Filter & sort your toys</h2>
-        <ToyFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
+
+        <div className="flex align-center justify-between">
+          <ToyFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
+          <ToySort sortBy={sortBy} onSetSortBy={onSetSortBy} />
+        </div>
       </div>
 
-      {toys.length ? <ToyList toys={toys} /> : <div className="no-toys-msg">No toys found.</div>}
+      {toys.length ? (
+        <ToyList toys={toys} onRemoveToy={onRemoveToy} />
+      ) : (
+        <div className="no-toys-msg">No toys found.</div>
+      )}
     </section>
   )
 }

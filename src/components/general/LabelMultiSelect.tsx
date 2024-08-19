@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { toyService } from '../../services/toy.local.service'
+import { toyService } from '../../services/toy.service'
 import { useClickOutside } from '../../customHooks/useClickOutside'
 
 interface LabelMultiSelectProps {

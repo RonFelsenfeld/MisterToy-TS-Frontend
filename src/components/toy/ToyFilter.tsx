@@ -2,6 +2,7 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { utilService } from '../../services/util.service'
 import { ToyFieldValues, ToyFilterBy } from '../../models/toy.model'
 import LabelMultiSelect from '../general/LabelMultiSelect'
+import { InputType } from '../../models/system.model'
 
 type InputEvent = ChangeEvent<HTMLInputElement | HTMLSelectElement>
 interface ToyFilterProps {
@@ -12,7 +13,6 @@ interface ToyFilterProps {
 const ToyFilter = ({ filterBy, onSetFilterBy }: ToyFilterProps) => {
   const [filterByToEdit, setFilterByToEdit] = useState<ToyFilterBy>(filterBy)
   const debounceOnSetFilter = useRef(utilService.debounce(onSetFilterBy, 300))
-  console.log(`filterByToEdit`, filterByToEdit)
 
   useEffect(() => {
     debounceOnSetFilter.current(filterByToEdit)
@@ -22,8 +22,8 @@ const ToyFilter = ({ filterBy, onSetFilterBy }: ToyFilterProps) => {
     let { value: rawValue, name: field, type } = target
     let value: ToyFieldValues = rawValue
 
-    if (type === 'number') value = +value
-    if (type === 'select-one') {
+    if (type === InputType.Number) value = +value
+    if (type === InputType.Select) {
       if (value === 'inStock') value = true
       else if (value === 'outOfStock') value = false
       else value = null

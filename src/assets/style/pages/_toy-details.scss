@@ -1,5 +1,7 @@
 .toy-details {
   margin-block-start: $content-gap;
+  background-color: $main-clr--10;
+  padding: 30px;
 
   .btn-back {
     @include btnAction($main-clr-10);
@@ -10,30 +12,37 @@
     font-family: $heading-font-family;
   }
 
-  .toy-price {
-    font-size: em(24px);
+  .price-stock-container {
+    align-items: baseline;
+    gap: em(20px);
+    margin-block-end: em(20px);
+
+    .toy-price {
+      font-size: em(24px);
+    }
+
+    .toy-stock {
+      font-size: rem(16px);
+
+      &.in-stock {
+        color: $in-stock-clr;
+      }
+
+      &.out-stock {
+        color: $out-stock-clr;
+      }
+    }
   }
 
   .label-list {
     gap: 8px;
+    margin-block-end: rem(10px);
 
     .label {
-      background-color: $main-clr--10;
       padding: em(5px) em(10px);
-
       font-size: em(14px);
-    }
-  }
-
-  .toy-stock {
-    font-size: em(18px);
-
-    &.in-stock {
-      color: $in-stock-clr;
-    }
-
-    &.out-stock {
-      color: $out-stock-clr;
+      color: $surface-clr;
+      background-color: $main-clr-5;
     }
   }
 }

@@ -32,17 +32,27 @@
     }
   }
 
-  .btn-action {
-    padding: rem(10px) rem(20px);
-    margin-block-end: rem(10px);
+  .toy-actions-container {
+    width: 80%;
+    gap: 8px;
 
-    font-size: em(14px);
-    color: $surface-clr;
-    background-color: $main-clr-base;
-    transition: background-color $hover-transition;
+    .btn-action {
+      width: 50%;
+      padding: rem(10px) rem(20px);
 
-    &:hover {
-      background-color: darken($main-clr-base, 8%);
+      font-size: em(14px);
+      color: $surface-clr;
+
+      background-color: $main-clr-5;
+      transition: background-color $hover-transition;
+
+      &:hover {
+        background-color: darken($main-clr-base, 8%);
+      }
+
+      &.remove {
+        background-color: $toy-remove-btn-clr;
+      }
     }
   }
 }

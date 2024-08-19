@@ -1,62 +1,71 @@
-import { storageService } from './async-storage.service'
+import { gql } from '@apollo/client'
 import { utilService } from './util.service'
-import { Toy, ToyFilterBy } from '../models/toy.model'
+import { Toy, ToyFilterBy, ToySortBy } from '../models/toy.model'
 
-const STORAGE_KEY = 'toyDB'
-_createDemoToys()
+// ! Queries (from GraphQL server)
 
-export const toyService = {
-  query,
-  getById,
-  remove,
-  save,
-  getEmptyToy,
-  getDefaultFilterBy,
-  getLabels,
-}
-
-async function query(filterBy: ToyFilterBy) {
-  try {
-    let toys = await storageService.query<Toy>(STORAGE_KEY)
-    toys = _filterToys(toys, filterBy)
-    return toys
-  } catch (err) {
-    console.log('Toy Service -> Had issues with loading toys:', err)
-    throw err
-  }
-}
-async function getById(toyId: string) {
-  try {
-    const toy = await storageService.get<Toy>(STORAGE_KEY, toyId)
-    return toy
-  } catch (err) {
-    console.log('Toy Service -> Had issues with loading toy:', err)
-    throw err
-  }
-}
-
-async function remove(toyId: string) {
-  try {
-    storageService.remove(STORAGE_KEY, toyId)
-  } catch (err) {
-    console.log('Toy Service -> Had issues with removing toy:', err)
-  }
-}
-
-async function save(toy: Toy) {
-  try {
-    if (toy._id) {
-      return storageService.put(STORAGE_KEY, toy)
-    } else {
-      return storageService.post(STORAGE_KEY, toy)
+const query = gql`
+  query QueryToys($filterBy: FilterByInput!, $sortBy: SortByInput!) {
+    toys(filterBy: $filterBy, sortBy: $sortBy) {
+      _id
+      name
+      price
+      labels
+      inStock
     }
-  } catch (err) {
-    console.log('Toy Service -> Had issues with saving toy:', err)
-    throw err
   }
-}
+`
+
+const getById = gql`
+  query ToyQuery($toyId: ID!) {
+    toy(_id: $toyId) {
+      _id
+      name
+      price
+      labels
+      createdAt
+      inStock
+    }
+  }
+`
+
+const remove = gql`
+  mutation RemoveToy($toyId: ID!) {
+    removeToy(_id: $toyId) {
+      _id
+    }
+  }
+`
+
+const add = gql`
+  mutation AddToy($toy: AddToyInput!) {
+    addToy(toy: $toy) {
+      _id
+      name
+      price
+      createdAt
+      labels
+      inStock
+    }
+  }
+`
+
+const update = gql`
+  mutation UpdateToy($toy: UpdateToyInput!) {
+    updateToy(toy: $toy) {
+      _id
+      name
+      price
+      createdAt
+      labels
+      inStock
+    }
+  }
+`
 
 ////////////////////////////////////////////////////
+
+// ! Service Methods
 
 function getEmptyToy(): Partial<Toy> {
   return {
@@ -71,37 +80,35 @@ function getDefaultFilterBy(): ToyFilterBy {
   return { name: '', inStock: null, maxPrice: 0, labels: [] }
 }
 
+function getDefaultSortBy(): ToySortBy {
+  return { name: 1 }
+}
+
 function getLabels() {
   return ['on wheels', 'box game', 'art', 'baby', 'doll', 'puzzle', 'outdoor', 'battery powered']
 }
 
 ////////////////////////////////////////////////////
 
-// ! Private functions
+// ! Exporting Queries and Services
 
-function _filterToys(toys: Toy[], filterBy: ToyFilterBy): Toy[] {
-  const { name, inStock, maxPrice, labels } = filterBy
-  let toysToReturn = toys.slice()
-
-  if (name) {
-    const regExp = new RegExp(name, 'i')
-    toysToReturn = toysToReturn.filter(t => regExp.test(t.name))
-  }
-
-  if (inStock !== null) {
-    toysToReturn = toysToReturn.filter(t => t.inStock === inStock)
-  }
-
-  if (maxPrice) {
-    toysToReturn = toysToReturn.filter(t => t.price <= maxPrice)
-  }
-
-  if (labels.length) {
-    toysToReturn = toysToReturn.filter(t => t.labels.some(l => labels.includes(l)))
-  }
-
-  return toysToReturn
+export const toyService = {
+  query,
+  getById,
+  remove,
+  add,
+  update,
+  getEmptyToy,
+  getDefaultFilterBy,
+  getDefaultSortBy,
+  getLabels,
 }
+
+////////////////////////////////////////////////////
+
+// ! Demo Data
+
+const STORAGE_KEY = 'toyDB'
 
 function _createDemoToys() {
   let toys: Toy[] | undefined = utilService.loadFromStorage<Toy>(STORAGE_KEY)

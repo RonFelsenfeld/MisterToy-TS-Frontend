@@ -1,38 +1,44 @@
-import { ChangeEvent, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useQuery } from '@apollo/client'
 
-import { toyService } from '../services/toy.local.service'
+import { toyService } from '../services/toy.service'
+import { useAppDispatch } from '../store/store'
+import { saveToy } from '../store/slices/toy.slice'
+
 import { Toy, ToyFieldValues } from '../models/toy.model'
+import { FormSubmitEvent, InputChangeEvent, InputType } from '../models/system.model'
+import { GetToyByIdResponse } from '../models/server.model'
 
-type InputEvent = ChangeEvent<HTMLInputElement>
-type FormSubmitEvent = React.FormEvent<HTMLFormElement>
 type ToyToEdit = Partial<Toy>
 
 const ToyEdit = () => {
   const [toyToEdit, setToyToEdit] = useState<ToyToEdit>(toyService.getEmptyToy())
-  const { toyId } = useParams()
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
+  const { toyId } = useParams()
+
+  const { data, error } = useQuery<GetToyByIdResponse>(toyService.getById, {
+    variables: { toyId },
+    skip: !toyId, // ! If there's no toyId, don't run the query
+  })
 
   useEffect(() => {
-    if (toyId) loadToy()
-  }, [])
+    if (data) setToyToEdit(data.toy)
+    if (error) handleError(error)
+  }, [data, error])
 
-  async function loadToy() {
-    try {
-      const toy = await toyService.getById(toyId!)
-      setToyToEdit(toy)
-    } catch (err) {
-      console.log('Toy Edit -> Had issues with loading toy:', err)
-      navigate('/')
-    }
+  function handleError(err: Error) {
+    console.log('Toy Details -> Had issues with fetching toy:', err)
+    navigate('/')
   }
 
-  function handleChange({ target }: InputEvent) {
+  function handleChange({ target }: InputChangeEvent) {
     let { value: rawValue, name: field, type } = target
     let value: ToyFieldValues = rawValue
 
-    if (type === 'number') value = +value
-    if (type === 'checkbox') value = target.checked
+    if (type === InputType.Number) value = +value
+    if (type === InputType.Checkbox) value = (target as HTMLInputElement).checked
 
     setToyToEdit(prevToy => ({ ...prevToy, [field]: value }))
   }
@@ -41,7 +47,7 @@ const ToyEdit = () => {
     ev.preventDefault()
 
     try {
-      await toyService.save(toyToEdit as Toy)
+      await dispatch(saveToy(toyToEdit as Toy))
       navigate('/')
     } catch (err) {
       console.log('Toy Edit -> Had issues with saving toy:', err)
