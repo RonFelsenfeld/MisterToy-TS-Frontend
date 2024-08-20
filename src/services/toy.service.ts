@@ -10,7 +10,6 @@ const query = gql`
       name
       price
       labels
-      createdAt
       inStock
     }
   }
@@ -23,7 +22,6 @@ const getById = gql`
       name
       price
       labels
-      createdAt
       inStock
     }
   }
