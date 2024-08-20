@@ -1,4 +1,4 @@
-import { OperationVariables } from '@apollo/client'
+import { FetchPolicy, OperationVariables } from '@apollo/client'
 import { DocumentNode } from 'graphql'
 import { Toy, ToyFilterBy, ToySortBy } from './toy.model'
 
@@ -8,6 +8,7 @@ interface ClientVariables {
 
 export interface ClientQuery extends ClientVariables {
   query: DocumentNode
+  fetchPolicy?: FetchPolicy
 }
 
 export interface ClientMutation extends ClientVariables {

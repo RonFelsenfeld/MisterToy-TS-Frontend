@@ -29,7 +29,7 @@ const ToyEdit = () => {
   }, [data, error])
 
   function handleError(err: Error) {
-    console.log('Toy Details -> Had issues with fetching toy:', err)
+    console.error('Toy Details -> Had issues with fetching toy:', err)
     navigate('/')
   }
 
@@ -50,7 +50,7 @@ const ToyEdit = () => {
       await dispatch(saveToy(toyToEdit as Toy))
       navigate('/')
     } catch (err) {
-      console.log('Toy Edit -> Had issues with saving toy:', err)
+      console.error('Toy Edit -> Had issues with saving toy:', err)
     }
   }
 

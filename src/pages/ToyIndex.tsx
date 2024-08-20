@@ -28,7 +28,7 @@ const ToyIndex = () => {
     try {
       await dispatch(removeToy(toyId))
     } catch (err) {
-      console.log('Toy Index -> Had issues with removing toy:', err)
+      console.error('Toy Index -> Had issues with removing toy:', err)
     }
   }
 

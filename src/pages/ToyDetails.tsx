@@ -23,7 +23,7 @@ const ToyDetails = () => {
   }, [data, error])
 
   function handleError(err: Error) {
-    console.log('Toy Details -> Had issues with fetching toy:', err)
+    console.error('Toy Details -> Had issues with fetching toy:', err)
     navigate('/')
   }
 

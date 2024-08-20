@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client'
-import { utilService } from './util.service'
 import { Toy, ToyFilterBy, ToySortBy } from '../models/toy.model'
 
 // ! Queries (from GraphQL server)
@@ -11,6 +10,7 @@ const query = gql`
       name
       price
       labels
+      createdAt
       inStock
     }
   }
@@ -31,9 +31,7 @@ const getById = gql`
 
 const remove = gql`
   mutation RemoveToy($toyId: ID!) {
-    removeToy(_id: $toyId) {
-      _id
-    }
+    removeToy(_id: $toyId)
   }
 `
 
@@ -108,65 +106,65 @@ export const toyService = {
 
 // ! Demo Data
 
-const STORAGE_KEY = 'toyDB'
+// const STORAGE_KEY = 'toyDB'
 
-function _createDemoToys() {
-  let toys: Toy[] | undefined = utilService.loadFromStorage<Toy>(STORAGE_KEY)
+// function _createDemoToys() {
+//   let toys: Toy[] | undefined = utilService.loadFromStorage<Toy>(STORAGE_KEY)
 
-  if (!toys || !toys.length) {
-    toys = []
-    for (let i = 0; i < 30; i++) {
-      toys.push(_createDemoToy())
-    }
-    utilService.saveToStorage(STORAGE_KEY, toys)
-  }
+//   if (!toys || !toys.length) {
+//     toys = []
+//     for (let i = 0; i < 30; i++) {
+//       toys.push(_createDemoToy())
+//     }
+//     utilService.saveToStorage(STORAGE_KEY, toys)
+//   }
 
-  return toys
-}
+//   return toys
+// }
 
-function _createDemoToy(): Toy {
-  const labels = getLabels()
-  let toyLabels: string[] = []
+// function _createDemoToy(): Toy {
+//   const labels = getLabels()
+//   let toyLabels: string[] = []
 
-  for (let i = 0; i < 2; i++) {
-    const label = labels[utilService.getRandomIntInclusive(0, labels.length - 1)]
-    if (!toyLabels.includes(label)) toyLabels.push(label)
-  }
+//   for (let i = 0; i < 2; i++) {
+//     const label = labels[utilService.getRandomIntInclusive(0, labels.length - 1)]
+//     if (!toyLabels.includes(label)) toyLabels.push(label)
+//   }
 
-  return {
-    _id: utilService.makeId(),
-    name: _getRandomToyName(),
-    price: utilService.getRandomIntInclusive(20, 150),
-    labels: toyLabels,
-    createdAt: utilService.getRandomTimestamp(),
-    inStock: Math.random() > 0.5 ? true : false,
-  }
-}
+//   return {
+//     _id: utilService.makeId(),
+//     name: _getRandomToyName(),
+//     price: utilService.getRandomIntInclusive(20, 150),
+//     labels: toyLabels,
+//     createdAt: utilService.getRandomTimestamp(),
+//     inStock: Math.random() > 0.5 ? true : false,
+//   }
+// }
 
-function _getRandomToyName() {
-  const toyNames = [
-    'Super Robot',
-    'Magic Unicorn',
-    'Speedy Racecar',
-    'Friendly Dinosaur',
-    'Flying Spaceship',
-    'Cuddly Teddy Bear',
-    'Adventure Pirate Ship',
-    'Mighty Action Figure',
-    'Puzzle Master',
-    'Dancing Doll',
-    'Building Blocks',
-    'Miniature Train',
-    'Talking Parrot',
-    'Safari Jeep',
-    'Glow-in-the-Dark Slime',
-    'Rainbow Kite',
-    'Musical Keyboard',
-    'Bouncing Ball',
-    'Toy Soldier',
-    'Fantasy Castle',
-  ]
+// function _getRandomToyName() {
+//   const toyNames = [
+//     'Super Robot',
+//     'Magic Unicorn',
+//     'Speedy Racecar',
+//     'Friendly Dinosaur',
+//     'Flying Spaceship',
+//     'Cuddly Teddy Bear',
+//     'Adventure Pirate Ship',
+//     'Mighty Action Figure',
+//     'Puzzle Master',
+//     'Dancing Doll',
+//     'Building Blocks',
+//     'Miniature Train',
+//     'Talking Parrot',
+//     'Safari Jeep',
+//     'Glow-in-the-Dark Slime',
+//     'Rainbow Kite',
+//     'Musical Keyboard',
+//     'Bouncing Ball',
+//     'Toy Soldier',
+//     'Fantasy Castle',
+//   ]
 
-  const randomIndex = Math.floor(Math.random() * toyNames.length)
-  return toyNames[randomIndex]
-}
+//   const randomIndex = Math.floor(Math.random() * toyNames.length)
+//   return toyNames[randomIndex]
+// }

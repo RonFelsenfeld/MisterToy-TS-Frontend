@@ -24,6 +24,56 @@ const initialState: ToyState = {
   sortBy: toyService.getDefaultSortBy(),
 }
 
+export const loadToys = createAsyncThunk(
+  'toyModule/loadToys',
+  async ({ filterBy, sortBy }: ToysQueryOptions) => {
+    try {
+      const queryOptions: ClientQuery = {
+        query: toyService.query,
+        variables: { filterBy, sortBy },
+        fetchPolicy: 'network-only',
+      }
+
+      const { data } = await client.query<GetToysResponse>(queryOptions)
+      return data.toys
+    } catch (err) {
+      console.error('Toy Slice -> Had issues with loading toys:', err)
+      throw err
+    }
+  }
+)
+
+export const removeToy = createAsyncThunk('toyModule/removeToy', async (toyId: string) => {
+  try {
+    const mutationOptions: ClientMutation = {
+      mutation: toyService.remove,
+      variables: { toyId },
+    }
+
+    await client.mutate(mutationOptions)
+    return toyId
+  } catch (err) {
+    console.error('Toy Slice -> Had issues with removing toy:', err)
+    throw err
+  }
+})
+
+export const saveToy = createAsyncThunk('toyModule/saveToy', async (toy: Toy) => {
+  try {
+    const mutationOptions: ClientMutation = {
+      mutation: toy._id ? toyService.update : toyService.add,
+      variables: { toy },
+    }
+
+    const { data } = await client.mutate<GetToyByIdResponse>(mutationOptions)
+    if (!data) throw new Error('Toy Slice -> No toy returned from server')
+    return data.addToy || data.updateToy
+  } catch (err) {
+    console.error('Toy Slice -> Had issues with saving toy:', err)
+    throw err
+  }
+})
+
 const toySlice = createSlice({
   name: 'toyModule',
   initialState,
@@ -42,6 +92,7 @@ const toySlice = createSlice({
       })
 
       .addCase(removeToy.fulfilled, (state, action: PayloadAction<string>) => {
+        console.log('REMOVING TOY')
         const { payload: toyId } = action
         state.toys = state.toys.filter(t => t._id !== toyId)
       })
@@ -49,65 +100,16 @@ const toySlice = createSlice({
       .addCase(saveToy.fulfilled, (state, action: PayloadAction<Toy>) => {
         const { payload } = action
         const toyIndex = state.toys.findIndex(t => t._id === payload._id)
-        console.log(`payload`, payload)
 
         if (toyIndex < 0) {
-          console.log('ADDING')
+          console.log('ADDING TOY')
           state.toys.push(payload)
         } else {
-          console.log('UPDATING')
+          console.log('UPDATING TOY')
           state.toys[toyIndex] = payload
         }
       })
   },
-})
-
-export const loadToys = createAsyncThunk(
-  'toyModule/loadToys',
-  async ({ filterBy, sortBy }: ToysQueryOptions) => {
-    try {
-      const queryOptions: ClientQuery = {
-        query: toyService.query,
-        variables: { filterBy, sortBy },
-      }
-
-      const { data } = await client.query<GetToysResponse>(queryOptions)
-      return data.toys
-    } catch (err) {
-      console.log('Toy Slice -> Had issues with loading toys:', err)
-      throw err
-    }
-  }
-)
-
-export const removeToy = createAsyncThunk('toyModule/removeToy', async (toyId: string) => {
-  try {
-    const mutationOptions: ClientMutation = {
-      mutation: toyService.remove,
-      variables: { toyId },
-    }
-    await client.mutate(mutationOptions)
-    return toyId
-  } catch (err) {
-    console.log('Toy Slice -> Had issues with removing toy:', err)
-    throw err
-  }
-})
-
-export const saveToy = createAsyncThunk('toyModule/saveToy', async (toy: Toy) => {
-  try {
-    const mutationOptions: ClientMutation = {
-      mutation: toy._id ? toyService.update : toyService.add,
-      variables: { toy },
-    }
-
-    const { data } = await client.mutate<GetToyByIdResponse>(mutationOptions)
-    if (!data) throw new Error('Toy Slice -> No toy returned from server')
-    return data.addToy || data.updateToy
-  } catch (err) {
-    console.log('Toy Slice -> Had issues with saving toy:', err)
-    throw err
-  }
 })
 
 export const { setFilterBy, setSortBy } = toySlice.actions
