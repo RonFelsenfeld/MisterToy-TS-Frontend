@@ -11,13 +11,9 @@ const AppHeader = () => {
             <button className="btn-nav-link">Home</button>
           </NavLink>
 
-          {/* <NavLink to="/toy"> */}
-          <button className="btn-nav-link">About</button>
-          {/* </NavLink> */}
-
-          {/* <NavLink to="/toy"> */}
-          <button className="btn-nav-link">Shop</button>
-          {/* </NavLink> */}
+          <NavLink to="/toy">
+            <button className="btn-nav-link">Shop</button>
+          </NavLink>
         </nav>
       </div>
     </header>

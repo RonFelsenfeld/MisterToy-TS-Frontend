@@ -1,5 +1,12 @@
-import { FetchPolicy, OperationVariables } from '@apollo/client'
 import { DocumentNode } from 'graphql'
+import {
+  ApolloCache,
+  DefaultContext,
+  FetchPolicy,
+  MutationUpdaterFunction,
+  OperationVariables,
+} from '@apollo/client'
+
 import { Toy, ToyFilterBy, ToySortBy } from './toy.model'
 
 interface ClientVariables {
@@ -13,6 +20,12 @@ export interface ClientQuery extends ClientVariables {
 
 export interface ClientMutation extends ClientVariables {
   mutation: DocumentNode
+  update?: MutationUpdaterFunction<
+    GetToyByIdResponse,
+    OperationVariables,
+    DefaultContext,
+    ApolloCache<any>
+  >
 }
 
 export interface ToysQueryOptions {

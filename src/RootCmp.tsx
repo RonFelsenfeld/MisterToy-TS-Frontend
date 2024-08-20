@@ -4,6 +4,7 @@ import ToyIndex from './pages/ToyIndex'
 import ToyDetails from './pages/ToyDetails'
 import ToyEdit from './pages/ToyEdit'
 
+import HomePage from './pages/HomePage'
 import AppHeader from './components/general/AppHeader'
 
 const App = () => {
@@ -14,7 +15,8 @@ const App = () => {
 
         <main>
           <Routes>
-            <Route path="/" element={<ToyIndex />} />
+            <Route path="/" element={<HomePage />} />
+            <Route path="/toy" element={<ToyIndex />} />
             <Route path="/toy/:toyId" element={<ToyDetails />} />
             <Route path="/toy/edit/:toyId?" element={<ToyEdit />} />
           </Routes>

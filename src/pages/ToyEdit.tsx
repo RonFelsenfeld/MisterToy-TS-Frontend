@@ -30,7 +30,7 @@ const ToyEdit = () => {
 
   function handleError(err: Error) {
     console.error('Toy Details -> Had issues with fetching toy:', err)
-    navigate('/')
+    navigate('/toy')
   }
 
   function handleChange({ target }: InputChangeEvent) {
@@ -48,7 +48,7 @@ const ToyEdit = () => {
 
     try {
       await dispatch(saveToy(toyToEdit as Toy))
-      navigate('/')
+      navigate('/toy')
     } catch (err) {
       console.error('Toy Edit -> Had issues with saving toy:', err)
     }
@@ -101,11 +101,13 @@ const ToyEdit = () => {
         </div>
 
         <div className="actions-container flex justify-between">
-          <Link to="/">
+          <Link to="/toy">
             <button className="btn btn-cancel">Cancel</button>
           </Link>
 
-          <button className="btn btn-save">{_id ? 'Save' : 'Add'}</button>
+          <button type="submit" className="btn btn-save">
+            {_id ? 'Save' : 'Add'}
+          </button>
         </div>
       </form>
     </section>

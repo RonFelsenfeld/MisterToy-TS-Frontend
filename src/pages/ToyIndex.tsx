@@ -16,6 +16,7 @@ const ToyIndex = () => {
   const toys = useSelector((state: RootState) => state.toyModule.toys)
   const filterBy = useSelector((state: RootState) => state.toyModule.filterBy)
   const sortBy = useSelector((state: RootState) => state.toyModule.sortBy)
+
   const dispatch = useAppDispatch()
 
   useEffect(() => {
@@ -43,7 +44,7 @@ const ToyIndex = () => {
   return (
     <section className="toy-index">
       <div className="actions-container">
-        <Link to="toy/edit">
+        <Link to="/toy/edit">
           <button className="btn-add-toy">Add toy</button>
         </Link>
 

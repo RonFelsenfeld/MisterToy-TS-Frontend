@@ -24,7 +24,7 @@ const ToyDetails = () => {
 
   function handleError(err: Error) {
     console.error('Toy Details -> Had issues with fetching toy:', err)
-    navigate('/')
+    navigate('/toy')
   }
 
   function capitalizeLabel(label: string) {
@@ -40,7 +40,7 @@ const ToyDetails = () => {
   const { name, price, inStock, labels } = toy
   return (
     <section className="toy-details">
-      <Link to={`/`}>
+      <Link to="/toy">
         <button className="btn-back">Back to shop</button>
       </Link>
 
