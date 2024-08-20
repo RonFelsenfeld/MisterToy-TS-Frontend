@@ -2,7 +2,7 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { utilService } from '../../services/util.service'
 import { ToyFieldValues, ToyFilterBy } from '../../models/toy.model'
 import LabelMultiSelect from '../general/LabelMultiSelect'
-import { InputType } from '../../models/system.model'
+import { InputType } from '../../models/event.model'
 
 type InputEvent = ChangeEvent<HTMLInputElement | HTMLSelectElement>
 interface ToyFilterProps {

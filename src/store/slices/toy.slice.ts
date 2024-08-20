@@ -1,15 +1,16 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 
+import * as apolloService from '../../services/apollo-client.service'
 import { toyService } from '../../services/toy.service'
-import { client } from '../../services/apolloClient.service'
-import { RootState } from '../store'
 
+import { RootState } from '../store'
+import { CacheUpdateFn } from '../../models/apollo.model'
 import { Toy, ToyFilterBy, ToySortBy } from '../../models/toy.model'
 import {
-  ClientMutation,
-  ClientQuery,
   GetToyByIdResponse,
   GetToysResponse,
+  ToyMutationType,
+  ToyQueryTypes,
   ToysQueryOptions,
 } from '../../models/server.model'
 
@@ -29,12 +30,9 @@ export const loadToys = createAsyncThunk(
   'toyModule/loadToys',
   async ({ filterBy, sortBy }: ToysQueryOptions) => {
     try {
-      const queryOptions: ClientQuery = {
-        query: toyService.query,
-        variables: { filterBy, sortBy },
-      }
+      const queryOptions = toyService.getQueryOptions(ToyQueryTypes.GetToys, { filterBy, sortBy })
 
-      const { data } = await client.query<GetToysResponse>(queryOptions)
+      const { data } = await apolloService.client.query<GetToysResponse>(queryOptions)
       return data.toys
     } catch (err) {
       console.error('Toy Slice -> Had issues with loading toys:', err)
@@ -49,27 +47,23 @@ export const removeToy = createAsyncThunk(
     const { filterBy, sortBy } = (getState() as RootState).toyModule
 
     try {
-      const mutationOptions: ClientMutation = {
-        mutation: toyService.remove,
-        variables: { toyId },
-        update: cache => {
-          const existingToys = cache.readQuery<GetToysResponse>({
-            query: toyService.query,
-            variables: { filterBy, sortBy },
-          })
+      const updateCacheFn: CacheUpdateFn = cache => {
+        const options = { filterBy, sortBy }
+        const [cachedData, query] = apolloService.getToysFromCache({ cache, options })
 
-          if (existingToys) {
-            cache.writeQuery({
-              query: toyService.query,
-              data: {
-                toys: existingToys.toys.filter(t => t._id !== toyId),
-              },
-            })
-          }
-        },
+        if (cachedData) {
+          const toys = cachedData.toys.filter(t => t._id !== toyId)
+          apolloService.updateToysCacheQuery({ cache, query, toys })
+        }
       }
 
-      await client.mutate(mutationOptions)
+      const mutationOptions = toyService.getMutationOptions(
+        ToyMutationType.RemoveToy,
+        updateCacheFn,
+        { toyId }
+      )
+
+      await apolloService.client.mutate(mutationOptions)
       return toyId
     } catch (err) {
       console.error('Toy Slice -> Had issues with removing toy:', err)
@@ -82,41 +76,31 @@ export const saveToy = createAsyncThunk('toyModule/saveToy', async (toy: Toy, { 
   const { filterBy, sortBy } = (getState() as RootState).toyModule
 
   try {
-    const mutationOptions: ClientMutation = {
-      mutation: toy._id ? toyService.update : toyService.add,
-      variables: { toy },
-      update: (cache, { data }) => {
-        const existingToys = cache.readQuery<GetToysResponse>({
-          query: toyService.query,
-          variables: { filterBy, sortBy },
-        })
+    const updateCacheFn: CacheUpdateFn = (cache, { data }) => {
+      const options = { filterBy, sortBy }
+      const [cachedData, query] = apolloService.getToysFromCache({ cache, options })
 
-        if (existingToys) {
-          let toysToRewrite: Toy[]
+      if (cachedData) {
+        let toysToRewrite: Toy[]
 
-          if (toy._id) {
-            const { updateToy } = data as { updateToy: Toy }
-            toysToRewrite = existingToys.toys.map(t => (t._id === updateToy._id ? updateToy : t))
-          } else {
-            const { addToy } = data as { addToy: Toy }
-            toysToRewrite = [...existingToys.toys, addToy]
-          }
-
-          cache.writeQuery({
-            query: toyService.query,
-            data: {
-              toys: toysToRewrite,
-            },
-            variables: {
-              filterBy,
-              sortBy,
-            },
-          })
+        if (toy._id) {
+          const { updateToy } = data as { updateToy: Toy }
+          toysToRewrite = cachedData.toys.map(t => (t._id === updateToy._id ? updateToy : t))
+        } else {
+          const { addToy } = data as { addToy: Toy }
+          toysToRewrite = [...cachedData.toys, addToy]
         }
-      },
+
+        const cacheOptions = { cache, query, toys: toysToRewrite, options }
+        apolloService.updateToysCacheQuery(cacheOptions)
+      }
     }
 
-    const { data } = await client.mutate<GetToyByIdResponse>(mutationOptions)
+    const mutationType = toy._id ? ToyMutationType.UpdateToy : ToyMutationType.AddToy
+    const mutationOptions = toyService.getMutationOptions(mutationType, updateCacheFn, { toy })
+
+    const { data } = await apolloService.client.mutate<GetToyByIdResponse>(mutationOptions)
+
     if (!data) throw new Error('Toy Slice -> No toy returned from server')
     return data.addToy || data.updateToy
   } catch (err) {

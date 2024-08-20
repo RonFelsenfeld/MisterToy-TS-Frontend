@@ -1,5 +1,5 @@
 import { ToySortBy } from '../../models/toy.model'
-import { InputChangeEvent, InputType } from '../../models/system.model'
+import { InputChangeEvent, InputType } from '../../models/event.model'
 
 interface ToySortProps {
   sortBy: ToySortBy

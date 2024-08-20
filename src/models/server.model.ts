@@ -1,32 +1,4 @@
-import { DocumentNode } from 'graphql'
-import {
-  ApolloCache,
-  DefaultContext,
-  FetchPolicy,
-  MutationUpdaterFunction,
-  OperationVariables,
-} from '@apollo/client'
-
 import { Toy, ToyFilterBy, ToySortBy } from './toy.model'
-
-interface ClientVariables {
-  variables?: OperationVariables
-}
-
-export interface ClientQuery extends ClientVariables {
-  query: DocumentNode
-  fetchPolicy?: FetchPolicy
-}
-
-export interface ClientMutation extends ClientVariables {
-  mutation: DocumentNode
-  update?: MutationUpdaterFunction<
-    GetToyByIdResponse,
-    OperationVariables,
-    DefaultContext,
-    ApolloCache<any>
-  >
-}
 
 export interface ToysQueryOptions {
   filterBy: ToyFilterBy
@@ -39,4 +11,20 @@ export interface GetToysResponse {
 
 export interface GetToyByIdResponse {
   [prop: string]: Toy
+}
+
+export enum ToyQueryTypes {
+  GetToys,
+  GetToyById,
+}
+
+export enum ToyMutationType {
+  RemoveToy,
+  AddToy,
+  UpdateToy,
+}
+
+export interface RequestVariables extends Partial<ToysQueryOptions> {
+  toyId?: string
+  toy?: Toy
 }

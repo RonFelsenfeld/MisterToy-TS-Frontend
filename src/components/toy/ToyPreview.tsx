@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { utilService } from '../../services/util.service'
 
 import { RemoveToyFn, Toy } from '../../models/toy.model'
-import { ReactMouseEvent } from '../../models/system.model'
+import { ReactMouseEvent } from '../../models/event.model'
 interface ToyPreviewProps {
   toy: Toy
   onRemoveToy: RemoveToyFn

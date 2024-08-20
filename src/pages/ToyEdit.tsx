@@ -7,7 +7,7 @@ import { useAppDispatch } from '../store/store'
 import { saveToy } from '../store/slices/toy.slice'
 
 import { Toy, ToyFieldValues } from '../models/toy.model'
-import { FormSubmitEvent, InputChangeEvent, InputType } from '../models/system.model'
+import { FormSubmitEvent, InputChangeEvent, InputType } from '../models/event.model'
 import { GetToyByIdResponse } from '../models/server.model'
 
 type ToyToEdit = Partial<Toy>

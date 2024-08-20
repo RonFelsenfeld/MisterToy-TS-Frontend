@@ -1,4 +1,4 @@
-import { ReactMouseEvent } from './system.model'
+import { ReactMouseEvent } from './event.model'
 
 export interface Toy {
   _id: string
@@ -21,5 +21,4 @@ export interface ToySortBy {
 }
 
 export type RemoveToyFn = (ev: ReactMouseEvent, toyId: string) => void
-
 export type ToyFieldValues = string | number | boolean | null

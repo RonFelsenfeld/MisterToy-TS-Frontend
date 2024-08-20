@@ -1,7 +1,12 @@
-import { gql } from '@apollo/client'
-import { Toy, ToyFilterBy, ToySortBy } from '../models/toy.model'
+import { DocumentNode, gql } from '@apollo/client'
 
-// ! Queries (from GraphQL server)
+import { Toy, ToyFilterBy, ToySortBy } from '../models/toy.model'
+import { RequestVariables, ToyMutationType, ToyQueryTypes } from '../models/server.model'
+import { CacheUpdateFn, ClientMutation, ClientQuery } from '../models/apollo.model'
+
+////////////////////////////////////////////////////
+
+// ! Queries and Mutations (from GraphQL server)
 
 const query = gql`
   query QueryToys($filterBy: FilterByInput!, $sortBy: SortByInput!) {
@@ -65,6 +70,44 @@ const update = gql`
 
 // ! Service Methods
 
+function getQueryOptions(type: ToyQueryTypes, variables?: RequestVariables) {
+  const queryOptions: ClientQuery = {
+    query: type === ToyQueryTypes.GetToys ? query : getById,
+    ...(variables && { variables }),
+  }
+  return queryOptions
+}
+
+function getMutationOptions(
+  type: ToyMutationType,
+  updateCacheFn?: CacheUpdateFn,
+  variables?: RequestVariables
+) {
+  let mutation: DocumentNode
+
+  switch (type) {
+    case ToyMutationType.RemoveToy:
+      mutation = remove
+      break
+    case ToyMutationType.AddToy:
+      mutation = add
+      break
+    case ToyMutationType.UpdateToy:
+      mutation = update
+      break
+    default:
+      throw new Error(`Unsupported mutation type: ${type}`)
+  }
+
+  const mutationOptions: ClientMutation = {
+    mutation,
+    ...(variables && { variables }),
+  }
+
+  if (updateCacheFn) mutationOptions.update = updateCacheFn
+  return mutationOptions
+}
+
 function getEmptyToy(): Partial<Toy> {
   return {
     name: '',
@@ -88,7 +131,7 @@ function getLabels() {
 
 ////////////////////////////////////////////////////
 
-// ! Exporting Queries and Services
+// ! Exporting Queries, Mutations and Methods as ToyService
 
 export const toyService = {
   query,
@@ -96,6 +139,8 @@ export const toyService = {
   remove,
   add,
   update,
+  getQueryOptions,
+  getMutationOptions,
   getEmptyToy,
   getDefaultFilterBy,
   getDefaultSortBy,
