@@ -1,10 +1,10 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
-import ToyIndex from './pages/ToyIndex'
-import ToyDetails from './pages/ToyDetails'
-import ToyEdit from './pages/ToyEdit'
+import ToyIndex from './pages/toy/ToyIndex'
+import ToyDetails from './pages/toy/ToyDetails'
+import ToyEdit from './pages/toy/ToyEdit'
 
-import HomePage from './pages/HomePage'
+import HomePage from './pages/general/HomePage'
 import AppHeader from './components/general/AppHeader'
 
 const App = () => {

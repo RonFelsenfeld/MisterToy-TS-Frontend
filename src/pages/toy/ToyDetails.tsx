@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
 
-import { utilService } from '../services/util.service'
-import { toyService } from '../services/toy.service'
+import { utilService } from '../../services/util.service'
+import { toyService } from '../../services/toy.service'
 
-import { Toy } from '../models/toy.model'
-import { GetToyByIdResponse } from '../models/server.model'
+import { Toy } from '../../models/toy.model'
+import { GetToyByIdResponse } from '../../models/server.model'
 
 const ToyDetails = () => {
   const [toy, setToy] = useState<Toy | null>(null)

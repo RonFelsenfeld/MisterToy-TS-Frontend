@@ -2,15 +2,15 @@ import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-import { RootState, useAppDispatch } from '../store/store'
-import { loadToys, removeToy, setFilterBy, setSortBy } from '../store/slices/toy.slice'
+import { RootState, useAppDispatch } from '../../store/store'
+import { loadToys, removeToy, setFilterBy, setSortBy } from '../../store/slices/toy.slice'
 
-import { ToyFilterBy, ToySortBy } from '../models/toy.model'
-import { ReactMouseEvent } from '../models/event.model'
+import { ToyFilterBy, ToySortBy } from '../../models/toy.model'
+import { ReactMouseEvent } from '../../models/event.model'
 
-import ToyList from '../components/toy/ToyList'
-import ToyFilter from '../components/toy/ToyFilter'
-import ToySort from '../components/toy/ToySort'
+import ToyList from '../../components/toy/ToyList'
+import ToyFilter from '../../components/toy/ToyFilter'
+import ToySort from '../../components/toy/ToySort'
 
 const ToyIndex = () => {
   const toys = useSelector((state: RootState) => state.toyModule.toys)
