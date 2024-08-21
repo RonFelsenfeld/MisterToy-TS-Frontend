@@ -1,0 +1,41 @@
+.home-page {
+  min-height: 100dvh;
+
+  .hero-section {
+    flex-grow: 1;
+
+    .main-container {
+      flex-grow: 1;
+
+      .heading-container {
+        gap: em(1px);
+        margin-block-end: em(50px);
+
+        > * {
+          color: $main-clr-10;
+        }
+
+        .main-heading {
+          font-size: em(38px);
+          font-family: $heading-font-family;
+          letter-spacing: -0.5px;
+          line-height: 1.2;
+        }
+
+        .secondary-heading {
+          font-size: em(24px);
+        }
+      }
+
+      .btn-cta {
+        @include btnAction($main-clr-10) {
+          border-radius: 2em;
+        }
+      }
+    }
+
+    .hero-img {
+      width: 50vw;
+    }
+  }
+}

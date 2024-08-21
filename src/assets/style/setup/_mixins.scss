@@ -25,12 +25,10 @@
 @mixin btnAction($bgColor, $fontColor: $surface-clr) {
   @content;
   padding: rem(10px) rem(20px);
-  margin-block-end: rem(10px);
-
   font-size: em(16px);
   color: $fontColor;
   background-color: $bgColor;
-  transition: background-color $hover-transition;
+  transition: background-color $color-transition;
 
   &:hover {
     background-color: darken($bgColor, 5%);

@@ -13,7 +13,9 @@
     a {
       width: fit-content;
       .btn-add-toy {
-        @include btnAction($surface-clr, $main-font-clr);
+        @include btnAction($surface-clr, $main-font-clr) {
+          margin-block-end: rem(10px);
+        }
       }
     }
 

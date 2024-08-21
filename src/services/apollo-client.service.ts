@@ -1,8 +1,8 @@
-import { ApolloClient, DocumentNode, InMemoryCache } from '@apollo/client'
+import { ApolloCache, ApolloClient, DocumentNode, InMemoryCache } from '@apollo/client'
 import { toyService } from './toy.service'
 
-import { GetToysResponse, ToyQueryTypes } from '../models/server.model'
-import { getToysFromCacheArgs, updateToysCacheArgs } from '../models/apollo.model'
+import { GetToysResponse, ToyQueryTypes, ToysQueryOptions } from '../models/server.model'
+import { Toy } from '../models/toy.model'
 
 export const client = new ApolloClient({
   uri: import.meta.env.VITE_GRAPHQL_URI,
@@ -11,12 +11,24 @@ export const client = new ApolloClient({
   }),
 })
 
+interface getToysFromCacheArgs {
+  cache: ApolloCache<any>
+  options: ToysQueryOptions
+}
+
 type QueryToysTuple = [GetToysResponse | null, DocumentNode]
 
 export function getToysFromCache({ cache, options }: getToysFromCacheArgs): QueryToysTuple {
   const queryOptions = toyService.getQueryOptions(ToyQueryTypes.GetToys, { ...options })
   const existingToys = cache.readQuery<GetToysResponse>(queryOptions)
   return [existingToys, queryOptions.query]
+}
+
+interface updateToysCacheArgs {
+  cache: ApolloCache<any>
+  query: DocumentNode
+  toys: Toy[]
+  options?: ToysQueryOptions
 }
 
 export function updateToysCacheQuery({ cache, query, toys, options }: updateToysCacheArgs) {

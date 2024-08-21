@@ -10,9 +10,35 @@
   .main-nav {
     gap: em(40px);
 
-    .btn-nav-link {
-      font-size: em(16px);
-      color: inherit;
+    a {
+      position: relative;
+      transition: color $color-transition;
+
+      &::after {
+        content: '';
+        position: absolute;
+        inset: auto auto -10px 0;
+
+        width: 100%;
+        height: 2px;
+
+        background-color: $main-clr-10;
+        opacity: 0;
+        transition: opacity $color-transition;
+      }
+
+      &.active {
+        color: $main-clr-10;
+
+        &::after {
+          opacity: 1;
+        }
+      }
+
+      .btn-nav-link {
+        font-size: em(16px);
+        color: inherit;
+      }
     }
   }
 }

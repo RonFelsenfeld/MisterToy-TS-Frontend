@@ -3,7 +3,7 @@
   padding-block: em(20px);
 
   background-color: $main-clr--10;
-  transition: all $hover-transition;
+  transition: all $color-transition;
   cursor: pointer;
 
   &:hover {
@@ -44,7 +44,7 @@
       color: $surface-clr;
 
       background-color: $main-clr-5;
-      transition: background-color $hover-transition;
+      transition: background-color $color-transition;
 
       &:hover {
         background-color: darken($main-clr-base, 8%);
