@@ -6,6 +6,7 @@ export const utilService = {
   loadFromStorage,
   getRandomTimestamp,
   getFormattedCurrency,
+  getRandomColor,
 }
 
 function makeId(length: number = 6) {
@@ -71,4 +72,41 @@ function getFormattedCurrency(amount: number) {
   }).format(amount)
 
   return formattedAmount
+}
+
+function getRandomColor() {
+  const colors = [
+    '#F0FFFF',
+    '#FFE4E1',
+    '#FFF8DC',
+    '#F0FFF0',
+    '#F5F5DC',
+    '#FAF0E6',
+    '#F0E68C',
+    '#FFFAF0',
+    '#FFFFF0',
+    '#F0F8FF',
+    '#F0E6EE',
+    '#F5DEB3',
+    '#FAEBD7',
+    '#FFEFD5',
+    '#FFDAB9',
+    '#FDF5E6',
+    '#FFD700',
+    '#FFFACD',
+    '#FFF5EE',
+    '#FFE4B5',
+    '#FFF0F5',
+    '#FFE4C4',
+    '#FFFAFA',
+    '#FFEBCD',
+    '#FFF5DC',
+    '#FFE4E1',
+    '#FFF8DC',
+    '#F0FFF0',
+    '#F5F5DC',
+    '#FAF0E6',
+  ]
+
+  return colors[getRandomIntInclusive(0, colors.length - 1)]
 }

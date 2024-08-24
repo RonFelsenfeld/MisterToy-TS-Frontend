@@ -139,12 +139,10 @@ type StatisticsMap = {
 }
 
 function getPricesPerLabelMap(toys: Toy[]): StatisticsMap {
-  const map = toys.reduce((map, toy) => {
+  return toys.reduce((map, toy) => {
     toy.labels.forEach(label => (map[label] = (map[label] || 0) + toy.price))
     return map
   }, {} as StatisticsMap)
-  console.log(map)
-  return map
 }
 
 function getInStockPercentagePerLabelMap(toys: Toy[]): StatisticsMap {

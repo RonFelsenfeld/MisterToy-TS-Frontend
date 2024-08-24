@@ -1,2 +1,18 @@
 .dashboard {
+  margin-block-start: $content-gap;
+
+  .dashboard-heading {
+    font-size: em(24px);
+  }
+
+  .charts-container {
+    .chart-title {
+      font-size: em(18px);
+    }
+  }
+}
+
+.loading-msg {
+  margin-block-start: $content-gap;
+  font-size: em(24px);
 }
