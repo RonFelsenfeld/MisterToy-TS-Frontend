@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 
 const HomePage = () => {
   return (
-    <section className="home-page flex">
+    <section className="home-page">
       <div className="hero-section flex column align-center">
         <div className="main-container flex column center">
           <div className="heading-container flex column align-center">

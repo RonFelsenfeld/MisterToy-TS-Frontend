@@ -1,8 +1,8 @@
 .home-page {
-  min-height: 100dvh;
+  height: calc(100dvh - $app-header-height);
 
   .hero-section {
-    flex-grow: 1;
+    height: 100%;
 
     .main-container {
       flex-grow: 1;
