@@ -6,8 +6,14 @@
   }
 
   .charts-container {
-    .chart-title {
-      font-size: em(18px);
+    gap: em(20px);
+
+    .chart-container {
+      gap: em(10px);
+
+      .chart-title {
+        font-size: em(18px);
+      }
     }
   }
 }

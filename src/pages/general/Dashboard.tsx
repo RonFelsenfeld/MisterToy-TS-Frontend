@@ -6,6 +6,7 @@ import { GetToysResponse } from '../../models/server.model'
 import { useNavigate } from 'react-router-dom'
 import { Toy } from '../../models/toy.model'
 import PricesChart from '../../components/charts/PricesChart'
+import InventoryChart from '../../components/charts/InventoryChart'
 
 const Dashboard = () => {
   const [toys, setToys] = useState<Toy[] | null>(null)
@@ -28,9 +29,15 @@ const Dashboard = () => {
       <h2 className="dashboard-heading">Statistics</h2>
 
       <div className="charts-container flex column align-center">
-        <h3 className="chart-title">Price by label</h3>
+        <figure className="chart-container flex column align-center">
+          <figcaption className="chart-title">Price by label</figcaption>
+          <PricesChart toys={toys} />
+        </figure>
 
-        <PricesChart toys={toys} />
+        <figure className="chart-container flex column align-center">
+          <figcaption className="chart-title">In stock by label (%)</figcaption>
+          <InventoryChart toys={toys} />
+        </figure>
       </div>
     </section>
   )

@@ -145,11 +145,18 @@ function getPricesPerLabelMap(toys: Toy[]): StatisticsMap {
   }, {} as StatisticsMap)
 }
 
-function getInStockPercentagePerLabelMap(toys: Toy[]): StatisticsMap {
-  return toys.reduce((map, toy) => {
+function getInStockPercentagesPerLabelMap(toys: Toy[]): StatisticsMap {
+  const inStockPerLabel = toys.reduce((map, toy) => {
     toy.labels.forEach(label => (map[label] = map[label] + 1 || 1))
     return map
   }, {} as StatisticsMap)
+
+  let inStockPercentagesByLabel: StatisticsMap = {}
+  for (const [label, amount] of Object.entries(inStockPerLabel)) {
+    inStockPercentagesByLabel[label] = Math.floor((amount / toys.length) * 100)
+  }
+
+  return inStockPercentagesByLabel
 }
 
 function getSalesPerMonthMap(): StatisticsMap {
@@ -173,7 +180,7 @@ export const toyService = {
   getDefaultSortBy,
   getLabels,
   getPricesPerLabelMap,
-  getInStockPercentagePerLabelMap,
+  getInStockPercentagesPerLabelMap,
   getSalesPerMonthMap,
 }
 
