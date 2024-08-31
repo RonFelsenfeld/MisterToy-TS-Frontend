@@ -48,9 +48,9 @@ const InventoryChart = ({ toys }: InventoryChartProps) => {
   }
 
   return (
-    <section className="inventory-chart">
-      <Bar options={options} data={data} />
-    </section>
+    <div className="chart inventory-chart">
+      <Bar height="450px" data={data} options={options} />
+    </div>
   )
 }
 

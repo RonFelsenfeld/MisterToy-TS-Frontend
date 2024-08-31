@@ -20,7 +20,7 @@ const PricesChart = ({ toys }: PricesChartProps) => {
     labels: props,
     datasets: [
       {
-        label: 'Price by label',
+        label: 'Total Prices by label',
         data: chartData,
         backgroundColor: chartData.map(_ => utilService.getRandomColor()),
         borderColor: ['#d0d0d0'],
@@ -43,9 +43,9 @@ const PricesChart = ({ toys }: PricesChartProps) => {
     },
   }
   return (
-    <section className="prices-chart">
+    <div className="chart prices-chart">
       <Pie height="450px" data={data} options={options} />
-    </section>
+    </div>
   )
 }
 

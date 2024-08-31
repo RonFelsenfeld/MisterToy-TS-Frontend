@@ -6,13 +6,18 @@
   }
 
   .charts-container {
-    gap: em(20px);
+    gap: em(100px);
 
     .chart-container {
+      width: 100%;
       gap: em(10px);
 
       .chart-title {
         font-size: em(18px);
+      }
+
+      .chart {
+        width: 80%;
       }
     }
   }
