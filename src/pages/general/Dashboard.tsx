@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
 
 import { toyService } from '../../services/toy.service'
 import { GetToysResponse } from '../../models/server.model'
-import { useNavigate } from 'react-router-dom'
 import { Toy } from '../../models/toy.model'
+
 import PricesChart from '../../components/charts/PricesChart'
 import InventoryChart from '../../components/charts/InventoryChart'
+import SalesChart from '../../components/charts/SalesChart'
 
 const Dashboard = () => {
   const [toys, setToys] = useState<Toy[] | null>(null)
@@ -37,6 +39,11 @@ const Dashboard = () => {
         <figure className="chart-container flex column align-center">
           <figcaption className="chart-title">In stock by label (%)</figcaption>
           <InventoryChart toys={toys} />
+        </figure>
+
+        <figure className="chart-container flex column align-center">
+          <figcaption className="chart-title">Sales</figcaption>
+          <SalesChart />
         </figure>
       </div>
     </section>
