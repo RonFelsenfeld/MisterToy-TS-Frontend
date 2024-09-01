@@ -6,14 +6,14 @@ import { toyService } from '../../services/toy.service'
 import { useAppDispatch } from '../../store/store'
 import { saveToy } from '../../store/slices/toy.slice'
 
-import { Toy, ToyFieldValues } from '../../models/toy.model'
+import { DefaultToy, Toy, ToyFieldValues } from '../../models/toy.model'
 import { FormSubmitEvent, InputChangeEvent, InputType } from '../../models/event.model'
 import { GetToyByIdResponse } from '../../models/server.model'
 
-type ToyToEdit = Partial<Toy>
+type ToyToEdit = Toy | DefaultToy
 
 const ToyEdit = () => {
-  const [toyToEdit, setToyToEdit] = useState<ToyToEdit>(toyService.getEmptyToy())
+  const [toyToEdit, setToyToEdit] = useState<ToyToEdit>(toyService.getDefaultToy())
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const { toyId } = useParams()
@@ -54,10 +54,11 @@ const ToyEdit = () => {
     }
   }
 
-  const { _id, name, price, inStock } = toyToEdit
+  const { name, price, inStock } = toyToEdit
+
   return (
     <section className="toy-edit flex column center">
-      <h2 className="edit-heading">{_id ? 'Edit' : 'Add'} toy</h2>
+      <h2 className="edit-heading">{toyId ? 'Edit' : 'Add'} toy</h2>
       <form onSubmit={onSaveToy} className="flex column align-center">
         <div className="inputs-container flex column align-center">
           <div className="input-container flex align-center justify-between">
@@ -106,7 +107,7 @@ const ToyEdit = () => {
           </Link>
 
           <button type="submit" className="btn btn-save">
-            {_id ? 'Save' : 'Add'}
+            {toyId ? 'Save' : 'Add'}
           </button>
         </div>
       </form>

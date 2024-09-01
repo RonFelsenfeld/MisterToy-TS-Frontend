@@ -1,6 +1,6 @@
 import { DocumentNode, gql } from '@apollo/client'
 
-import { Toy, ToyFilterBy, ToySortBy } from '../models/toy.model'
+import { DefaultToy, Toy, ToyFilterBy, ToySortBy } from '../models/toy.model'
 import { RequestVariables, ToyMutationType, ToyQueryTypes } from '../models/server.model'
 import { CacheUpdateFn, ClientMutation, ClientQuery } from '../models/apollo.model'
 import { utilService } from './util.service'
@@ -109,7 +109,7 @@ function getMutationOptions(
   return mutationOptions
 }
 
-function getEmptyToy(): Partial<Toy> {
+function getDefaultToy(): DefaultToy {
   return {
     name: '',
     price: 0,
@@ -175,7 +175,7 @@ export const toyService = {
   update,
   getQueryOptions,
   getMutationOptions,
-  getEmptyToy,
+  getDefaultToy,
   getDefaultFilterBy,
   getDefaultSortBy,
   getLabels,
