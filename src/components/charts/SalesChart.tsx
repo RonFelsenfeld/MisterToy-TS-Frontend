@@ -45,7 +45,7 @@ const SalesChart = () => {
 
   return (
     <div className="chart sales-chart">
-      <Line height="200px" data={data} options={options} />
+      <Line height="100px" data={data} options={options} />
     </div>
   )
 }
