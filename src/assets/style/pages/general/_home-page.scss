@@ -1,5 +1,5 @@
 .home-page {
-  height: calc(100dvh - $app-header-height);
+  @include fullPage;
 
   .hero-section {
     height: 100%;

@@ -130,6 +130,15 @@ function getLabels() {
   return ['on wheels', 'box game', 'art', 'baby', 'doll', 'puzzle', 'outdoor', 'battery powered']
 }
 
+export interface Coords {
+  lat: number
+  lng: number
+}
+
+function getStoreBranches(): Coords[] {
+  return _createDemoBranches()
+}
+
 ////////////////////////////////////////////////////
 
 // ! Charts Statistics
@@ -182,6 +191,7 @@ export const toyService = {
   getPricesPerLabelMap,
   getInStockPercentagesPerLabelMap,
   getSalesPerMonthMap,
+  getStoreBranches,
 }
 
 ////////////////////////////////////////////////////
@@ -261,4 +271,13 @@ function _createDemoSales() {
     october: 3000,
     november: 4672,
   }
+}
+
+function _createDemoBranches() {
+  const branch1 = { lat: 32.073591208159584, lng: 34.79064056091309 }
+  const branch2 = { lat: 32.07511852692997, lng: 34.80867017793204 }
+  const branch3 = { lat: 32.06799082105589, lng: 34.82506383943107 }
+  const branch4 = { lat: 32.08493626238524, lng: 34.83504682410127 }
+
+  return [branch1, branch2, branch3, branch4]
 }

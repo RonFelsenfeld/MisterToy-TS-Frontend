@@ -20,6 +20,10 @@ const AppHeader = () => {
           <NavLink to="/dashboard">
             <button className="btn-nav-link">Dashboard</button>
           </NavLink>
+
+          <NavLink to="/about">
+            <button className="btn-nav-link">About</button>
+          </NavLink>
         </nav>
       </div>
     </header>

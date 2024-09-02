@@ -22,6 +22,10 @@
   }
 }
 
+@mixin fullPage {
+  height: calc(100dvh - $app-header-height);
+}
+
 @mixin btnAction($bgColor, $fontColor: $surface-clr) {
   @content;
   padding: rem(10px) rem(20px);
