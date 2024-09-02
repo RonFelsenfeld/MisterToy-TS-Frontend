@@ -1,7 +1,14 @@
 .app-header {
   height: $app-header-height;
+  position: relative;
   color: $surface-clr;
   background-color: $main-clr-base;
+
+  &.he {
+    .language-controls {
+      inset: 10px auto auto 15px;
+    }
+  }
 
   .logo {
     font-size: em(36px);
@@ -38,6 +45,27 @@
       .btn-nav-link {
         font-size: em(16px);
         color: inherit;
+      }
+    }
+  }
+
+  .language-controls {
+    position: absolute;
+    inset: 10px 15px auto auto;
+    gap: 5px;
+
+    .btn-lang {
+      text-transform: uppercase;
+      opacity: 0.3;
+      transition: all 0.4s;
+
+      &:hover {
+        opacity: 1;
+        scale: 1.05;
+      }
+
+      &.active {
+        opacity: 1;
       }
     }
   }

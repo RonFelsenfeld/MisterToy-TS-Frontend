@@ -1,19 +1,22 @@
+import { useInternationalization } from '../../customHooks/useInternationalization'
 import BranchesMap from '../../components/general/BranchesMap'
 
 const AboutPage = () => {
+  const { getTranslation } = useInternationalization()
+
   return (
     <section className="about-page">
       <div className="content-container flex column justify-center">
-        <h2 className="about-heading">About Us</h2>
-        <h3 className="greet">Hi there!</h3>
+        <h2 className="about-heading">{getTranslation('about')}</h2>
+        <h3 className="greet">{getTranslation('hi-greet')}</h3>
 
         <div className="about-description flex column">
-          <p>MisterToy is one of the most popular and top-rated toys store in Israel.</p>
-          <p>Our motivation is to give you the best service for the lowest price.</p>
-          <p>You can find us at out branches, take a look at the map.</p>
+          <p>{getTranslation('about-p-1')}</p>
+          <p>{getTranslation('about-p-2')}</p>
+          <p>{getTranslation('about-p-3')}</p>
         </div>
 
-        <h3 className="greet">We are waiting for you!</h3>
+        <h3 className="greet">{getTranslation('waiting-greet')}</h3>
       </div>
 
       <BranchesMap />

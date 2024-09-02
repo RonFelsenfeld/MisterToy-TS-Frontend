@@ -1,4 +1,5 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
+import { useInternationalization } from './customHooks/useInternationalization'
 
 import Dashboard from './pages/general/Dashboard'
 import HomePage from './pages/general/HomePage'
@@ -11,9 +12,11 @@ import ToyDetails from './pages/toy/ToyDetails'
 import AppHeader from './components/general/AppHeader'
 
 const App = () => {
+  const { getCurrentLanguage } = useInternationalization()
+
   return (
     <Router>
-      <section className="app main-layout">
+      <section className={`app main-layout ${getCurrentLanguage()}`}>
         <AppHeader />
 
         <main>

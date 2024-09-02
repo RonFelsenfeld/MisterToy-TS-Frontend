@@ -45,3 +45,11 @@ input,
 select {
   font-family: inherit;
 }
+
+.app {
+  direction: ltr;
+
+  &.he {
+    direction: rtl;
+  }
+}

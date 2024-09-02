@@ -1,3 +1,5 @@
+import { getTranslatedLabel } from '../services/i18n.service'
+
 interface ChartData {
   [prop: string]: number
 }
@@ -13,7 +15,7 @@ export const useChartDataFormatter = (data: ChartData): formattedData => {
 
   // ! Making sure that the arrays are orderly sync
   for (const [label, price] of Object.entries(data)) {
-    props.push(label.charAt(0).toUpperCase() + label.slice(1))
+    props.push(getTranslatedLabel(label))
     chartData.push(price)
   }
 

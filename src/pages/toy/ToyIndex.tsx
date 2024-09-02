@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 
 import { RootState, useAppDispatch } from '../../store/store'
 import { loadToys, removeToy, setFilterBy, setSortBy } from '../../store/slices/toy.slice'
+import { useInternationalization } from '../../customHooks/useInternationalization'
 
 import { ToyFilterBy, ToySortBy } from '../../models/toy.model'
 import { ReactMouseEvent } from '../../models/event.model'
@@ -18,6 +19,7 @@ const ToyIndex = () => {
   const sortBy = useSelector((state: RootState) => state.toyModule.sortBy)
 
   const dispatch = useAppDispatch()
+  const { getTranslation } = useInternationalization()
 
   useEffect(() => {
     dispatch(loadToys({ filterBy, sortBy }))
@@ -45,10 +47,10 @@ const ToyIndex = () => {
     <section className="toy-index">
       <div className="actions-container">
         <Link to="/toy/edit">
-          <button className="btn-add-toy">Add toy</button>
+          <button className="btn-add-toy">{getTranslation('add-toy')}</button>
         </Link>
 
-        <h2 className="actions-title">Filter & sort your toys</h2>
+        <h2 className="actions-title">{getTranslation('filter-sort')}</h2>
 
         <div className="flex align-center justify-between">
           <ToyFilter filterBy={filterBy} onSetFilterBy={onSetFilterBy} />
@@ -59,7 +61,7 @@ const ToyIndex = () => {
       {toys.length ? (
         <ToyList toys={toys} onRemoveToy={onRemoveToy} />
       ) : (
-        <div className="no-toys-msg">No toys found.</div>
+        <div className="no-toys-msg">{getTranslation('no-toys-msg')}</div>
       )}
     </section>
   )

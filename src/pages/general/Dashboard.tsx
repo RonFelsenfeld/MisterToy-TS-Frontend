@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
 
 import { toyService } from '../../services/toy.service'
+import { useInternationalization } from '../../customHooks/useInternationalization'
 import { GetToysResponse } from '../../models/server.model'
 import { Toy } from '../../models/toy.model'
 
@@ -14,6 +15,7 @@ const Dashboard = () => {
   const [toys, setToys] = useState<Toy[] | null>(null)
   const { data, error } = useQuery<GetToysResponse>(toyService.query)
   const navigate = useNavigate()
+  const { getTranslation } = useInternationalization()
 
   useEffect(() => {
     if (data) setToys(data.toys)
@@ -25,24 +27,24 @@ const Dashboard = () => {
     navigate('/toy')
   }
 
-  if (!toys) return <div className="loading-msg">Loading...</div>
+  if (!toys) return <div className="loading-msg">{getTranslation('loading-msg')}...</div>
   return (
     <section className="dashboard">
-      <h2 className="dashboard-heading">Statistics</h2>
+      <h2 className="dashboard-heading">{getTranslation('statistics')}</h2>
 
       <div className="charts-container flex column align-center">
         <figure className="chart-container flex column align-center">
-          <figcaption className="chart-title">Price by label</figcaption>
+          <figcaption className="chart-title">{getTranslation('price-by-label')}</figcaption>
           <PricesChart toys={toys} />
         </figure>
 
         <figure className="chart-container flex column align-center">
-          <figcaption className="chart-title">In stock by label (%)</figcaption>
+          <figcaption className="chart-title">{getTranslation('stock-by-label')} (%)</figcaption>
           <InventoryChart toys={toys} />
         </figure>
 
         <figure className="chart-container flex column align-center">
-          <figcaption className="chart-title">Sales</figcaption>
+          <figcaption className="chart-title">{getTranslation('sales')}</figcaption>
           <SalesChart />
         </figure>
       </div>

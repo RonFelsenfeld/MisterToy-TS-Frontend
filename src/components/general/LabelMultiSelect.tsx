@@ -1,6 +1,8 @@
 import { useRef, useState } from 'react'
 import { toyService } from '../../services/toy.service'
 import { useClickOutside } from '../../customHooks/useClickOutside'
+import { useInternationalization } from '../../customHooks/useInternationalization'
+import { getTranslatedLabel } from '../../services/i18n.service'
 
 interface LabelMultiSelectProps {
   onToggleLabel: (label: string) => void
@@ -13,13 +15,10 @@ const LabelMultiSelect = ({ onToggleLabel, selectedLabels }: LabelMultiSelectPro
   const labels = toyService.getLabels()
 
   useClickOutside(dropdownRef, () => setIsOpen(false))
+  const { getTranslation } = useInternationalization()
 
   function toggleDropdown() {
     setIsOpen(!isOpen)
-  }
-
-  function capitalizeLabel(label: string) {
-    return label.charAt(0).toUpperCase() + label.slice(1)
   }
 
   function isLabelSelected(label: string) {
@@ -31,7 +30,7 @@ const LabelMultiSelect = ({ onToggleLabel, selectedLabels }: LabelMultiSelectPro
       className={`label-multi-select flex center ${selectedLabels.length && 'label-selected'}`}
     >
       <h3 className="dropdown-title" onClick={toggleDropdown}>
-        Select Labels
+        {getTranslation('select-labels')}
       </h3>
 
       {isOpen && (
@@ -43,7 +42,7 @@ const LabelMultiSelect = ({ onToggleLabel, selectedLabels }: LabelMultiSelectPro
               className={`dropdown-item ${isLabelSelected(label) && 'selected'}`}
               onClick={() => onToggleLabel(label)}
             >
-              {capitalizeLabel(label)}
+              {getTranslatedLabel(label)}
             </li>
           ))}
         </ul>

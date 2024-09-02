@@ -1,19 +1,20 @@
 import { Link } from 'react-router-dom'
+import { useInternationalization } from '../../customHooks/useInternationalization'
 
 const HomePage = () => {
+  const { getTranslation } = useInternationalization()
+
   return (
     <section className="home-page">
       <div className="hero-section flex column align-center">
         <div className="main-container flex column center">
           <div className="heading-container flex column align-center">
-            <h1 className="main-heading">Welcome to Mister Toy!</h1>
-            <h2 className="secondary-heading">
-              The place for you to discover the Magic of Playtime.
-            </h2>
+            <h1 className="main-heading">{getTranslation('home-page-main-heading')}</h1>
+            <h2 className="secondary-heading">{getTranslation('home-page-secondary-heading')}</h2>
           </div>
 
           <Link to="/toy">
-            <button className="btn-cta">Start shopping</button>
+            <button className="btn-cta">{getTranslation('get-started-btn')}</button>
           </Link>
         </div>
 

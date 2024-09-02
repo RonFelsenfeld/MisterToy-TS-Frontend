@@ -1,8 +1,11 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react'
+
 import { utilService } from '../../services/util.service'
+import { useInternationalization } from '../../customHooks/useInternationalization'
 import { ToyFieldValues, ToyFilterBy } from '../../models/toy.model'
-import LabelMultiSelect from '../general/LabelMultiSelect'
 import { InputType } from '../../models/event.model'
+
+import LabelMultiSelect from '../general/LabelMultiSelect'
 
 type InputEvent = ChangeEvent<HTMLInputElement | HTMLSelectElement>
 interface ToyFilterProps {
@@ -13,6 +16,8 @@ interface ToyFilterProps {
 const ToyFilter = ({ filterBy, onSetFilterBy }: ToyFilterProps) => {
   const [filterByToEdit, setFilterByToEdit] = useState<ToyFilterBy>(filterBy)
   const debounceOnSetFilter = useRef(utilService.debounce(onSetFilterBy, 300))
+
+  const { getTranslation } = useInternationalization()
 
   useEffect(() => {
     debounceOnSetFilter.current(filterByToEdit)
@@ -51,7 +56,7 @@ const ToyFilter = ({ filterBy, onSetFilterBy }: ToyFilterProps) => {
         <input
           type="text"
           id="name"
-          placeholder="By name"
+          placeholder={getTranslation('by-name')}
           name="name"
           value={name}
           onChange={ev => handleChange(ev)}
@@ -60,7 +65,7 @@ const ToyFilter = ({ filterBy, onSetFilterBy }: ToyFilterProps) => {
         <input
           type="number"
           id="maxPrice"
-          placeholder="By max price"
+          placeholder={getTranslation('by-price')}
           name="maxPrice"
           value={maxPrice || ''}
           onChange={handleChange}
@@ -69,9 +74,9 @@ const ToyFilter = ({ filterBy, onSetFilterBy }: ToyFilterProps) => {
         <LabelMultiSelect onToggleLabel={onToggleLabel} selectedLabels={filterByToEdit.labels} />
 
         <select name="inStock" id="inStock" onChange={handleChange}>
-          <option value="all">All</option>
-          <option value="inStock">In stock</option>
-          <option value="outOfStock">Out of stock</option>
+          <option value="all">{getTranslation('all')}</option>
+          <option value="inStock">{getTranslation('in-stock')}</option>
+          <option value="outOfStock">{getTranslation('out-of-stock')}</option>
         </select>
       </form>
     </section>

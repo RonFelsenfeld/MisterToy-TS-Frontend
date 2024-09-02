@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { utilService } from '../../services/util.service'
+import { useInternationalization } from '../../customHooks/useInternationalization'
 
 import { RemoveToyFn, Toy } from '../../models/toy.model'
 import { ReactMouseEvent } from '../../models/event.model'
@@ -10,6 +11,7 @@ interface ToyPreviewProps {
 
 const ToyPreview = ({ toy, onRemoveToy }: ToyPreviewProps) => {
   const navigate = useNavigate()
+  const { getTranslation } = useInternationalization()
 
   function onEditToy(ev: ReactMouseEvent) {
     ev.preventDefault()
@@ -20,19 +22,23 @@ const ToyPreview = ({ toy, onRemoveToy }: ToyPreviewProps) => {
     return toy.inStock ? 'in-stock' : 'out-stock'
   }
 
+  function getStockMsg() {
+    return inStock ? getTranslation('in-stock') : getTranslation('out-of-stock')
+  }
+
   const { name, price, inStock } = toy
   return (
     <section className="toy-preview flex column center">
       <h3 className="toy-name">{name}</h3>
       <p className="toy-price">{utilService.getFormattedCurrency(price)}</p>
-      <p className={`toy-stock ${getStockClass()}`}>{inStock ? 'In' : 'Out of'} stock</p>
+      <p className={`toy-stock ${getStockClass()}`}>{getStockMsg()}</p>
 
       <div className="toy-actions-container flex">
         <button className="btn-action" onClick={onEditToy}>
-          Edit
+          {getTranslation('edit')}
         </button>
         <button className="btn-action remove" onClick={ev => onRemoveToy(ev, toy._id)}>
-          Remove
+          {getTranslation('remove')}
         </button>
       </div>
     </section>
