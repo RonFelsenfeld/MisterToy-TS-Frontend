@@ -10,9 +10,16 @@ import ToyEdit from './pages/toy/ToyEdit'
 import ToyDetails from './pages/toy/ToyDetails'
 
 import AppHeader from './components/general/AppHeader'
+import { useEffect } from 'react'
+import { utilService } from './services/util.service'
 
 const App = () => {
-  const { getCurrentLanguage } = useInternationalization()
+  const { getCurrentLanguage, setLanguage } = useInternationalization()
+
+  useEffect(() => {
+    const langFromStorage = utilService.loadFromStorage<string>('languagePreference') as string
+    setLanguage(langFromStorage || 'en')
+  }, [])
 
   return (
     <Router>

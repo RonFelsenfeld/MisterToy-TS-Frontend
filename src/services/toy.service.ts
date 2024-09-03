@@ -206,7 +206,7 @@ const STORAGE_KEY = 'toyDB'
 
 // @ts-ignore
 function _createDemoToys() {
-  let toys: Toy[] | undefined = utilService.loadFromStorage<Toy>(STORAGE_KEY)
+  let toys: Toy[] | undefined = (utilService.loadFromStorage<Toy>(STORAGE_KEY) as Toy[]) || []
 
   if (!toys || !toys.length) {
     toys = []

@@ -2,7 +2,7 @@ import { Link, NavLink } from 'react-router-dom'
 import { useInternationalization } from '../../customHooks/useInternationalization'
 
 const AppHeader = () => {
-  const { getTranslation, changeLanguage, getCurrentLanguage } = useInternationalization()
+  const { getTranslation, setLanguage, getCurrentLanguage } = useInternationalization()
 
   function getActiveLangClass(lang: string) {
     return getCurrentLanguage() === lang ? 'active' : ''
@@ -37,13 +37,13 @@ const AppHeader = () => {
       <div className="language-controls flex">
         <button
           className={`btn-lang ${getActiveLangClass('en')}`}
-          onClick={changeLanguage.bind(null, 'en')}
+          onClick={setLanguage.bind(null, 'en')}
         >
           {getTranslation('en')}
         </button>
         <button
           className={`btn-lang ${getActiveLangClass('he')}`}
-          onClick={changeLanguage.bind(null, 'he')}
+          onClick={setLanguage.bind(null, 'he')}
         >
           {getTranslation('he')}
         </button>

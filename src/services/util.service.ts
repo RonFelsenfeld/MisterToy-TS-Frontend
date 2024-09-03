@@ -41,13 +41,13 @@ function debounce<T extends (...args: any[]) => unknown>(
   }
 }
 
-function saveToStorage<T>(key: string, value: T[]) {
+function saveToStorage(key: string, value: unknown) {
   localStorage.setItem(key, JSON.stringify(value))
 }
 
-function loadFromStorage<T>(key: string): T[] | undefined {
+function loadFromStorage<T>(key: string): T[] | T | undefined {
   const data = localStorage.getItem(key)
-  return data ? (JSON.parse(data) as T[]) : undefined
+  return data ? JSON.parse(data) : undefined
 }
 
 function getRandomTimestamp() {
