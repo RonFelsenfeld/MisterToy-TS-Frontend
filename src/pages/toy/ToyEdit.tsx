@@ -21,6 +21,7 @@ const ToyEdit = () => {
   const { data, error } = useQuery<GetToyByIdResponse>(toyService.getById, {
     variables: { toyId },
     skip: !toyId, // ! If there's no toyId, don't run the query
+    fetchPolicy: 'network-only',
   })
 
   useEffect(() => {

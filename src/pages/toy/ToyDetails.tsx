@@ -18,6 +18,7 @@ const ToyDetails = () => {
 
   const { data, error } = useQuery<GetToyByIdResponse>(toyService.getById, {
     variables: { toyId },
+    fetchPolicy: 'network-only',
   })
 
   useEffect(() => {
