@@ -1,5 +1,6 @@
 {
   "mister-toy": "Mister Toy",
+  "toy": "toy",
   "home-page-main-heading": "Welcome to Mister Toy!",
   "home-page-secondary-heading": "The place for you to discover the Magic of Playtime.",
   "get-started-btn": "Start shopping",
@@ -49,5 +50,10 @@
   "october": "october",
   "november": "november",
   "en": "en",
-  "he": "he"
+  "he": "he",
+  "enter-name": "Enter new name",
+  "enter-price": "Enter new price",
+  "add": "Add",
+  "save": "Save",
+  "cancel": "Cancel"
 }

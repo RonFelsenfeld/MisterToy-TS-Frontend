@@ -1,11 +1,12 @@
 {
   "mister-toy": "מר צעצוע",
+  "toy": "צעצוע",
   "home-page-main-heading": "ברוך הבא למר צעצוע!",
   "home-page-secondary-heading": "המקום בשבילך לגלות את הקסם שבמשחק.",
   "get-started-btn": "התחל בקניות",
   "home": "בית",
   "shop": "חנות",
-  "dashboard": "טבלאות",
+  "dashboard": "סטטיסטיקות",
   "about": "עלינו",
   "add-toy": "הוסף צעצוע",
   "filter-sort": "סנן ומיין את הצעצועים שלך",
@@ -49,5 +50,10 @@
   "october": "אוקטובר",
   "november": "נובמבר",
   "en": "אנ׳",
-  "he": "עב׳"
+  "he": "עב׳",
+  "enter-name": "הכנס שם חדש",
+  "enter-price": "הכנס מחיר חדש",
+  "add": "הוסף",
+  "save": "שמור",
+  "cancel": "בטל"
 }
