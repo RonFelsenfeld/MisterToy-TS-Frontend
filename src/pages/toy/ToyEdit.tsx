@@ -9,14 +9,18 @@ import { saveToy } from '../../store/slices/toy.slice'
 import { DefaultToy, Toy, ToyFieldValues } from '../../models/toy.model'
 import { FormSubmitEvent, InputChangeEvent, InputType } from '../../models/event.model'
 import { GetToyByIdResponse } from '../../models/server.model'
+import { useInternationalization } from '../../customHooks/useInternationalization'
 
 type ToyToEdit = Toy | DefaultToy
 
 const ToyEdit = () => {
   const [toyToEdit, setToyToEdit] = useState<ToyToEdit>(toyService.getDefaultToy())
+
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const { toyId } = useParams()
+
+  const { getTranslation } = useInternationalization()
 
   const { data, error } = useQuery<GetToyByIdResponse>(toyService.getById, {
     variables: { toyId },
@@ -56,6 +60,7 @@ const ToyEdit = () => {
   }
 
   const { name, price, inStock } = toyToEdit
+  const stockTranslatedStr = `${getTranslation('in-stock')} / ${getTranslation('out-of-stock')}`
 
   return (
     <section className="toy-edit flex column center">
@@ -63,12 +68,12 @@ const ToyEdit = () => {
       <form onSubmit={onSaveToy} className="flex column align-center">
         <div className="inputs-container flex column align-center">
           <div className="input-container flex align-center justify-between">
-            <label htmlFor="name">Name: </label>
+            <label htmlFor="name">{getTranslation('name')}:</label>
             <input
               type="text"
               name="name"
               id="name"
-              placeholder="Enter new name"
+              placeholder={getTranslation('enter-name')}
               value={name}
               onChange={handleChange}
               required
@@ -76,14 +81,14 @@ const ToyEdit = () => {
           </div>
 
           <div className="input-container flex align-center justify-between">
-            <label htmlFor="price">Price: </label>
+            <label htmlFor="price">{getTranslation('price')}:</label>
             <input
               type="number"
               name="price"
               id="price"
               min={1}
               step={0.01}
-              placeholder="Enter new price"
+              placeholder={getTranslation('enter-price')}
               value={price || ''}
               onChange={handleChange}
               required
@@ -91,7 +96,7 @@ const ToyEdit = () => {
           </div>
 
           <div className="input-container stock flex align-center">
-            <label htmlFor="inStock">In stock: </label>
+            <label htmlFor="inStock">{stockTranslatedStr}</label>
             <input
               type="checkbox"
               name="inStock"
@@ -104,11 +109,11 @@ const ToyEdit = () => {
 
         <div className="actions-container flex justify-between">
           <Link to="/toy">
-            <button className="btn btn-cancel">Cancel</button>
+            <button className="btn btn-cancel">{getTranslation('cancel')}</button>
           </Link>
 
           <button type="submit" className="btn btn-save">
-            {toyId ? 'Save' : 'Add'}
+            {getTranslation(toyId ? 'save' : 'add')}
           </button>
         </div>
       </form>

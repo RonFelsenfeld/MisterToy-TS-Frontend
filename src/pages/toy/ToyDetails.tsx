@@ -31,13 +31,11 @@ const ToyDetails = () => {
     navigate('/toy')
   }
 
-  function getStockClass(inStock: boolean) {
-    return inStock ? 'in-stock' : 'out-stock'
-  }
-
   if (!toy) return <h3 className="loading-toy-msg">{getTranslation('loading-toy-msg')}...</h3>
 
   const { name, price, inStock, labels } = toy
+  const inStockStr = inStock ? 'in-stock' : 'out-of-stock'
+
   return (
     <section className="toy-details">
       <Link to="/toy">
@@ -47,9 +45,7 @@ const ToyDetails = () => {
       <h2 className="toy-name">{name}</h2>
       <div className="price-stock-container flex">
         <h3 className="toy-price">{utilService.getFormattedCurrency(price)} </h3>
-        <span className={`toy-stock ${getStockClass(inStock)}`}>
-          {inStock ? 'In ' : 'Out of '}stock
-        </span>
+        <span className={`toy-stock ${inStockStr}`}>{getTranslation(inStockStr)}</span>
       </div>
 
       <ul className="label-list clean-list flex">

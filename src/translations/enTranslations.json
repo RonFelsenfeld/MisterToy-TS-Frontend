@@ -49,5 +49,10 @@
   "october": "october",
   "november": "november",
   "en": "en",
-  "he": "he"
+  "he": "he",
+  "enter-name": "Enter new name",
+  "enter-price": "Enter new price",
+  "add": "Add",
+  "save": "Save",
+  "cancel": "Cancel"
 }
