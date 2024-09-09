@@ -13,6 +13,7 @@ const LoginPage = () => {
   return (
     <section className="login-page flex column align-center">
       <h1 className="login-title">Welcome!</h1>
+
       <LoginForm isSignup={isSignup} />
       <span className="change-method-msg flex">
         {isSignup ? 'Already have an account?' : "Don't have an account yet?"}
