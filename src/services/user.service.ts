@@ -4,10 +4,10 @@ export const userService = {
   getDefaultCredentials,
 }
 
-function getDefaultCredentials(): UserCredentials {
+function getDefaultCredentials(isNewUser: boolean = true): UserCredentials {
   return {
     username: '',
     password: '',
-    fullName: '',
+    ...(isNewUser && { fullName: '' }),
   }
 }

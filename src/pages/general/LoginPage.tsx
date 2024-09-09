@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import LoginForm from '../../components/general/LoginFrom'
 
 const LoginPage = () => {
-  const [isSignup, setIsSignup] = useState<boolean>(false)
+  const [isSignup, setIsSignup] = useState<boolean>(true)
   const navigate = useNavigate()
 
   function toggleIsSignup() {
