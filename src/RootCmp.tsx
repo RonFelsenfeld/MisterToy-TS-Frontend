@@ -1,7 +1,4 @@
-import { useEffect } from 'react'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
-
-import { utilService } from './services/util.service'
 import { useInternationalization } from './customHooks/useInternationalization'
 
 import Dashboard from './pages/general/Dashboard'
@@ -16,12 +13,7 @@ import ToyDetails from './pages/toy/ToyDetails'
 import AppHeader from './components/general/AppHeader'
 
 const App = () => {
-  const { getCurrentLanguage, setLanguage } = useInternationalization()
-
-  useEffect(() => {
-    const langFromStorage = utilService.loadFromStorage<string>('languagePreference') as string
-    setLanguage(langFromStorage || 'en')
-  }, [])
+  const { getCurrentLanguage } = useInternationalization()
 
   return (
     <Router>
