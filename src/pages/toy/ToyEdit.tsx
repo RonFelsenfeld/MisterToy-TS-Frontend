@@ -6,15 +6,15 @@ import { toyService } from '../../services/toy.service'
 import { useAppDispatch } from '../../store/store'
 import { saveToy } from '../../store/slices/toy.slice'
 
-import { DefaultToy, Toy, ToyFieldValues } from '../../models/toy.model'
+import { NewToy, Toy, ToyFieldValues } from '../../models/toy.model'
 import { FormSubmitEvent, InputChangeEvent, InputType } from '../../models/event.model'
 import { GetToyByIdResponse } from '../../models/server.model'
 import { useInternationalization } from '../../customHooks/useInternationalization'
 
-type ToyToEdit = Toy | DefaultToy
+type ToyToEdit = Toy | NewToy
 
 const ToyEdit = () => {
-  const [toyToEdit, setToyToEdit] = useState<ToyToEdit>(toyService.getDefaultToy())
+  const [toyToEdit, setToyToEdit] = useState<ToyToEdit>(toyService.getNewToy())
 
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
@@ -25,7 +25,7 @@ const ToyEdit = () => {
   const { data, error } = useQuery<GetToyByIdResponse>(toyService.getById, {
     variables: { toyId },
     skip: !toyId, // ! If there's no toyId, don't run the query
-    fetchPolicy: 'network-only',
+    fetchPolicy: 'network-only', // ! Always fetch from database
   })
 
   useEffect(() => {

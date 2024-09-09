@@ -9,7 +9,7 @@ export interface Toy {
   inStock: boolean
 }
 
-export type DefaultToy = Omit<Toy, '_id' | 'createdAt'>
+export type NewToy = Omit<Toy, '_id' | 'createdAt'>
 
 export interface ToyFilterBy {
   name: string
