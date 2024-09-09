@@ -13,6 +13,7 @@
 @import 'pages/general/home-page';
 @import 'pages/general/dashboard';
 @import 'pages/general/about-page';
+@import 'pages/general/login-page';
 
 @import 'pages/toy/toy-index';
 @import 'pages/toy/toy-details';
@@ -21,6 +22,7 @@
 // COMPONENTS
 @import 'components/general/app-header';
 @import 'components/general/label-multi-select';
+@import 'components/general/login-form';
 
 @import 'components/toy/toy-list';
 @import 'components/toy/toy-preview';

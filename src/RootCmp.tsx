@@ -1,17 +1,19 @@
+import { useEffect } from 'react'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
+
+import { utilService } from './services/util.service'
 import { useInternationalization } from './customHooks/useInternationalization'
 
 import Dashboard from './pages/general/Dashboard'
 import HomePage from './pages/general/HomePage'
 import AboutPage from './pages/general/AboutPage'
+import LoginPage from './pages/general/LoginPage'
 
 import ToyIndex from './pages/toy/ToyIndex'
 import ToyEdit from './pages/toy/ToyEdit'
 import ToyDetails from './pages/toy/ToyDetails'
 
 import AppHeader from './components/general/AppHeader'
-import { useEffect } from 'react'
-import { utilService } from './services/util.service'
 
 const App = () => {
   const { getCurrentLanguage, setLanguage } = useInternationalization()
@@ -31,6 +33,7 @@ const App = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/about" element={<AboutPage />} />
+            <Route path="/login" element={<LoginPage />} />
 
             <Route path="/toy" element={<ToyIndex />} />
             <Route path="/toy/:toyId" element={<ToyDetails />} />

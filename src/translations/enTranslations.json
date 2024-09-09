@@ -55,5 +55,6 @@
   "enter-price": "Enter new price",
   "add": "Add",
   "save": "Save",
-  "cancel": "Cancel"
+  "cancel": "Cancel",
+  "login": "Login"
 }

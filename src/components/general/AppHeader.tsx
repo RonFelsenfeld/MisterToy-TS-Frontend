@@ -31,6 +31,10 @@ const AppHeader = () => {
           <NavLink to="/about">
             <button className="btn-nav-link">{getTranslation('about')}</button>
           </NavLink>
+
+          <NavLink to="/login">
+            <button className="btn-nav-link">{getTranslation('login')}</button>
+          </NavLink>
         </nav>
       </div>
 

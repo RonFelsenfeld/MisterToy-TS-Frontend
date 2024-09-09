@@ -1,0 +1,23 @@
+.login-form {
+  width: 30vw;
+  gap: em(10px);
+  margin-block-end: em(10px);
+
+  > *:is(input, button) {
+    width: 100%;
+    padding: em(10px);
+    border: 1px solid $input-filter-border-clr;
+    border-radius: $login-form-input-br;
+    font-size: em(14px);
+  }
+
+  .btn-submit {
+    color: $surface-clr;
+    background-color: $main-clr-5;
+    transition: background-color $color-transition;
+
+    &:hover {
+      background-color: $main-clr-10;
+    }
+  }
+}
