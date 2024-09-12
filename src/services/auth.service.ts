@@ -4,9 +4,11 @@ import { MutationOptions } from '@apollo/client'
 import { userService } from './user.service'
 import { UserCredentials } from '../models/user.model'
 import { AuthMutationType } from '../models/server.model'
+import { utilService } from './util.service'
 
 export const authService = {
   getAuthMutationOptions,
+  saveAuthToken,
 }
 
 function getAuthMutationOptions(type: AuthMutationType, credentials: UserCredentials) {
@@ -17,6 +19,10 @@ function getAuthMutationOptions(type: AuthMutationType, credentials: UserCredent
   }
 
   return mutationOptions
+}
+
+function saveAuthToken(token: string) {
+  utilService.saveToStorage('authToken', token)
 }
 
 ////////////////////////////////////////////////////

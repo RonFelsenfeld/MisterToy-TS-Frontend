@@ -23,7 +23,7 @@ const LoginPage = () => {
     } catch (err) {
       console.error('Login Page -> Had issues with submitting form:', err)
     } finally {
-      // navigate('/toy')
+      navigate('/toy')
     }
   }
 
