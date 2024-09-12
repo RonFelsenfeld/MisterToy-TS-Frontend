@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import * as apolloService from '../../services/apollo-client.service'
+import { authService } from '../../services/auth.service'
 
 import { User, UserCredentials } from '../../models/user.model'
 import { AuthMutationType, LoginResponse } from '../../models/server.model'
-import { authService } from '../../services/auth.service'
 
 interface SystemState {
   loggedInUser: User | null

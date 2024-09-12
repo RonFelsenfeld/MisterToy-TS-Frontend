@@ -57,7 +57,7 @@ function getDefaultCredentials(isNewUser: boolean): UserCredentials {
 
 ////////////////////////////////////////////////////
 
-// ! Exporting Queries, Mutations and Methods as userService
+// ! Exporting Mutations and Methods as userService
 
 export const userService = {
   login,
