@@ -56,5 +56,6 @@
   "add": "Add",
   "save": "Save",
   "cancel": "Cancel",
-  "login": "Login"
+  "login": "Login",
+  "loading-toys-msg": "Loading toys"
 }

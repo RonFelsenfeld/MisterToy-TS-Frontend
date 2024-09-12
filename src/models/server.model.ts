@@ -1,4 +1,5 @@
 import { Toy, ToyFilterBy, ToySortBy } from './toy.model'
+import { UserCredentials } from './user.model'
 
 export interface ToysQueryOptions {
   filterBy: ToyFilterBy
@@ -27,4 +28,9 @@ export enum ToyMutationType {
 export interface RequestVariables extends Partial<ToysQueryOptions> {
   toyId?: string
   toy?: Toy
+}
+
+export interface LoginResponse {
+  token: string
+  user: UserCredentials
 }

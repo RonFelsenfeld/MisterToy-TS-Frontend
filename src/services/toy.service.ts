@@ -178,7 +178,7 @@ function getSalesPerMonthMap(): StatisticsMap {
 
 ////////////////////////////////////////////////////
 
-// ! Exporting Queries, Mutations and Methods as ToyService
+// ! Exporting Queries, Mutations and Methods as toyService
 
 export const toyService = {
   query,

@@ -3,18 +3,17 @@ import { userService } from '../../services/user.service'
 import { useEffectUpdate } from '../../customHooks/useEffectUpdate'
 
 import { UserCredentials } from '../../models/user.model'
-import { InputChangeEvent } from '../../models/event.model'
+import { FormSubmitEvent, InputChangeEvent } from '../../models/event.model'
 
 interface LoginFormProps {
   isSignup: boolean
+  onSubmit: (credentials: UserCredentials) => void
 }
 
-const LoginForm = ({ isSignup }: LoginFormProps) => {
+const LoginForm = ({ isSignup, onSubmit }: LoginFormProps) => {
   const [credentials, setCredentials] = useState<UserCredentials>(
-    userService.getDefaultCredentials()
+    userService.getDefaultCredentials(isSignup)
   )
-
-  console.log(`credentials`, credentials)
 
   useEffectUpdate(() => {
     setCredentials(userService.getDefaultCredentials(isSignup))
@@ -25,10 +24,15 @@ const LoginForm = ({ isSignup }: LoginFormProps) => {
     setCredentials(prevCreds => ({ ...prevCreds, [field]: value }))
   }
 
+  function handleSubmit(ev: FormSubmitEvent) {
+    ev.preventDefault()
+    onSubmit(credentials)
+  }
+
   const { username, password, fullName } = credentials
 
   return (
-    <form className="login-form flex column align-center">
+    <form onSubmit={handleSubmit} className="login-form flex column align-center">
       <input
         type="text"
         name="username"

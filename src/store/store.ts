@@ -1,10 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { useDispatch } from 'react-redux'
+
 import toyReducer from './slices/toy.slice'
+import systemReducer from './slices/system.slice'
 
 export const store = configureStore({
   reducer: {
     toyModule: toyReducer,
+    systemSlice: systemReducer,
   },
 })
 

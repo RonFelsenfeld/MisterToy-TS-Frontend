@@ -58,11 +58,9 @@ const ToyIndex = () => {
         </div>
       </div>
 
-      {toys.length ? (
-        <ToyList toys={toys} onRemoveToy={onRemoveToy} />
-      ) : (
-        <div className="no-toys-msg">{getTranslation('no-toys-msg')}</div>
-      )}
+      {!toys && <p className="loading-msg">{getTranslation('loading-toys-msg')}...</p>}
+      {toys && toys.length && <ToyList toys={toys} onRemoveToy={onRemoveToy} />}
+      {toys && !toys.length && <div className="loading-msg">{getTranslation('no-toys-msg')}</div>}
     </section>
   )
 }

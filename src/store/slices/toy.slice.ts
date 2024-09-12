@@ -2,8 +2,6 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import * as apolloService from '../../services/apollo-client.service'
 import { toyService } from '../../services/toy.service'
-
-import { RootState } from '../store'
 import { CacheUpdateFn } from '../../models/apollo.model'
 import { Toy, ToyFilterBy, ToySortBy } from '../../models/toy.model'
 import {
@@ -14,14 +12,16 @@ import {
   ToysQueryOptions,
 } from '../../models/server.model'
 
+import { RootState } from '../store'
+
 interface ToyState {
-  toys: Toy[]
+  toys: Toy[] | null
   filterBy: ToyFilterBy
   sortBy: ToySortBy
 }
 
 const initialState: ToyState = {
-  toys: [],
+  toys: null,
   filterBy: toyService.getDefaultFilterBy(),
   sortBy: toyService.getDefaultSortBy(),
 }
@@ -127,21 +127,18 @@ const toySlice = createSlice({
       })
 
       .addCase(removeToy.fulfilled, (state, action: PayloadAction<string>) => {
-        console.log('REMOVING TOY')
         const { payload: toyId } = action
-        state.toys = state.toys.filter(t => t._id !== toyId)
+        state.toys = state.toys!.filter(t => t._id !== toyId)
       })
 
       .addCase(saveToy.fulfilled, (state, action: PayloadAction<Toy>) => {
         const { payload } = action
-        const toyIndex = state.toys.findIndex(t => t._id === payload._id)
+        const toyIndex = state.toys!.findIndex(t => t._id === payload._id)
 
         if (toyIndex < 0) {
-          console.log('ADDING TOY')
-          state.toys.push(payload)
+          state.toys!.push(payload)
         } else {
-          console.log('UPDATING TOY')
-          state.toys[toyIndex] = payload
+          state.toys![toyIndex] = payload
         }
       })
   },
