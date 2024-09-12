@@ -1,9 +1,9 @@
-import { DocumentNode, gql } from '@apollo/client'
+import { DocumentNode, gql, MutationOptions } from '@apollo/client'
+import { utilService } from './util.service'
 
 import { NewToy, Toy, ToyFilterBy, ToySortBy } from '../models/toy.model'
 import { RequestVariables, ToyMutationType, ToyQueryTypes } from '../models/server.model'
-import { CacheUpdateFn, ClientMutation, ClientQuery } from '../models/apollo.model'
-import { utilService } from './util.service'
+import { CacheUpdateFn, ClientQuery } from '../models/apollo.model'
 
 ////////////////////////////////////////////////////
 
@@ -100,7 +100,7 @@ function getMutationOptions(
       throw new Error(`Unsupported mutation type: ${type}`)
   }
 
-  const mutationOptions: ClientMutation = {
+  const mutationOptions: MutationOptions = {
     mutation,
     ...(variables && { variables }),
   }

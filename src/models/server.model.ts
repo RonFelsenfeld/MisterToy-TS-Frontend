@@ -34,3 +34,8 @@ export interface LoginResponse {
   token: string
   user: UserCredentials
 }
+
+export enum AuthMutationType {
+  Login,
+  Signup,
+}

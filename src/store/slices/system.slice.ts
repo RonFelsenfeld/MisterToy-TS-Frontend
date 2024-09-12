@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import * as apolloService from '../../services/apollo-client.service'
-import { userService } from '../../services/user.service'
 
 import { User, UserCredentials } from '../../models/user.model'
-import { LoginResponse } from '../../models/server.model'
+import { AuthMutationType, LoginResponse } from '../../models/server.model'
+import { authService } from '../../services/auth.service'
 
 interface SystemState {
   loggedInUser: User | null
@@ -16,10 +16,8 @@ const initialState: SystemState = {
 export const handleLogin = createAsyncThunk(
   'systemModule/handleLogin',
   async (credentials: UserCredentials) => {
-    const mutationOptions = {
-      mutation: userService.login,
-      variables: { credentials: userService.encryptCredentials(credentials) },
-    }
+    const mutationOptions = authService.getAuthMutationOptions(AuthMutationType.Login, credentials)
+
     const { data } = await apolloService.client.mutate<LoginResponse>(mutationOptions)
     console.log(data)
   }
@@ -28,10 +26,7 @@ export const handleLogin = createAsyncThunk(
 export const handleSignup = createAsyncThunk(
   'systemModule/handleSignup',
   async (credentials: UserCredentials) => {
-    const mutationOptions = {
-      mutation: userService.signup,
-      variables: { credentials: userService.encryptCredentials(credentials) },
-    }
+    const mutationOptions = authService.getAuthMutationOptions(AuthMutationType.Signup, credentials)
 
     const { data } = await apolloService.client.mutate<LoginResponse>(mutationOptions)
     console.log(data)

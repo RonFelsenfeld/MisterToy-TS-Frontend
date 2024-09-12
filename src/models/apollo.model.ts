@@ -8,17 +8,9 @@ import {
 } from '@apollo/client'
 import { GetToyByIdResponse } from './server.model'
 
-export interface ClientQuery extends ClientVariables {
+export interface ClientQuery {
   query: DocumentNode
   fetchPolicy?: FetchPolicy
-}
-
-export interface ClientMutation extends ClientVariables {
-  mutation: DocumentNode
-  update?: CacheUpdateFn
-}
-
-interface ClientVariables {
   variables?: OperationVariables
 }
 

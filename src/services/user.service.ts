@@ -1,5 +1,4 @@
 import { gql } from '@apollo/client'
-import CryptoJS from 'crypto-js'
 import { UserCredentials } from '../models/user.model'
 
 // ! Queries and Mutations (from GraphQL server)
@@ -56,11 +55,6 @@ function getDefaultCredentials(isNewUser: boolean): UserCredentials {
   }
 }
 
-function encryptCredentials(credentials: UserCredentials): UserCredentials {
-  const encryptedPassword = _encryptPassword(credentials.password)
-  return { ...credentials, password: encryptedPassword }
-}
-
 ////////////////////////////////////////////////////
 
 // ! Exporting Queries, Mutations and Methods as userService
@@ -71,15 +65,4 @@ export const userService = {
   getById,
   logout,
   getDefaultCredentials,
-  encryptCredentials,
-}
-
-////////////////////////////////////////////////////
-
-// ! Private Methods
-
-function _encryptPassword(password: string) {
-  const cryptoSecretKey = import.meta.env.VITE_CRYPTO_SECRET_KEY
-  const encryptedPassword = CryptoJS.AES.encrypt(password, cryptoSecretKey)
-  return encryptedPassword.toString()
 }
