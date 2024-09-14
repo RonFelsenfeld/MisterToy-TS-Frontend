@@ -47,6 +47,10 @@
         color: inherit;
       }
     }
+
+    .btn-logout {
+      @include btnAction($main-clr-10);
+    }
   }
 
   .language-controls {

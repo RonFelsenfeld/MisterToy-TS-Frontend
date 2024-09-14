@@ -1,11 +1,16 @@
 .toy-index {
+  .user-greet {
+    margin-block: $content-gap;
+    font-size: em(18px);
+  }
+
   .actions-container {
     display: grid;
     grid-template-columns: auto;
     row-gap: em(10px);
 
     padding: em(15px);
-    margin-block: $content-gap;
+    margin-block-end: $content-gap;
 
     background-color: $main-clr-10;
     box-shadow: $toy-card-shadow;

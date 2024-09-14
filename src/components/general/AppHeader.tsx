@@ -1,8 +1,14 @@
+import { useSelector } from 'react-redux'
 import { Link, NavLink } from 'react-router-dom'
+
 import { useInternationalization } from '../../customHooks/useInternationalization'
+import { RootState } from '../../store/store'
 
 const AppHeader = () => {
+  const user = useSelector((state: RootState) => state.systemSlice.loggedInUser)
   const { getTranslation, setLanguage, getCurrentLanguage } = useInternationalization()
+
+  async function onLogout() {}
 
   function getActiveLangClass(lang: string) {
     return getCurrentLanguage() === lang ? 'active' : ''
@@ -32,9 +38,17 @@ const AppHeader = () => {
             <button className="btn-nav-link">{getTranslation('about')}</button>
           </NavLink>
 
-          <NavLink to="/login">
-            <button className="btn-nav-link">{getTranslation('login')}</button>
-          </NavLink>
+          {user && (
+            <button className="btn-logout" onClick={onLogout}>
+              Logout
+            </button>
+          )}
+
+          {!user && (
+            <NavLink to="/login">
+              <button className="btn-nav-link">{getTranslation('login')}</button>
+            </NavLink>
+          )}
         </nav>
       </div>
 

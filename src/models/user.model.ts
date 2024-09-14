@@ -4,6 +4,6 @@ export interface UserCredentials {
   fullName?: string
 }
 
-export interface User extends Omit<UserCredentials, 'password'> {
+export interface User extends Required<Omit<UserCredentials, 'password'>> {
   _id: string
 }

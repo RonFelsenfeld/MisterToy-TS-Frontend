@@ -12,11 +12,13 @@ import { ReactMouseEvent } from '../../models/event.model'
 import ToyList from '../../components/toy/ToyList'
 import ToyFilter from '../../components/toy/ToyFilter'
 import ToySort from '../../components/toy/ToySort'
+import { utilService } from '../../services/util.service'
 
 const ToyIndex = () => {
   const toys = useSelector((state: RootState) => state.toyModule.toys)
   const filterBy = useSelector((state: RootState) => state.toyModule.filterBy)
   const sortBy = useSelector((state: RootState) => state.toyModule.sortBy)
+  const user = useSelector((state: RootState) => state.systemSlice.loggedInUser)
 
   const dispatch = useAppDispatch()
   const { getTranslation } = useInternationalization()
@@ -43,8 +45,13 @@ const ToyIndex = () => {
     dispatch(setSortBy(sortBy))
   }
 
+  function greetUser() {
+    return `${utilService.greetBasedOnHour()}, ${user!.fullName} :)`
+  }
+
   return (
     <section className="toy-index">
+      {user && <h2 className="user-greet">{greetUser()}</h2>}
       <div className="actions-container">
         <Link to="/toy/edit">
           <button className="btn-add-toy">{getTranslation('add-toy')}</button>

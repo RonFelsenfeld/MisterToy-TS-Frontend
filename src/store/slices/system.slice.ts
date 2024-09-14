@@ -46,6 +46,7 @@ const systemSlice = createSlice({
 
 function handleSuccessfulAuth(state: SystemState, action: PayloadAction<AuthResponseData>) {
   const { payload } = action
+  console.log('LOGIN PAYLOAD:', payload)
   authService.saveAuthToken(payload.token)
   state.loggedInUser = payload.user
 }

@@ -2,9 +2,10 @@ import CryptoJS from 'crypto-js'
 import { MutationOptions } from '@apollo/client'
 
 import { userService } from './user.service'
+import { utilService } from './util.service'
+
 import { UserCredentials } from '../models/user.model'
 import { AuthMutationType } from '../models/server.model'
-import { utilService } from './util.service'
 
 export const authService = {
   getAuthMutationOptions,
