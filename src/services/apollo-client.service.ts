@@ -1,11 +1,22 @@
-import { ApolloCache, ApolloClient, DocumentNode, InMemoryCache } from '@apollo/client'
+import {
+  ApolloCache,
+  ApolloClient,
+  createHttpLink,
+  DocumentNode,
+  InMemoryCache,
+} from '@apollo/client'
 import { toyService } from './toy.service'
 
 import { GetToysResponse, ToyQueryTypes, ToysQueryOptions } from '../models/server.model'
 import { Toy } from '../models/toy.model'
 
-export const client = new ApolloClient({
+const httpLink = createHttpLink({
   uri: import.meta.env.VITE_GRAPHQL_URI,
+  credentials: 'include',
+})
+
+export const client = new ApolloClient({
+  link: httpLink,
   cache: new InMemoryCache({
     addTypename: false,
   }),

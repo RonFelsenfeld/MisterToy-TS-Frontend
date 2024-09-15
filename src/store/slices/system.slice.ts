@@ -3,7 +3,12 @@ import * as apolloService from '../../services/apollo-client.service'
 import { authService } from '../../services/auth.service'
 
 import { User, UserCredentials } from '../../models/user.model'
-import { AuthMutationType, AuthResponse, AuthResponseData } from '../../models/server.model'
+import {
+  AuthMutationType,
+  AuthResponse,
+  AuthResponseData,
+  LogoutResponse,
+} from '../../models/server.model'
 
 interface SystemState {
   loggedInUser: User | null
@@ -33,6 +38,13 @@ export const handleSignup = createAsyncThunk(
   }
 )
 
+export const handleLogout = createAsyncThunk('systemModule/handleLogout', async () => {
+  const mutationOptions = authService.getAuthMutationOptions(AuthMutationType.Logout)
+
+  const { data } = await apolloService.client.mutate<LogoutResponse>(mutationOptions)
+  return data?.logout?.msg as string
+})
+
 const systemSlice = createSlice({
   name: 'systemModule',
   initialState,
@@ -41,6 +53,10 @@ const systemSlice = createSlice({
     builder
       .addCase(handleLogin.fulfilled, handleSuccessfulAuth)
       .addCase(handleSignup.fulfilled, handleSuccessfulAuth)
+      .addCase(handleLogout.fulfilled, (state, action: PayloadAction<string>) => {
+        console.log(action.payload)
+        state.loggedInUser = null
+      })
   },
 })
 
@@ -48,6 +64,7 @@ function handleSuccessfulAuth(state: SystemState, action: PayloadAction<AuthResp
   const { payload } = action
   console.log('LOGIN PAYLOAD:', payload)
   authService.saveAuthToken(payload.token)
+  console.log(payload.user)
   state.loggedInUser = payload.user
 }
 

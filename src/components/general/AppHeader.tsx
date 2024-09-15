@@ -2,13 +2,24 @@ import { useSelector } from 'react-redux'
 import { Link, NavLink } from 'react-router-dom'
 
 import { useInternationalization } from '../../customHooks/useInternationalization'
-import { RootState } from '../../store/store'
+import { RootState, useAppDispatch } from '../../store/store'
+import { handleLogout } from '../../store/slices/system.slice'
 
 const AppHeader = () => {
   const user = useSelector((state: RootState) => state.systemSlice.loggedInUser)
+  const dispatch = useAppDispatch()
+
   const { getTranslation, setLanguage, getCurrentLanguage } = useInternationalization()
 
-  async function onLogout() {}
+  async function onLogout() {
+    if (!user) return
+
+    try {
+      await dispatch(handleLogout())
+    } catch (err) {
+      console.error('App Header -> Had issues with logging out:', err)
+    }
+  }
 
   function getActiveLangClass(lang: string) {
     return getCurrentLanguage() === lang ? 'active' : ''

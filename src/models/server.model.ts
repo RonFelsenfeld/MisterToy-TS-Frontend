@@ -39,7 +39,14 @@ export interface AuthResponse {
   [index: string]: AuthResponseData
 }
 
+export interface LogoutResponse {
+  logout: {
+    msg: string
+  }
+}
+
 export enum AuthMutationType {
   Login,
   Signup,
+  Logout,
 }

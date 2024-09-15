@@ -1,29 +1,87 @@
 import CryptoJS from 'crypto-js'
-import { MutationOptions } from '@apollo/client'
-
-import { userService } from './user.service'
+import { DocumentNode, gql, MutationOptions } from '@apollo/client'
 import { utilService } from './util.service'
 
 import { UserCredentials } from '../models/user.model'
 import { AuthMutationType } from '../models/server.model'
 
-export const authService = {
-  getAuthMutationOptions,
-  saveAuthToken,
-}
+// ! Queries and Mutations (from GraphQL server)
 
-function getAuthMutationOptions(type: AuthMutationType, credentials: UserCredentials) {
-  const { login, signup } = userService
-  const mutationOptions: MutationOptions = {
-    mutation: type === AuthMutationType.Login ? login : signup,
-    variables: { credentials: _encryptCredentials(credentials) },
+const login = gql`
+  mutation Login($credentials: LoginInput!) {
+    login(credentials: $credentials) {
+      token
+      user {
+        _id
+        username
+        fullName
+      }
+    }
+  }
+`
+
+const signup = gql`
+  mutation Signup($credentials: SignupInput!) {
+    signup(credentials: $credentials) {
+      token
+      user {
+        fullName
+        username
+        _id
+      }
+    }
+  }
+`
+
+const logout = gql`
+  mutation Logout {
+    logout {
+      msg
+    }
+  }
+`
+
+////////////////////////////////////////////////////
+
+// ! Service Methods
+
+function getAuthMutationOptions(type: AuthMutationType, credentials?: UserCredentials) {
+  let mutation: DocumentNode
+
+  switch (type) {
+    case AuthMutationType.Login:
+      mutation = login
+      break
+    case AuthMutationType.Signup:
+      mutation = signup
+      break
+    case AuthMutationType.Logout:
+      mutation = logout
+      break
+    default:
+      throw new Error(`Unsupported mutation type: ${type}`)
   }
 
+  const mutationOptions: MutationOptions = { mutation }
+
+  if (credentials) mutationOptions.variables = { credentials: _encryptCredentials(credentials) }
   return mutationOptions
 }
 
 function saveAuthToken(token: string) {
   utilService.saveToStorage('authToken', token)
+}
+
+////////////////////////////////////////////////////
+
+// ! Exporting Mutations and Methods as userService
+
+export const authService = {
+  login,
+  signup,
+  logout,
+  getAuthMutationOptions,
+  saveAuthToken,
 }
 
 ////////////////////////////////////////////////////
