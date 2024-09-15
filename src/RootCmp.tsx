@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
+import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 
 import { useAppDispatch } from './store/store'
 import { fetchLoggedInUser } from './store/slices/system.slice'
@@ -40,6 +40,9 @@ const App = () => {
             <Route path="/toy" element={<ToyIndex />} />
             <Route path="/toy/:toyId" element={<ToyDetails />} />
             <Route path="/toy/edit/:toyId?" element={<ToyEdit />} />
+
+            {/* Fallback route */}
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
       </section>
