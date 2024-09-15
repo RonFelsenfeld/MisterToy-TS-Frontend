@@ -34,7 +34,7 @@ const ToyEdit = () => {
   }, [data, error])
 
   function handleError(err: Error) {
-    console.error('Toy Details -> Had issues with fetching toy:', err)
+    console.error('Toy Details -> Had issues with fetching toy:', err.message)
     navigate('/toy')
   }
 

@@ -32,8 +32,10 @@ export const loadToys = createAsyncThunk(
     try {
       const queryOptions = toyService.getQueryOptions(ToyQueryTypes.GetToys, { filterBy, sortBy })
 
-      const { data } = await apolloService.client.query<GetToysResponse>(queryOptions)
-      return data.toys
+      const { data, error } = await apolloService.client.query<GetToysResponse>(queryOptions)
+      if (error) throw new Error(error.message)
+
+      return data?.toys
     } catch (err) {
       console.error('Toy Slice -> Had issues with loading toys:', err)
       throw err
@@ -100,9 +102,8 @@ export const saveToy = createAsyncThunk('toyModule/saveToy', async (toy: Toy, { 
     const mutationOptions = toyService.getMutationOptions(mutationType, updateCacheFn, { toy })
 
     const { data } = await apolloService.client.mutate<GetToyByIdResponse>(mutationOptions)
-
     if (!data) throw new Error('Toy Slice -> No toy returned from server')
-    return data.addToy || data.updateToy
+    return data?.addToy || data?.updateToy
   } catch (err) {
     console.error('Toy Slice -> Had issues with saving toy:', err)
     throw err
