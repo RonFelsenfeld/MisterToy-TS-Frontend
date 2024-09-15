@@ -18,7 +18,7 @@ const ToyIndex = () => {
   const toys = useSelector((state: RootState) => state.toyModule.toys)
   const filterBy = useSelector((state: RootState) => state.toyModule.filterBy)
   const sortBy = useSelector((state: RootState) => state.toyModule.sortBy)
-  const user = useSelector((state: RootState) => state.systemSlice.loggedInUser)
+  const user = useSelector((state: RootState) => state.systemModule.loggedInUser)
 
   const dispatch = useAppDispatch()
   const { getTranslation } = useInternationalization()

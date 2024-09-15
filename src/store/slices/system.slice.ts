@@ -61,6 +61,18 @@ export const handleLogout = createAsyncThunk('systemModule/handleLogout', async 
   }
 })
 
+export const fetchLoggedInUser = createAsyncThunk('systemModule/fetchLoggedInUser', async () => {
+  try {
+    const mutationOptions = authService.getAuthMutationOptions(AuthMutationType.FetchLoggedInUser)
+
+    const { data } = await apolloService.client.mutate<AuthResponse>(mutationOptions)
+    return data?.fetchLoggedInUser || null
+  } catch (err) {
+    console.error('System Slice -> Had issues with fetching logged in user:', err)
+    throw err
+  }
+})
+
 const systemSlice = createSlice({
   name: 'systemModule',
   initialState,
@@ -69,17 +81,17 @@ const systemSlice = createSlice({
     builder
       .addCase(handleLogin.fulfilled, handleSuccessfulAuth)
       .addCase(handleSignup.fulfilled, handleSuccessfulAuth)
-      .addCase(handleLogout.fulfilled, (state, action: PayloadAction<string>) => {
-        console.log(action.payload)
+      .addCase(handleLogout.fulfilled, state => {
         state.loggedInUser = null
+      })
+      .addCase(fetchLoggedInUser.fulfilled, (state, action: PayloadAction<User | null>) => {
+        state.loggedInUser = action.payload
       })
   },
 })
 
 function handleSuccessfulAuth(state: SystemState, action: PayloadAction<User>) {
-  const { payload } = action
-  console.log('LOGIN PAYLOAD:', payload)
-  state.loggedInUser = payload
+  state.loggedInUser = action.payload
 }
 
 // export const {} = systemSlice.actions

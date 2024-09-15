@@ -6,7 +6,7 @@ import { RootState, useAppDispatch } from '../../store/store'
 import { handleLogout } from '../../store/slices/system.slice'
 
 const AppHeader = () => {
-  const user = useSelector((state: RootState) => state.systemSlice.loggedInUser)
+  const user = useSelector((state: RootState) => state.systemModule.loggedInUser)
   const dispatch = useAppDispatch()
 
   const { getTranslation, setLanguage, getCurrentLanguage } = useInternationalization()

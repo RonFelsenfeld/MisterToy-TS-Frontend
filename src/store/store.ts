@@ -7,7 +7,7 @@ import systemReducer from './slices/system.slice'
 export const store = configureStore({
   reducer: {
     toyModule: toyReducer,
-    systemSlice: systemReducer,
+    systemModule: systemReducer,
   },
 })
 

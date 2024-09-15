@@ -30,8 +30,10 @@ export interface RequestVariables extends Partial<ToysQueryOptions> {
   toy?: Toy
 }
 
-export interface AuthResponse {
-  [index: string]: User
+type AuthMutationNames = 'login' | 'signup' | 'logout' | 'fetchLoggedInUser'
+
+export type AuthResponse = {
+  [index in AuthMutationNames]: User
 }
 
 export interface LogoutResponse {
@@ -44,4 +46,5 @@ export enum AuthMutationType {
   Login,
   Signup,
   Logout,
+  FetchLoggedInUser,
 }

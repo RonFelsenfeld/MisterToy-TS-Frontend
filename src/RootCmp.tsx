@@ -1,4 +1,8 @@
+import { useEffect } from 'react'
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
+
+import { useAppDispatch } from './store/store'
+import { fetchLoggedInUser } from './store/slices/system.slice'
 import { useInternationalization } from './customHooks/useInternationalization'
 
 import Dashboard from './pages/general/Dashboard'
@@ -14,6 +18,12 @@ import AppHeader from './components/general/AppHeader'
 
 const App = () => {
   const { getCurrentLanguage } = useInternationalization()
+  const dispatch = useAppDispatch()
+
+  // ! Fetching the current logged in user from the server
+  useEffect(() => {
+    dispatch(fetchLoggedInUser())
+  }, [])
 
   return (
     <Router>

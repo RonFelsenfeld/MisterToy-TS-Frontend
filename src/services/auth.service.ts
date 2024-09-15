@@ -34,6 +34,16 @@ const logout = gql`
   }
 `
 
+const fetchLoggedInUser = gql`
+  mutation FetchLoggedInUser {
+    fetchLoggedInUser {
+      fullName
+      username
+      _id
+    }
+  }
+`
+
 ////////////////////////////////////////////////////
 
 // ! Service Methods
@@ -50,6 +60,9 @@ function getAuthMutationOptions(type: AuthMutationType, credentials?: UserCreden
       break
     case AuthMutationType.Logout:
       mutation = logout
+      break
+    case AuthMutationType.FetchLoggedInUser:
+      mutation = fetchLoggedInUser
       break
     default:
       throw new Error(`Unsupported mutation type: ${type}`)
