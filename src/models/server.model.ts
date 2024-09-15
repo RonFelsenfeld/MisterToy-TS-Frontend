@@ -30,13 +30,8 @@ export interface RequestVariables extends Partial<ToysQueryOptions> {
   toy?: Toy
 }
 
-export interface AuthResponseData {
-  token: string
-  user: User
-}
-
 export interface AuthResponse {
-  [index: string]: AuthResponseData
+  [index: string]: User
 }
 
 export interface LogoutResponse {

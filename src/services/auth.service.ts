@@ -1,6 +1,5 @@
 import CryptoJS from 'crypto-js'
 import { DocumentNode, gql, MutationOptions } from '@apollo/client'
-import { utilService } from './util.service'
 
 import { UserCredentials } from '../models/user.model'
 import { AuthMutationType } from '../models/server.model'
@@ -10,12 +9,9 @@ import { AuthMutationType } from '../models/server.model'
 const login = gql`
   mutation Login($credentials: LoginInput!) {
     login(credentials: $credentials) {
-      token
-      user {
-        _id
-        username
-        fullName
-      }
+      _id
+      username
+      fullName
     }
   }
 `
@@ -23,12 +19,9 @@ const login = gql`
 const signup = gql`
   mutation Signup($credentials: SignupInput!) {
     signup(credentials: $credentials) {
-      token
-      user {
-        fullName
-        username
-        _id
-      }
+      fullName
+      username
+      _id
     }
   }
 `
@@ -68,10 +61,6 @@ function getAuthMutationOptions(type: AuthMutationType, credentials?: UserCreden
   return mutationOptions
 }
 
-function saveAuthToken(token: string) {
-  utilService.saveToStorage('authToken', token)
-}
-
 ////////////////////////////////////////////////////
 
 // ! Exporting Mutations and Methods as userService
@@ -81,7 +70,6 @@ export const authService = {
   signup,
   logout,
   getAuthMutationOptions,
-  saveAuthToken,
 }
 
 ////////////////////////////////////////////////////
