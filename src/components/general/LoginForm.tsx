@@ -51,6 +51,8 @@ const LoginForm = ({ isSignup, onSubmit }: LoginFormProps) => {
         onChange={handleChange}
         required
         autoComplete="off"
+        minLength={isSignup ? 5 : undefined}
+        maxLength={isSignup ? 20 : undefined}
       />
 
       {isSignup && (

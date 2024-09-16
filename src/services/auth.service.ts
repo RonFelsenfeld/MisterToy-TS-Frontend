@@ -12,6 +12,7 @@ const login = gql`
       _id
       username
       fullName
+      isAdmin
     }
   }
 `
@@ -22,6 +23,7 @@ const signup = gql`
       fullName
       username
       _id
+      isAdmin
     }
   }
 `
@@ -40,6 +42,7 @@ const fetchLoggedInUser = gql`
       fullName
       username
       _id
+      isAdmin
     }
   }
 `

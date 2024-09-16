@@ -4,6 +4,9 @@ export interface UserCredentials {
   fullName?: string
 }
 
-export interface User extends Required<Omit<UserCredentials, 'password'>> {
+type SecuredUser = Omit<UserCredentials, 'password'>
+
+export interface User extends Required<SecuredUser> {
   _id: string
+  isAdmin: false
 }
