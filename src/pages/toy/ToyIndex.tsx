@@ -17,14 +17,11 @@ import ToyFilter from '../../components/toy/ToyFilter'
 import ToySort from '../../components/toy/ToySort'
 
 const ToyIndex = () => {
-  const toys = useSelector((state: RootState) => state.toyModule.toys)
-  const filterBy = useSelector((state: RootState) => state.toyModule.filterBy)
-  const sortBy = useSelector((state: RootState) => state.toyModule.sortBy)
-  const user = useSelector((state: RootState) => state.systemModule.loggedInUser)
-
+  const { toys, filterBy, sortBy } = useSelector((state: RootState) => state.toyModule)
   const dispatch = useAppDispatch()
+
   const { getTranslation } = useInternationalization()
-  const { isUserLoggedIn, isAuthorized } = useAuthorization()
+  const { loggedInUser, isUserLoggedIn, isAuthorized } = useAuthorization()
 
   useEffect(() => {
     dispatch(loadToys({ filterBy, sortBy }))
@@ -49,7 +46,7 @@ const ToyIndex = () => {
   }
 
   function greetUser() {
-    return `${utilService.greetBasedOnHour()}, ${user!.fullName} :)`
+    return `${utilService.greetBasedOnHour()}, ${loggedInUser!.fullName} :)`
   }
 
   return (

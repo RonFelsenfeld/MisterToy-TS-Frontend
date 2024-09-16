@@ -1,18 +1,18 @@
-import { useSelector } from 'react-redux'
 import { Link, NavLink } from 'react-router-dom'
 
-import { useInternationalization } from '../../customHooks/useInternationalization'
-import { RootState, useAppDispatch } from '../../store/store'
+import { useAppDispatch } from '../../store/store'
 import { handleLogout } from '../../store/slices/system.slice'
 
-const AppHeader = () => {
-  const user = useSelector((state: RootState) => state.systemModule.loggedInUser)
-  const dispatch = useAppDispatch()
+import { useAuthorization } from '../../customHooks/useAuthorization'
+import { useInternationalization } from '../../customHooks/useInternationalization'
 
+const AppHeader = () => {
+  const dispatch = useAppDispatch()
+  const { isUserLoggedIn } = useAuthorization()
   const { getTranslation, setLanguage, getCurrentLanguage } = useInternationalization()
 
   async function onLogout() {
-    if (!user) return
+    if (!isUserLoggedIn()) return
 
     try {
       await dispatch(handleLogout())
@@ -49,13 +49,13 @@ const AppHeader = () => {
             <button className="btn-nav-link">{getTranslation('about')}</button>
           </NavLink>
 
-          {user && (
+          {isUserLoggedIn() && (
             <button className="btn-logout" onClick={onLogout}>
               Logout
             </button>
           )}
 
-          {!user && (
+          {!isUserLoggedIn() && (
             <NavLink to="/login">
               <button className="btn-nav-link">{getTranslation('login')}</button>
             </NavLink>

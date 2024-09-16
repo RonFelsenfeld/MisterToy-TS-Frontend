@@ -12,5 +12,5 @@ export const useAuthorization = () => {
     return loggedInUser && loggedInUser.isAdmin
   }
 
-  return { isUserLoggedIn, isAuthorized }
+  return { loggedInUser, isUserLoggedIn, isAuthorized }
 }
