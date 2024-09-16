@@ -2,9 +2,12 @@ import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
+import { utilService } from '../../services/util.service'
 import { RootState, useAppDispatch } from '../../store/store'
 import { loadToys, removeToy, setFilterBy, setSortBy } from '../../store/slices/toy.slice'
+
 import { useInternationalization } from '../../customHooks/useInternationalization'
+import { useAuthorization } from '../../customHooks/useAuthorization'
 
 import { ToyFilterBy, ToySortBy } from '../../models/toy.model'
 import { ReactMouseEvent } from '../../models/event.model'
@@ -12,7 +15,6 @@ import { ReactMouseEvent } from '../../models/event.model'
 import ToyList from '../../components/toy/ToyList'
 import ToyFilter from '../../components/toy/ToyFilter'
 import ToySort from '../../components/toy/ToySort'
-import { utilService } from '../../services/util.service'
 
 const ToyIndex = () => {
   const toys = useSelector((state: RootState) => state.toyModule.toys)
@@ -22,6 +24,7 @@ const ToyIndex = () => {
 
   const dispatch = useAppDispatch()
   const { getTranslation } = useInternationalization()
+  const { isUserLoggedIn, isAuthorized } = useAuthorization()
 
   useEffect(() => {
     dispatch(loadToys({ filterBy, sortBy }))
@@ -51,11 +54,14 @@ const ToyIndex = () => {
 
   return (
     <section className="toy-index">
-      {user && <h2 className="user-greet">{greetUser()}</h2>}
+      {isUserLoggedIn() && <h2 className="user-greet">{greetUser()}</h2>}
+
       <div className="actions-container">
-        <Link to="/toy/edit">
-          <button className="btn-add-toy">{getTranslation('add-toy')}</button>
-        </Link>
+        {isAuthorized() && (
+          <Link to="/toy/edit">
+            <button className="btn-add-toy">{getTranslation('add-toy')}</button>
+          </Link>
+        )}
 
         <h2 className="actions-title">{getTranslation('filter-sort')}</h2>
 
@@ -66,7 +72,7 @@ const ToyIndex = () => {
       </div>
 
       {!toys && <p className="loading-msg">{getTranslation('loading-toys-msg')}...</p>}
-      {toys && toys.length && <ToyList toys={toys} onRemoveToy={onRemoveToy} />}
+      {toys && !!toys.length && <ToyList toys={toys} onRemoveToy={onRemoveToy} />}
       {toys && !toys.length && <div className="loading-msg">{getTranslation('no-toys-msg')}</div>}
     </section>
   )

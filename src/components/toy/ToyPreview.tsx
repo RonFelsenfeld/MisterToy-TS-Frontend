@@ -4,6 +4,7 @@ import { useInternationalization } from '../../customHooks/useInternationalizati
 
 import { RemoveToyFn, Toy } from '../../models/toy.model'
 import { ReactMouseEvent } from '../../models/event.model'
+import { useAuthorization } from '../../customHooks/useAuthorization'
 interface ToyPreviewProps {
   toy: Toy
   onRemoveToy: RemoveToyFn
@@ -12,6 +13,7 @@ interface ToyPreviewProps {
 const ToyPreview = ({ toy, onRemoveToy }: ToyPreviewProps) => {
   const navigate = useNavigate()
   const { getTranslation } = useInternationalization()
+  const { isAuthorized } = useAuthorization()
 
   function onEditToy(ev: ReactMouseEvent) {
     ev.preventDefault()
@@ -33,14 +35,16 @@ const ToyPreview = ({ toy, onRemoveToy }: ToyPreviewProps) => {
       <p className="toy-price">{utilService.getFormattedCurrency(price)}</p>
       <p className={`toy-stock ${getStockClass()}`}>{getStockMsg()}</p>
 
-      <div className="toy-actions-container flex">
-        <button className="btn-action" onClick={onEditToy}>
-          {getTranslation('edit')}
-        </button>
-        <button className="btn-action remove" onClick={ev => onRemoveToy(ev, toy._id)}>
-          {getTranslation('remove')}
-        </button>
-      </div>
+      {isAuthorized() && (
+        <div className="toy-actions-container flex">
+          <button className="btn-action" onClick={onEditToy}>
+            {getTranslation('edit')}
+          </button>
+          <button className="btn-action remove" onClick={ev => onRemoveToy(ev, toy._id)}>
+            {getTranslation('remove')}
+          </button>
+        </div>
+      )}
     </section>
   )
 }
