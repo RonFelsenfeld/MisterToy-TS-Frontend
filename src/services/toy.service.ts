@@ -95,6 +95,19 @@ const update = gql`
   }
 `
 
+const addToyMsg = gql`
+  mutation AddToyMsg($toyId: ID!, $msg: String!) {
+    addToyMsg(toyId: $toyId, msg: $msg) {
+      id
+      txt
+      by {
+        _id
+        fullName
+      }
+    }
+  }
+`
+
 ////////////////////////////////////////////////////
 
 // ! Service Methods
@@ -215,6 +228,7 @@ export const toyService = {
   remove,
   add,
   update,
+  addToyMsg,
   getQueryOptions,
   getMutationOptions,
   getNewToy,

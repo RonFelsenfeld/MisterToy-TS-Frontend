@@ -1,7 +1,11 @@
 import { useState } from 'react'
-import { InputChangeEvent } from '../../models/event.model'
+import { FormSubmitEvent, InputChangeEvent } from '../../models/event.model'
 
-const MsgForm = () => {
+interface MsgFormProps {
+  onAddMsg: (msg: string) => Promise<void>
+}
+
+const MsgForm = ({ onAddMsg }: MsgFormProps) => {
   const [msg, setMsg] = useState<string>('')
 
   function handleChange({ target }: InputChangeEvent) {
@@ -9,8 +13,19 @@ const MsgForm = () => {
     setMsg(value)
   }
 
+  async function onSubmitMsg(ev: FormSubmitEvent) {
+    ev.preventDefault()
+
+    try {
+      await onAddMsg(msg)
+      setMsg('')
+    } catch (err) {
+      console.error('Had issues with adding message:', err)
+    }
+  }
+
   return (
-    <form className="msg-form flex">
+    <form className="msg-form flex" onSubmit={onSubmitMsg}>
       <input
         type="text"
         className="msg-input"

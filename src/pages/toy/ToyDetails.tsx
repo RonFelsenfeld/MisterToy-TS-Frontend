@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { useQuery } from '@apollo/client'
+import { useMutation, useQuery } from '@apollo/client'
 
 import { utilService } from '../../services/util.service'
 import { toyService } from '../../services/toy.service'
@@ -11,7 +11,7 @@ import { RootState } from '../../store/store'
 import { useInternationalization } from '../../customHooks/useInternationalization'
 
 import { Toy, ToyMsg } from '../../models/toy.model'
-import { GetToyByIdResponse } from '../../models/server.model'
+import { AddToyMsgResponse, GetToyByIdResponse } from '../../models/server.model'
 
 import ToyMsgList from '../../components/message/ToyMsgList'
 import MsgForm from '../../components/message/MsgForm'
@@ -29,14 +29,39 @@ const ToyDetails = () => {
     fetchPolicy: 'network-only',
   })
 
+  const [addToyMsg, { data: msgData, error: addMsgError }] = useMutation<AddToyMsgResponse>(
+    toyService.addToyMsg
+  )
+
   useEffect(() => {
     if (data) setToy(data.toy)
-    if (error) handleError(error)
+    if (error) handleError(error, 'fetching toy')
   }, [data, error])
 
-  function handleError(err: Error) {
-    console.error('Toy Details -> Had issues with fetching toy:', err.message)
+  useEffect(() => {
+    if (msgData) handleNewMsg(msgData)
+    if (addMsgError) handleError(addMsgError, 'adding msg')
+  }, [msgData, addMsgError])
+
+  function handleNewMsg(msgData: AddToyMsgResponse) {
+    if (!toy) return
+    const { addToyMsg } = msgData
+    const updatedMsgs = [...toy.msgs, addToyMsg]
+    setToy(prevToy => ({ ...prevToy!, msgs: updatedMsgs }))
+  }
+
+  function handleError(err: Error, msg: string) {
+    console.error(`Toy Details -> Had issues with ${msg}:`, err.message)
     navigate('/toy')
+  }
+
+  async function onAddMsg(msg: string) {
+    try {
+      await addToyMsg({ variables: { toyId, msg } })
+    } catch (err) {
+      console.error('Toy Details -> Had issues with adding message:', err)
+      return
+    }
   }
 
   if (!toy) return <h3 className="loading-toy-msg">{getTranslation('loading-toy-msg')}...</h3>
@@ -51,7 +76,7 @@ const ToyDetails = () => {
       </Link>
 
       {user ? (
-        <MsgForm />
+        <MsgForm onAddMsg={onAddMsg} />
       ) : (
         <p className="login-msg">
           <Link to="/login">Login </Link>

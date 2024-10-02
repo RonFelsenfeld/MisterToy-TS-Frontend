@@ -1,4 +1,4 @@
-import { Toy, ToyFilterBy, ToySortBy } from './toy.model'
+import { Toy, ToyFilterBy, ToyMsg, ToySortBy } from './toy.model'
 import { User } from './user.model'
 
 export interface ToysQueryOptions {
@@ -12,6 +12,10 @@ export interface GetToysResponse {
 
 export interface GetToyByIdResponse {
   [prop: string]: Toy
+}
+
+export interface AddToyMsgResponse {
+  addToyMsg: ToyMsg
 }
 
 export enum ToyQueryTypes {

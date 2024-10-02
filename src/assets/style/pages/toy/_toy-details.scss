@@ -72,6 +72,7 @@
     height: 100%;
 
     .msgs-heading {
+      margin-block-end: rem(6px);
       font-size: em(24px);
       font-family: $heading-font-family;
     }
