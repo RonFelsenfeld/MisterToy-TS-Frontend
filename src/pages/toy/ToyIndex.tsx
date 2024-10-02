@@ -46,7 +46,8 @@ const ToyIndex = () => {
   }
 
   function greetUser() {
-    return `${utilService.greetBasedOnHour()}, ${loggedInUser!.fullName} :)`
+    const greetMsg = utilService.getGreetBasedOnHour()
+    return `${getTranslation(greetMsg)}, ${loggedInUser!.fullName} :)`
   }
 
   return (

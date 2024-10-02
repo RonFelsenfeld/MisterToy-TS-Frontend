@@ -2,15 +2,17 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { useAppDispatch } from '../../store/store'
+import { handleLogin, handleSignup } from '../../store/slices/system.slice'
+import { useInternationalization } from '../../customHooks/useInternationalization'
 import { UserCredentials } from '../../models/user.model'
 
 import LoginForm from '../../components/general/LoginForm'
-import { handleLogin, handleSignup } from '../../store/slices/system.slice'
 
 const LoginPage = () => {
   const [isSignup, setIsSignup] = useState<boolean>(false)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const { getTranslation } = useInternationalization()
 
   function toggleIsSignup() {
     setIsSignup(!isSignup)
@@ -43,15 +45,19 @@ const LoginPage = () => {
     }
   }
 
+  function getLoginOrSignupMsg() {
+    return isSignup ? getTranslation('login-msg') : getTranslation('signup-msg')
+  }
+
   return (
     <section className="login-page flex column align-center">
-      <h1 className="login-title">Welcome!</h1>
+      <h1 className="login-title">{getTranslation('welcome')}!</h1>
 
       <LoginForm isSignup={isSignup} onSubmit={onSubmit} />
       <span className="change-method-msg flex">
-        {isSignup ? 'Already have an account?' : "Don't have an account yet?"}
+        {getLoginOrSignupMsg()}
         <button className="btn-change-method" onClick={toggleIsSignup}>
-          {isSignup ? 'Log in' : 'Sign up'}
+          {isSignup ? getTranslation('login') : getTranslation('signup')}
         </button>
       </span>
     </section>

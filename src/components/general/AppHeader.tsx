@@ -51,7 +51,7 @@ const AppHeader = () => {
 
           {isUserLoggedIn() && (
             <button className="btn-logout" onClick={onLogout}>
-              Logout
+              {getTranslation('logout')}
             </button>
           )}
 

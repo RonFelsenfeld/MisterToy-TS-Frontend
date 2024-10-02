@@ -56,6 +56,18 @@
   "add": "הוסף",
   "save": "שמור",
   "cancel": "בטל",
-  "login": "היכנס לחשבון",
-  "loading-toys-msg": "טוען צעצועים"
+  "login": "התחבר",
+  "loading-toys-msg": "טוען צעצועים",
+  "welcome": "ברוך הבא",
+  "username": "שם משתמש",
+  "password": "סיסמה",
+  "fullname": "שם מלא",
+  "signup": "הירשם",
+  "signup-msg": "עדיין לא נרשמת?",
+  "login-msg": "כבר משתמש רשום?",
+  "logout": "התנתק",
+  "good-morning": "בוקר טוב",
+  "good-afternoon": "אחה״צ טובים",
+  "good-evening": "ערב טוב",
+  "good-night": "לילה טוב"
 }

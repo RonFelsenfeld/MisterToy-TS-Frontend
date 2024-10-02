@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { userService } from '../../services/user.service'
+
 import { useEffectUpdate } from '../../customHooks/useEffectUpdate'
+import { useInternationalization } from '../../customHooks/useInternationalization'
 
 import { UserCredentials } from '../../models/user.model'
 import { FormSubmitEvent, InputChangeEvent } from '../../models/event.model'
@@ -14,6 +16,7 @@ const LoginForm = ({ isSignup, onSubmit }: LoginFormProps) => {
   const [credentials, setCredentials] = useState<UserCredentials>(
     userService.getDefaultCredentials(isSignup)
   )
+  const { getTranslation } = useInternationalization()
 
   useEffectUpdate(() => {
     setCredentials(userService.getDefaultCredentials(isSignup))
@@ -36,7 +39,7 @@ const LoginForm = ({ isSignup, onSubmit }: LoginFormProps) => {
       <input
         type="text"
         name="username"
-        placeholder="Username"
+        placeholder={getTranslation('username')}
         value={username}
         onChange={handleChange}
         required
@@ -46,7 +49,7 @@ const LoginForm = ({ isSignup, onSubmit }: LoginFormProps) => {
       <input
         type="password"
         name="password"
-        placeholder="Password"
+        placeholder={getTranslation('password')}
         value={password}
         onChange={handleChange}
         required
@@ -59,14 +62,16 @@ const LoginForm = ({ isSignup, onSubmit }: LoginFormProps) => {
         <input
           type="text"
           name="fullName"
-          placeholder="Full name"
+          placeholder={getTranslation('fullname')}
           value={fullName || ''}
           onChange={handleChange}
           required
         />
       )}
 
-      <button className="btn-submit">{isSignup ? 'Sign up' : 'Login'}</button>
+      <button className="btn-submit">
+        {isSignup ? getTranslation('signup') : getTranslation('login')}
+      </button>
     </form>
   )
 }

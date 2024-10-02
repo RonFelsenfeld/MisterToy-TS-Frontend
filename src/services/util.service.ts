@@ -7,7 +7,7 @@ export const utilService = {
   getRandomTimestamp,
   getFormattedCurrency,
   getRandomColor,
-  greetBasedOnHour,
+  getGreetBasedOnHour,
 }
 
 function makeId(length: number = 6) {
@@ -112,16 +112,16 @@ function getRandomColor() {
   return colors[getRandomIntInclusive(0, colors.length - 1)]
 }
 
-function greetBasedOnHour() {
+function getGreetBasedOnHour() {
   const currentHour = new Date().getHours()
 
   if (currentHour >= 6 && currentHour < 12) {
-    return 'Good morning'
+    return 'good-morning'
   } else if (currentHour >= 12 && currentHour < 18) {
-    return 'Good afternoon'
+    return 'good-afternoon'
   } else if (currentHour >= 18 && currentHour < 22) {
-    return 'Good evening'
+    return 'good-evening'
   } else {
-    return 'Good night'
+    return 'good-night'
   }
 }

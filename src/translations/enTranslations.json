@@ -57,5 +57,17 @@
   "save": "Save",
   "cancel": "Cancel",
   "login": "Login",
-  "loading-toys-msg": "Loading toys"
+  "loading-toys-msg": "Loading toys",
+  "welcome": "Welcome",
+  "username": "Username",
+  "password": "Password",
+  "fullname": "Full name",
+  "signup": "Sign up",
+  "signup-msg": "Don't have an account yet?",
+  "login-msg": "Already have an account?",
+  "logout": "Logout",
+  "good-morning": "Good morning",
+  "good-afternoon": "Good afternoon",
+  "good-evening": "Good evening",
+  "good-night": "Good night"
 }
