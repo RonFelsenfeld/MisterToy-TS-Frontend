@@ -1,7 +1,7 @@
 import CryptoJS from 'crypto-js'
 import { DocumentNode, gql, MutationOptions } from '@apollo/client'
 
-import { UserCredentials } from '../models/user.model'
+import { User, UserCredentials } from '../models/user.model'
 import { AuthMutationType } from '../models/server.model'
 
 // ! Queries and Mutations (from GraphQL server)
@@ -77,6 +77,10 @@ function getAuthMutationOptions(type: AuthMutationType, credentials?: UserCreden
   return mutationOptions
 }
 
+function isAuthorized(user: User | null) {
+  return user && user.isAdmin
+}
+
 ////////////////////////////////////////////////////
 
 // ! Exporting Mutations and Methods as userService
@@ -86,6 +90,7 @@ export const authService = {
   signup,
   logout,
   getAuthMutationOptions,
+  isAuthorized,
 }
 
 ////////////////////////////////////////////////////

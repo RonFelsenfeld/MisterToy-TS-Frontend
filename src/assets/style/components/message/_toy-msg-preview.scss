@@ -8,4 +8,15 @@
     font-style: italic;
     font-size: rem(12px);
   }
+
+  .btn-remove {
+    padding: 4px 8px;
+    color: $surface-clr;
+    background-color: $toy-remove-btn-clr;
+    transition: background-color $color-transition;
+
+    &:hover {
+      background-color: darken($toy-remove-btn-clr, 25%);
+    }
+  }
 }

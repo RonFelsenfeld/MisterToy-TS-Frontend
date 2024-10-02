@@ -10,10 +10,10 @@ import { getTranslatedLabel } from '../../services/i18n.service'
 import { RootState } from '../../store/store'
 import { useInternationalization } from '../../customHooks/useInternationalization'
 
-import { Toy, ToyMsg } from '../../models/toy.model'
+import { Toy } from '../../models/toy.model'
 import { AddToyMsgResponse, GetToyByIdResponse } from '../../models/server.model'
 
-import ToyMsgList from '../../components/message/ToyMsgList'
+import ToyMsgList, { ToyMsgListProps } from '../../components/message/ToyMsgList'
 import MsgForm from '../../components/message/MsgForm'
 
 const ToyDetails = () => {
@@ -33,6 +33,8 @@ const ToyDetails = () => {
     toyService.addToyMsg
   )
 
+  const [removeToyMsg, { error: removeMsgError }] = useMutation(toyService.removeToyMsg)
+
   useEffect(() => {
     if (data) setToy(data.toy)
     if (error) handleError(error, 'fetching toy')
@@ -41,7 +43,8 @@ const ToyDetails = () => {
   useEffect(() => {
     if (msgData) handleNewMsg(msgData)
     if (addMsgError) handleError(addMsgError, 'adding msg')
-  }, [msgData, addMsgError])
+    if (removeMsgError) handleError(removeMsgError, 'removing msg')
+  }, [msgData, addMsgError, removeMsgError])
 
   function handleNewMsg(msgData: AddToyMsgResponse) {
     if (!toy) return
@@ -60,6 +63,19 @@ const ToyDetails = () => {
       await addToyMsg({ variables: { toyId, msg } })
     } catch (err) {
       console.error('Toy Details -> Had issues with adding message:', err)
+      return
+    }
+  }
+
+  async function onRemoveMsg(msgId: string) {
+    try {
+      await removeToyMsg({ variables: { toyId, msgId } })
+      setToy(prevToy => ({
+        ...prevToy!,
+        msgs: [...prevToy!.msgs.filter(m => m.id !== msgId)],
+      }))
+    } catch (err) {
+      console.error('Toy Details -> Had issues with removing message:', err)
       return
     }
   }
@@ -100,7 +116,7 @@ const ToyDetails = () => {
         </ul>
       </div>
 
-      <MessageBox msgs={msgs} />
+      <_MessageBox msgs={msgs} onRemoveMsg={onRemoveMsg} />
     </section>
   )
 }
@@ -109,14 +125,14 @@ export default ToyDetails
 
 ////////////////////////////////////////////////////
 
-const MessageBox = ({ msgs }: { msgs: ToyMsg[] }) => {
+const _MessageBox = ({ msgs, onRemoveMsg }: ToyMsgListProps) => {
   const { getTranslation } = useInternationalization()
 
   if (msgs.length) {
     return (
       <div className="msgs-container flex column">
         <h3 className="msgs-heading">{getTranslation('toy-msgs-heading')}</h3>
-        <ToyMsgList msgs={msgs} />
+        <ToyMsgList msgs={msgs} onRemoveMsg={onRemoveMsg} />
       </div>
     )
   } else {
