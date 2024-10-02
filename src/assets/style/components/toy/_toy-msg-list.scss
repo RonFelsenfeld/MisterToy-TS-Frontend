@@ -1,0 +1,7 @@
+.toy-msg-list {
+  background-color: $surface-clr;
+
+  :nth-child(even) {
+    background-color: $dropdown-gap-border-clr;
+  }
+}

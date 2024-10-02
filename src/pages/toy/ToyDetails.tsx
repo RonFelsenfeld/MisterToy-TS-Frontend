@@ -4,11 +4,13 @@ import { useQuery } from '@apollo/client'
 
 import { utilService } from '../../services/util.service'
 import { toyService } from '../../services/toy.service'
-import { useInternationalization } from '../../customHooks/useInternationalization'
-
-import { Toy } from '../../models/toy.model'
-import { GetToyByIdResponse } from '../../models/server.model'
 import { getTranslatedLabel } from '../../services/i18n.service'
+
+import { useInternationalization } from '../../customHooks/useInternationalization'
+import { Toy } from '../../models/toy.model'
+
+import { GetToyByIdResponse } from '../../models/server.model'
+import ToyMsgList from '../../components/toy/ToyMsgList'
 
 const ToyDetails = () => {
   const [toy, setToy] = useState<Toy | null>(null)
@@ -42,19 +44,28 @@ const ToyDetails = () => {
         <button className="btn-back">{getTranslation('back-to-shop')}</button>
       </Link>
 
-      <h2 className="toy-name">{name}</h2>
-      <div className="price-stock-container flex">
-        <h3 className="toy-price">{utilService.getFormattedCurrency(price)} </h3>
-        <span className={`toy-stock ${inStockStr}`}>{getTranslation(inStockStr)}</span>
+      <div className="details-content">
+        <h2 className="toy-name">{name}</h2>
+        <div className="price-stock-container flex">
+          <h3 className="toy-price">{utilService.getFormattedCurrency(price)} </h3>
+          <span className={`toy-stock ${inStockStr}`}>{getTranslation(inStockStr)}</span>
+        </div>
+
+        <ul className="label-list clean-list flex">
+          {labels.map(label => (
+            <li key={Math.random() + label} className="label">
+              {getTranslatedLabel(label)}
+            </li>
+          ))}
+        </ul>
       </div>
 
-      <ul className="label-list clean-list flex">
-        {labels.map(label => (
-          <li key={Math.random() + label} className="label">
-            {getTranslatedLabel(label)}
-          </li>
-        ))}
-      </ul>
+      {!!msgs.length && (
+        <div className="msgs-container flex column">
+          <h3 className="msgs-heading">{getTranslation('toy-msgs-heading')}</h3>
+          <ToyMsgList msgs={msgs} />
+        </div>
+      )}
     </section>
   )
 }

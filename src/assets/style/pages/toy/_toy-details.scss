@@ -1,50 +1,73 @@
 .toy-details {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-areas:
+    'back-btn back-btn'
+    'content msgs';
+
+  column-gap: em(40px);
+
   margin-block-start: $content-gap;
   background-color: $main-clr--10;
   padding: 30px;
 
   .btn-back {
     @include btnAction($main-clr-10) {
+      grid-area: btn-back;
       margin-block-end: em(10px);
     }
   }
 
-  .toy-name {
-    font-size: em(32px);
-    font-family: $heading-font-family;
-  }
+  .details-content {
+    grid-area: content;
 
-  .price-stock-container {
-    align-items: baseline;
-    gap: em(20px);
-    margin-block-end: em(20px);
-
-    .toy-price {
+    .toy-name {
       font-size: em(24px);
+      font-family: $heading-font-family;
     }
 
-    .toy-stock {
-      font-size: rem(16px);
+    .price-stock-container {
+      align-items: baseline;
+      gap: em(20px);
+      margin-block-end: em(20px);
 
-      &.in-stock {
-        color: $in-stock-clr;
+      .toy-price {
+        font-size: em(24px);
       }
 
-      &.out-of-stock {
-        color: $out-stock-clr;
+      .toy-stock {
+        font-size: rem(16px);
+
+        &.in-stock {
+          color: $in-stock-clr;
+        }
+
+        &.out-of-stock {
+          color: $out-stock-clr;
+        }
+      }
+    }
+
+    .label-list {
+      gap: 8px;
+      margin-block-end: rem(10px);
+
+      .label {
+        padding: em(5px) em(10px);
+        font-size: em(14px);
+        color: $surface-clr;
+        background-color: $main-clr-5;
       }
     }
   }
 
-  .label-list {
-    gap: 8px;
-    margin-block-end: rem(10px);
+  .msgs-container {
+    grid-area: msgs;
+    height: 100%;
 
-    .label {
-      padding: em(5px) em(10px);
-      font-size: em(14px);
-      color: $surface-clr;
-      background-color: $main-clr-5;
+    .msgs-heading {
+      font-size: em(24px);
+      font-family: $heading-font-family;
     }
   }
 }

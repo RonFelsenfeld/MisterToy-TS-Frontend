@@ -5,7 +5,15 @@ interface ToyMsgPreviewProps {
 }
 
 const ToyMsgPreview = ({ msg }: ToyMsgPreviewProps) => {
-  return <article className="toy-msg-preview">Hello from ToyMsgPreview</article>
+  const { txt, by } = msg
+  return (
+    <article className="toy-msg-preview">
+      <p className="msg-txt">
+        {txt}
+        <span className="msg-by"> ({by.fullName})</span>
+      </p>
+    </article>
+  )
 }
 
 export default ToyMsgPreview

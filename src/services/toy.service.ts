@@ -22,7 +22,6 @@ const query = gql`
         id
         txt
         by {
-          _id
           fullName
         }
       }
@@ -43,7 +42,6 @@ const getById = gql`
         id
         txt
         by {
-          _id
           fullName
         }
       }
@@ -70,7 +68,6 @@ const add = gql`
         id
         txt
         by {
-          _id
           fullName
         }
       }
@@ -91,7 +88,6 @@ const update = gql`
         id
         txt
         by {
-          _id
           fullName
         }
       }
