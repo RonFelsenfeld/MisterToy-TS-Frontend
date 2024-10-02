@@ -4,7 +4,9 @@
   padding: 30px;
 
   .btn-back {
-    @include btnAction($main-clr-10);
+    @include btnAction($main-clr-10) {
+      margin-block-end: em(10px);
+    }
   }
 
   .toy-name {

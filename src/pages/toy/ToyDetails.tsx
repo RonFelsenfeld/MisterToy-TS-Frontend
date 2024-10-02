@@ -33,7 +33,7 @@ const ToyDetails = () => {
 
   if (!toy) return <h3 className="loading-toy-msg">{getTranslation('loading-toy-msg')}...</h3>
 
-  const { name, price, inStock, labels } = toy
+  const { name, price, inStock, labels, msgs } = toy
   const inStockStr = inStock ? 'in-stock' : 'out-of-stock'
 
   return (

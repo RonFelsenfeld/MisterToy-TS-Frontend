@@ -18,6 +18,14 @@ const query = gql`
       labels
       createdAt
       inStock
+      msgs {
+        id
+        txt
+        by {
+          _id
+          fullName
+        }
+      }
     }
   }
 `
@@ -31,6 +39,14 @@ const getById = gql`
       labels
       createdAt
       inStock
+      msgs {
+        id
+        txt
+        by {
+          _id
+          fullName
+        }
+      }
     }
   }
 `
@@ -50,6 +66,14 @@ const add = gql`
       createdAt
       labels
       inStock
+      msgs {
+        id
+        txt
+        by {
+          _id
+          fullName
+        }
+      }
     }
   }
 `
@@ -63,6 +87,14 @@ const update = gql`
       createdAt
       labels
       inStock
+      msgs {
+        id
+        txt
+        by {
+          _id
+          fullName
+        }
+      }
     }
   }
 `
@@ -115,6 +147,7 @@ function getNewToy(): NewToy {
     price: 0,
     labels: [],
     inStock: true,
+    msgs: [],
   }
 }
 
@@ -235,6 +268,7 @@ function _createDemoToy(): Toy {
     labels: toyLabels,
     createdAt: utilService.getRandomTimestamp(),
     inStock: Math.random() > 0.5 ? true : false,
+    msgs: [],
   }
 }
 

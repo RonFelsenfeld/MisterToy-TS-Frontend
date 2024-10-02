@@ -1,4 +1,5 @@
 import { ReactMouseEvent } from './event.model'
+import { User } from './user.model'
 
 export interface Toy {
   _id: string
@@ -7,9 +8,16 @@ export interface Toy {
   labels: string[]
   createdAt: number
   inStock: boolean
+  msgs: ToyMsg[]
 }
 
 export type NewToy = Omit<Toy, '_id' | 'createdAt'>
+
+export interface ToyMsg {
+  id: string
+  txt: string
+  by: Pick<User, '_id' | 'fullName'>
+}
 
 export interface ToyFilterBy {
   name: string
