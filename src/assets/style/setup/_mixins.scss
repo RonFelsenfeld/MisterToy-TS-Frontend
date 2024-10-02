@@ -47,3 +47,11 @@
     scale: 0.9;
   }
 }
+
+@mixin btnLogin {
+  color: $main-clr-5;
+
+  &:hover {
+    color: $main-clr-10;
+  }
+}

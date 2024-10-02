@@ -1,0 +1,23 @@
+.msg-form {
+  grid-area: msg-form;
+  align-self: start;
+  gap: 6px;
+
+  .msg-input {
+    flex-grow: 1;
+    padding: em(5px);
+  }
+
+  .btn-submit {
+    padding: 5px 10px;
+
+    font-size: em(14px);
+    color: $surface-clr;
+    background-color: $main-clr-5;
+    transition: background-color $color-transition;
+
+    &:hover {
+      background-color: darken($main-clr-5, 5%);
+    }
+  }
+}

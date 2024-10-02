@@ -17,9 +17,11 @@ import ToyFilter from '../../components/toy/ToyFilter'
 import ToySort from '../../components/toy/ToySort'
 
 const ToyIndex = () => {
-  const { toys, filterBy, sortBy } = useSelector((state: RootState) => state.toyModule)
-  const dispatch = useAppDispatch()
+  const toys = useSelector((state: RootState) => state.toyModule.toys)
+  const filterBy = useSelector((state: RootState) => state.toyModule.filterBy)
+  const sortBy = useSelector((state: RootState) => state.toyModule.sortBy)
 
+  const dispatch = useAppDispatch()
   const { getTranslation } = useInternationalization()
   const { loggedInUser, isUserLoggedIn, isAuthorized } = useAuthorization()
 

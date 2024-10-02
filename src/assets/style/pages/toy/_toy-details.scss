@@ -1,8 +1,9 @@
 .toy-details {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 70px auto;
   grid-template-areas:
-    'back-btn back-btn'
+    'back-btn msg-form'
     'content msgs';
 
   column-gap: em(40px);
@@ -11,10 +12,15 @@
   background-color: $main-clr--10;
   padding: 30px;
 
-  .btn-back {
-    @include btnAction($main-clr-10) {
-      grid-area: btn-back;
-      margin-block-end: em(10px);
+  a {
+    width: fit-content;
+    height: fit-content;
+
+    .btn-back {
+      @include btnAction($main-clr-10) {
+        grid-area: btn-back;
+        align-self: center;
+      }
     }
   }
 
@@ -68,6 +74,24 @@
     .msgs-heading {
       font-size: em(24px);
       font-family: $heading-font-family;
+    }
+  }
+
+  .no-msgs {
+    grid-area: msgs;
+    font-size: em(14px);
+    font-style: italic;
+    line-height: 2.4;
+    color: $toy-remove-btn-clr;
+    opacity: 0.7;
+  }
+
+  .login-msg {
+    font-size: em(16px);
+    color: $main-font-clr;
+
+    a {
+      @include btnLogin;
     }
   }
 }

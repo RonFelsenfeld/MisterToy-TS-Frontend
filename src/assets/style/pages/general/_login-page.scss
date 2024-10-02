@@ -13,11 +13,7 @@
     font-size: em(14px);
 
     .btn-change-method {
-      color: $main-clr-5;
-
-      &:hover {
-        color: $main-clr-10;
-      }
+      @include btnLogin;
     }
   }
 }
