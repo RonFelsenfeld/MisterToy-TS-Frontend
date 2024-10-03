@@ -3,13 +3,15 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useQuery } from '@apollo/client'
 
 import { toyService } from '../../services/toy.service'
+import { useInternationalization } from '../../customHooks/useInternationalization'
+
 import { useAppDispatch } from '../../store/store'
 import { saveToy } from '../../store/slices/toy.slice'
+import { showErrorMessage, showSuccessMessage } from '../../store/slices/system.slice'
 
 import { NewToy, Toy, ToyFieldValues } from '../../models/toy.model'
 import { FormSubmitEvent, InputChangeEvent, InputType } from '../../models/event.model'
 import { GetToyByIdResponse } from '../../models/server.model'
-import { useInternationalization } from '../../customHooks/useInternationalization'
 
 type ToyToEdit = Toy | NewToy
 
@@ -53,9 +55,10 @@ const ToyEdit = () => {
 
     try {
       await dispatch(saveToy(toyToEdit as Toy))
+      dispatch(showSuccessMessage(`Toy ${toyId ? 'updated' : 'added'} successfully`))
       navigate('/toy')
     } catch (err) {
-      console.error('Toy Edit -> Had issues with saving toy:', err)
+      dispatch(showErrorMessage(`Could not save toy, please try again.`))
     }
   }
 

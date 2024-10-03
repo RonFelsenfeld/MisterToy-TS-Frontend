@@ -28,7 +28,7 @@ const initialState: ToyState = {
 
 export const loadToys = createAsyncThunk(
   'toyModule/loadToys',
-  async ({ filterBy, sortBy }: ToysQueryOptions) => {
+  async ({ filterBy, sortBy }: ToysQueryOptions, { rejectWithValue }) => {
     try {
       const queryOptions = toyService.getQueryOptions(ToyQueryTypes.GetToys, { filterBy, sortBy })
 
@@ -38,14 +38,14 @@ export const loadToys = createAsyncThunk(
       return data?.toys
     } catch (err) {
       console.error('Toy Slice -> Had issues with loading toys:', err)
-      throw err
+      return rejectWithValue(err)
     }
   }
 )
 
 export const removeToy = createAsyncThunk(
   'toyModule/removeToy',
-  async (toyId: string, { getState }) => {
+  async (toyId: string, { getState, rejectWithValue }) => {
     const { filterBy, sortBy } = (getState() as RootState).toyModule
 
     try {
@@ -62,53 +62,56 @@ export const removeToy = createAsyncThunk(
       const mutationOptions = toyService.getMutationOptions(
         ToyMutationType.RemoveToy,
         updateCacheFn,
-        { toyId }
+        { toyId: toyId + '1' }
       )
 
       await apolloService.client.mutate(mutationOptions)
       return toyId
     } catch (err) {
       console.error('Toy Slice -> Had issues with removing toy:', err)
-      throw err
+      return rejectWithValue(err)
     }
   }
 )
 
-export const saveToy = createAsyncThunk('toyModule/saveToy', async (toy: Toy, { getState }) => {
-  const { filterBy, sortBy } = (getState() as RootState).toyModule
+export const saveToy = createAsyncThunk(
+  'toyModule/saveToy',
+  async (toy: Toy, { getState, rejectWithValue }) => {
+    const { filterBy, sortBy } = (getState() as RootState).toyModule
 
-  try {
-    const updateCacheFn: CacheUpdateFn = (cache, { data }) => {
-      const options = { filterBy, sortBy }
-      const [cachedData, query] = apolloService.getToysFromCache({ cache, options })
+    try {
+      const updateCacheFn: CacheUpdateFn = (cache, { data }) => {
+        const options = { filterBy, sortBy }
+        const [cachedData, query] = apolloService.getToysFromCache({ cache, options })
 
-      if (cachedData) {
-        let toysToRewrite: Toy[]
+        if (cachedData) {
+          let toysToRewrite: Toy[]
 
-        if (toy._id) {
-          const { updateToy } = data as { updateToy: Toy }
-          toysToRewrite = cachedData.toys.map(t => (t._id === updateToy._id ? updateToy : t))
-        } else {
-          const { addToy } = data as { addToy: Toy }
-          toysToRewrite = [...cachedData.toys, addToy]
+          if (toy._id) {
+            const { updateToy } = data as { updateToy: Toy }
+            toysToRewrite = cachedData.toys.map(t => (t._id === updateToy._id ? updateToy : t))
+          } else {
+            const { addToy } = data as { addToy: Toy }
+            toysToRewrite = [...cachedData.toys, addToy]
+          }
+
+          const cacheOptions = { cache, query, toys: toysToRewrite, options }
+          apolloService.updateToysCacheQuery(cacheOptions)
         }
-
-        const cacheOptions = { cache, query, toys: toysToRewrite, options }
-        apolloService.updateToysCacheQuery(cacheOptions)
       }
+
+      const mutationType = toy._id ? ToyMutationType.UpdateToy : ToyMutationType.AddToy
+      const mutationOptions = toyService.getMutationOptions(mutationType, updateCacheFn, { toy })
+
+      const { data } = await apolloService.client.mutate<GetToyByIdResponse>(mutationOptions)
+      if (!data) throw new Error('Toy Slice -> No toy returned from server')
+      return data?.addToy || data?.updateToy
+    } catch (err) {
+      console.error('Toy Slice -> Had issues with saving toy:', err)
+      return rejectWithValue(err)
     }
-
-    const mutationType = toy._id ? ToyMutationType.UpdateToy : ToyMutationType.AddToy
-    const mutationOptions = toyService.getMutationOptions(mutationType, updateCacheFn, { toy })
-
-    const { data } = await apolloService.client.mutate<GetToyByIdResponse>(mutationOptions)
-    if (!data) throw new Error('Toy Slice -> No toy returned from server')
-    return data?.addToy || data?.updateToy
-  } catch (err) {
-    console.error('Toy Slice -> Had issues with saving toy:', err)
-    throw err
   }
-})
+)
 
 const toySlice = createSlice({
   name: 'toyModule',
