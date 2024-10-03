@@ -12,6 +12,7 @@
   "dependencies": {
     "@apollo/client": "^3.11.4",
     "@reduxjs/toolkit": "^2.2.7",
+    "animate.css": "^4.1.1",
     "chart.js": "^4.4.4",
     "crypto-js": "^4.2.0",
     "dotenv": "^16.4.5",

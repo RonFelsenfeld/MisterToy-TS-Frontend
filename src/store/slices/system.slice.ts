@@ -4,13 +4,16 @@ import { authService } from '../../services/auth.service'
 
 import { User, UserCredentials } from '../../models/user.model'
 import { AuthMutationType, AuthResponse, LogoutResponse } from '../../models/server.model'
+import { UserMessage } from '../../models/event.model'
 
 interface SystemState {
   loggedInUser: User | null
+  userMsg: UserMessage | null
 }
 
 const initialState: SystemState = {
   loggedInUser: null,
+  userMsg: null,
 }
 
 export const handleLogin = createAsyncThunk(
@@ -61,6 +64,7 @@ export const handleLogout = createAsyncThunk('systemModule/handleLogout', async 
   }
 })
 
+// ! Fetching the logged-in user from the server
 export const fetchLoggedInUser = createAsyncThunk('systemModule/fetchLoggedInUser', async () => {
   try {
     const mutationOptions = authService.getAuthMutationOptions(AuthMutationType.FetchLoggedInUser)
@@ -76,7 +80,17 @@ export const fetchLoggedInUser = createAsyncThunk('systemModule/fetchLoggedInUse
 const systemSlice = createSlice({
   name: 'systemModule',
   initialState,
-  reducers: {},
+  reducers: {
+    showSuccessMessage: (state, action: PayloadAction<string>) => {
+      state.userMsg = { type: 'success', msg: action.payload }
+    },
+    showErrorMessage: (state, action: PayloadAction<string>) => {
+      state.userMsg = { type: 'error', msg: action.payload }
+    },
+    hideUserMsg: state => {
+      state.userMsg = null
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(handleLogin.fulfilled, handleSuccessfulAuth)
@@ -94,5 +108,5 @@ function handleSuccessfulAuth(state: SystemState, action: PayloadAction<User>) {
   state.loggedInUser = action.payload
 }
 
-// export const {} = systemSlice.actions
+export const { showSuccessMessage, showErrorMessage, hideUserMsg } = systemSlice.actions
 export default systemSlice.reducer

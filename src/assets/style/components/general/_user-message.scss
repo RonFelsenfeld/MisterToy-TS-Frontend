@@ -1,0 +1,26 @@
+.user-message {
+  position: fixed;
+  inset: auto 0 10px auto;
+
+  gap: em(20px);
+  padding: em(10px) em(20px);
+
+  font-size: em(14px);
+  color: $surface-clr;
+  box-shadow: $user-msg-shadow;
+
+  &.success {
+    background-color: $msg-success-clr;
+  }
+
+  &.error {
+    background-color: $msg-error-clr;
+  }
+
+  // .btn-close {
+  // }
+
+  .msg {
+    letter-spacing: 0.5px;
+  }
+}

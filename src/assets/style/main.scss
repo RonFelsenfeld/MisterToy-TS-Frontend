@@ -21,15 +21,16 @@
 
 // COMPONENTS
 @import 'components/general/app-header';
+@import 'components/general/user-message';
 @import 'components/general/label-multi-select';
 @import 'components/general/login-form';
 
 @import 'components/toy/toy-list';
 @import 'components/toy/toy-preview';
 
-@import 'components/message/toy-msg-list';
-@import 'components/message/toy-msg-preview';
-@import 'components/message/msg-form';
+@import 'components/toy-message/toy-msg-list';
+@import 'components/toy-message/toy-msg-preview';
+@import 'components/toy-message/msg-form';
 
 @import 'components/toy/toy-filter';
 @import 'components/toy/toy-sort';

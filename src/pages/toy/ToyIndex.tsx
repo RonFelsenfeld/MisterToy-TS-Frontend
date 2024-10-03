@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { utilService } from '../../services/util.service'
 import { RootState, useAppDispatch } from '../../store/store'
 import { loadToys, removeToy, setFilterBy, setSortBy } from '../../store/slices/toy.slice'
+import { showSuccessMessage } from '../../store/slices/system.slice'
 
 import { useInternationalization } from '../../customHooks/useInternationalization'
 import { useAuthorization } from '../../customHooks/useAuthorization'
@@ -34,6 +35,7 @@ const ToyIndex = () => {
 
     try {
       await dispatch(removeToy(toyId))
+      dispatch(showSuccessMessage('Toy removed successfully'))
     } catch (err) {
       console.error('Toy Index -> Had issues with removing toy:', err)
     }

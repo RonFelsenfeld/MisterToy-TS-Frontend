@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { useSelector } from 'react-redux'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useMutation, useQuery } from '@apollo/client'
 
@@ -7,21 +6,21 @@ import { utilService } from '../../services/util.service'
 import { toyService } from '../../services/toy.service'
 import { getTranslatedLabel } from '../../services/i18n.service'
 
-import { RootState } from '../../store/store'
 import { useInternationalization } from '../../customHooks/useInternationalization'
+import { useAuthorization } from '../../customHooks/useAuthorization'
 
 import { Toy } from '../../models/toy.model'
 import { AddToyMsgResponse, GetToyByIdResponse } from '../../models/server.model'
 
-import ToyMsgList, { ToyMsgListProps } from '../../components/message/ToyMsgList'
-import MsgForm from '../../components/message/MsgForm'
+import ToyMsgList, { ToyMsgListProps } from '../../components/toy-message/ToyMsgList'
+import MsgForm from '../../components/toy-message/MsgForm'
 
 const ToyDetails = () => {
   const [toy, setToy] = useState<Toy | null>(null)
-  const user = useSelector((state: RootState) => state.systemModule.loggedInUser)
-
   const { toyId } = useParams()
   const navigate = useNavigate()
+
+  const { isUserLoggedIn } = useAuthorization()
   const { getTranslation } = useInternationalization()
 
   const { data, error } = useQuery<GetToyByIdResponse>(toyService.getById, {
@@ -91,7 +90,7 @@ const ToyDetails = () => {
         <button className="btn-back">{getTranslation('back-to-shop')}</button>
       </Link>
 
-      {user ? (
+      {isUserLoggedIn() ? (
         <MsgForm onAddMsg={onAddMsg} />
       ) : (
         <p className="login-msg">

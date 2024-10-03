@@ -9,3 +9,8 @@ export enum InputType {
   Checkbox = 'checkbox',
   Select = 'select-one',
 }
+
+export interface UserMessage {
+  type: 'success' | 'error'
+  msg: string
+}

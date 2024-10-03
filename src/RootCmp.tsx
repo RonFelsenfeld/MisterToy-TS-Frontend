@@ -15,6 +15,7 @@ import ToyEdit from './pages/toy/ToyEdit'
 import ToyDetails from './pages/toy/ToyDetails'
 
 import AppHeader from './components/general/AppHeader'
+import UserMessage from './components/general/UserMessage'
 
 const App = () => {
   const { getCurrentLanguage } = useInternationalization()
@@ -46,6 +47,8 @@ const App = () => {
           </Routes>
         </main>
       </section>
+
+      <UserMessage />
     </Router>
   )
 }
