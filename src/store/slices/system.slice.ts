@@ -20,12 +20,8 @@ export const handleLogin = createAsyncThunk(
   'systemModule/handleLogin',
   async (credentials: UserCredentials, { rejectWithValue }) => {
     try {
-      const mutationOptions = authService.getAuthMutationOptions(
-        AuthMutationType.Login,
-        credentials
-      )
-
-      const { data } = await apolloService.client.mutate<AuthResponse>(mutationOptions)
+      const options = authService.getAuthMutationOptions(AuthMutationType.Login, credentials)
+      const { data } = await apolloService.client.mutate<AuthResponse>(options)
       return data?.login as User
     } catch (err) {
       console.error('System Slice -> Had issues with logging in:', err)
@@ -38,12 +34,8 @@ export const handleSignup = createAsyncThunk(
   'systemModule/handleSignup',
   async (credentials: UserCredentials, { rejectWithValue }) => {
     try {
-      const mutationOptions = authService.getAuthMutationOptions(
-        AuthMutationType.Signup,
-        credentials
-      )
-
-      const { data } = await apolloService.client.mutate<AuthResponse>(mutationOptions)
+      const options = authService.getAuthMutationOptions(AuthMutationType.Signup, credentials)
+      const { data } = await apolloService.client.mutate<AuthResponse>(options)
       return data?.signup as User
     } catch (err) {
       console.error('System Slice -> Had issues with signing up:', err)
@@ -56,9 +48,8 @@ export const handleLogout = createAsyncThunk(
   'systemModule/handleLogout',
   async (_, { rejectWithValue }) => {
     try {
-      const mutationOptions = authService.getAuthMutationOptions(AuthMutationType.Logout)
-
-      const { data } = await apolloService.client.mutate<LogoutResponse>(mutationOptions)
+      const options = authService.getAuthMutationOptions(AuthMutationType.Logout)
+      const { data } = await apolloService.client.mutate<LogoutResponse>(options)
       return data?.logout?.msg as string
     } catch (err) {
       console.error('System Slice -> Had issues with logging out:', err)
@@ -72,9 +63,8 @@ export const fetchLoggedInUser = createAsyncThunk(
   'systemModule/fetchLoggedInUser',
   async (_, { rejectWithValue }) => {
     try {
-      const mutationOptions = authService.getAuthMutationOptions(AuthMutationType.FetchLoggedInUser)
-
-      const { data } = await apolloService.client.mutate<AuthResponse>(mutationOptions)
+      const options = authService.getAuthMutationOptions(AuthMutationType.FetchLoggedInUser)
+      const { data } = await apolloService.client.mutate<AuthResponse>(options)
       return data?.fetchLoggedInUser || null
     } catch (err) {
       console.error('System Slice -> Had issues with fetching logged in user:', err)

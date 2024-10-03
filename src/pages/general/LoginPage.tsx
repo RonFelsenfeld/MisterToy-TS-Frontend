@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
+import { useInternationalization } from '../../customHooks/useInternationalization'
 import { useAppDispatch } from '../../store/store'
 import {
   handleLogin,
@@ -8,7 +9,6 @@ import {
   showErrorMessage,
   showSuccessMessage,
 } from '../../store/slices/system.slice'
-import { useInternationalization } from '../../customHooks/useInternationalization'
 import { UserCredentials } from '../../models/user.model'
 
 import LoginForm from '../../components/general/LoginForm'

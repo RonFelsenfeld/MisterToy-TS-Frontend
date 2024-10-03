@@ -5,12 +5,11 @@
   grid-template-areas:
     'back-btn msg-form'
     'content msgs';
-
   column-gap: em(40px);
 
+  padding: 30px;
   margin-block-start: $content-gap;
   background-color: $main-clr--10;
-  padding: 30px;
 
   a {
     width: fit-content;
@@ -80,6 +79,7 @@
 
   .no-msgs {
     grid-area: msgs;
+
     font-size: em(14px);
     font-style: italic;
     line-height: 2.4;

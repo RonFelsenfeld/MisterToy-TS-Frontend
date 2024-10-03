@@ -1,7 +1,8 @@
 import { useSelector } from 'react-redux'
-import { ToyMsg } from '../../models/toy.model'
-import { RootState } from '../../store/store'
+
 import { authService } from '../../services/auth.service'
+import { RootState } from '../../store/store'
+import { ToyMsg } from '../../models/toy.model'
 
 interface ToyMsgPreviewProps {
   msg: ToyMsg

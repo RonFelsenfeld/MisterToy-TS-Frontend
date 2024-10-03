@@ -4,6 +4,7 @@ import { useQuery } from '@apollo/client'
 
 import { toyService } from '../../services/toy.service'
 import { useInternationalization } from '../../customHooks/useInternationalization'
+
 import { GetToysResponse } from '../../models/server.model'
 import { Toy } from '../../models/toy.model'
 

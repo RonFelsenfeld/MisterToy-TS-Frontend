@@ -18,7 +18,6 @@ i18n.use(initReactI18next).init({
   },
   lng: langFromStorage || 'en',
   fallbackLng: 'en',
-  // debug: true,
   interpolation: {
     escapeValue: false,
   },

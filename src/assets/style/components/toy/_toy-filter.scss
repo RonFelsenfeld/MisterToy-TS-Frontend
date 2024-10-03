@@ -1,6 +1,6 @@
 .toy-filter {
   form {
-    gap: 1em;
+    gap: em(10px);
 
     > :is(input, select) {
       height: 48px;

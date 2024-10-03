@@ -2,6 +2,8 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 import * as apolloService from '../../services/apollo-client.service'
 import { toyService } from '../../services/toy.service'
+import { RootState } from '../store'
+
 import { CacheUpdateFn } from '../../models/apollo.model'
 import { Toy, ToyFilterBy, ToySortBy } from '../../models/toy.model'
 import {
@@ -11,8 +13,6 @@ import {
   ToyQueryTypes,
   ToysQueryOptions,
 } from '../../models/server.model'
-
-import { RootState } from '../store'
 
 interface ToyState {
   toys: Toy[] | null
@@ -30,11 +30,10 @@ export const loadToys = createAsyncThunk(
   'toyModule/loadToys',
   async ({ filterBy, sortBy }: ToysQueryOptions, { rejectWithValue }) => {
     try {
-      const queryOptions = toyService.getQueryOptions(ToyQueryTypes.GetToys, { filterBy, sortBy })
+      const options = toyService.getQueryOptions(ToyQueryTypes.GetToys, { filterBy, sortBy })
+      const { data, error } = await apolloService.client.query<GetToysResponse>(options)
 
-      const { data, error } = await apolloService.client.query<GetToysResponse>(queryOptions)
       if (error) throw new Error(error.message)
-
       return data?.toys
     } catch (err) {
       console.error('Toy Slice -> Had issues with loading toys:', err)

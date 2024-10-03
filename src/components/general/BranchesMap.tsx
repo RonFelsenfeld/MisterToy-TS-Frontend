@@ -1,6 +1,5 @@
 import { MapContainer, Marker, TileLayer, Popup, useMap, useMapEvent } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
-
 import { toyService } from '../../services/toy.service'
 
 const startingCoords = { lat: 32.073591208159584, lng: 34.79064056091309 }

@@ -1,8 +1,10 @@
 import { useRef, useState } from 'react'
+
 import { toyService } from '../../services/toy.service'
+import { getTranslatedLabel } from '../../services/i18n.service'
+
 import { useClickOutside } from '../../customHooks/useClickOutside'
 import { useInternationalization } from '../../customHooks/useInternationalization'
-import { getTranslatedLabel } from '../../services/i18n.service'
 
 interface LabelMultiSelectProps {
   onToggleLabel: (label: string) => void

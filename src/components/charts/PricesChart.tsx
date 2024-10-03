@@ -3,6 +3,7 @@ import { Pie } from 'react-chartjs-2'
 
 import { toyService } from '../../services/toy.service'
 import { utilService } from '../../services/util.service'
+
 import { useChartDataFormatter } from '../../customHooks/useChartDataFormatter'
 import { Toy } from '../../models/toy.model'
 

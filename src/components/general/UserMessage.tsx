@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux'
-import { RootState, useAppDispatch } from '../../store/store'
 import { useEffect, useRef, useState } from 'react'
+
+import { RootState, useAppDispatch } from '../../store/store'
 import { hideUserMsg } from '../../store/slices/system.slice'
 
 type TimeoutId = ReturnType<typeof setTimeout>

@@ -10,10 +10,10 @@ import {
   Legend,
 } from 'chart.js'
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
-
 import { toyService } from '../../services/toy.service'
 import { useChartDataFormatter } from '../../customHooks/useChartDataFormatter'
+
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
 
 const SalesChart = () => {
   const salesMap = toyService.getSalesPerMonthMap()
