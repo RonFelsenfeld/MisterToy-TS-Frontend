@@ -17,8 +17,9 @@
     background-color: $msg-error-clr;
   }
 
-  // .btn-close {
-  // }
+  .btn-close {
+    color: inherit;
+  }
 
   .msg {
     letter-spacing: 0.5px;

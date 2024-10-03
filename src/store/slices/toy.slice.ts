@@ -62,7 +62,7 @@ export const removeToy = createAsyncThunk(
       const mutationOptions = toyService.getMutationOptions(
         ToyMutationType.RemoveToy,
         updateCacheFn,
-        { toyId: toyId + '1' }
+        { toyId }
       )
 
       await apolloService.client.mutate(mutationOptions)

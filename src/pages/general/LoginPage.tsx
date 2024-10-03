@@ -2,7 +2,12 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { useAppDispatch } from '../../store/store'
-import { handleLogin, handleSignup } from '../../store/slices/system.slice'
+import {
+  handleLogin,
+  handleSignup,
+  showErrorMessage,
+  showSuccessMessage,
+} from '../../store/slices/system.slice'
 import { useInternationalization } from '../../customHooks/useInternationalization'
 import { UserCredentials } from '../../models/user.model'
 
@@ -22,26 +27,28 @@ const LoginPage = () => {
     try {
       if (isSignup) await _onSignup(credentials)
       else await _onLogin(credentials)
-    } catch (err) {
-      console.error('Login Page -> Had issues with submitting form:', err)
-    } finally {
       navigate('/toy')
+    } catch (err) {
+      const msg = `Could not ${isSignup ? 'signup' : 'login'}, please try again later.`
+      dispatch(showErrorMessage(msg))
     }
   }
 
   async function _onLogin(credentials: UserCredentials) {
     try {
-      await dispatch(handleLogin(credentials))
+      const user = await dispatch(handleLogin(credentials)).unwrap()
+      dispatch(showSuccessMessage(`Welcome, ${user.fullName}`))
     } catch (err) {
-      console.error('Had issues with handling login:', err)
+      throw err
     }
   }
 
   async function _onSignup(credentials: UserCredentials) {
     try {
-      await dispatch(handleSignup(credentials))
+      const user = await dispatch(handleSignup(credentials)).unwrap()
+      dispatch(showSuccessMessage(`Welcome, ${user.fullName}`))
     } catch (err) {
-      console.error('Had issues with handling signup:', err)
+      throw err
     }
   }
 

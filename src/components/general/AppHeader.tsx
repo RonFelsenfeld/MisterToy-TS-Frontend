@@ -1,7 +1,7 @@
 import { Link, NavLink } from 'react-router-dom'
 
 import { useAppDispatch } from '../../store/store'
-import { handleLogout } from '../../store/slices/system.slice'
+import { handleLogout, showErrorMessage, showSuccessMessage } from '../../store/slices/system.slice'
 
 import { useAuthorization } from '../../customHooks/useAuthorization'
 import { useInternationalization } from '../../customHooks/useInternationalization'
@@ -15,9 +15,10 @@ const AppHeader = () => {
     if (!isUserLoggedIn()) return
 
     try {
-      await dispatch(handleLogout())
+      await dispatch(handleLogout()).unwrap()
+      dispatch(showSuccessMessage(`Bye Bye :)`))
     } catch (err) {
-      console.error('App Header -> Had issues with logging out:', err)
+      dispatch(showErrorMessage(`Couldn't log out, please try again later.`))
     }
   }
 

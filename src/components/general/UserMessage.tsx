@@ -12,16 +12,20 @@ const UserMessage = () => {
   const dispatch = useAppDispatch()
 
   useEffect(() => {
+    resetTimeout()
     if (!message) return
-    setIsOpen(true)
 
-    if (timeoutIdRef.current) clearTimeout(timeoutIdRef.current)
+    setIsOpen(true)
     timeoutIdRef.current = setTimeout(closeUserMessage, 3000)
   }, [message])
 
-  function closeUserMessage() {
+  function resetTimeout() {
+    if (timeoutIdRef.current) clearTimeout(timeoutIdRef.current)
+  }
+
+  function closeUserMessage(timer = 500) {
     setIsOpen(false)
-    setTimeout(() => dispatch(hideUserMsg()), 500)
+    setTimeout(() => dispatch(hideUserMsg()), timer)
   }
 
   let animationClasses = 'animate__animated animate__faster animate__slideInRight'
@@ -30,7 +34,9 @@ const UserMessage = () => {
     message && (
       <section className={`user-message ${message.type} flex align-center ${animationClasses}`}>
         <p className="msg">{message.msg}</p>
-        <button className="btn-close">X</button>
+        <button className="btn-close" onClick={() => closeUserMessage(1000)}>
+          X
+        </button>
       </section>
     )
   )

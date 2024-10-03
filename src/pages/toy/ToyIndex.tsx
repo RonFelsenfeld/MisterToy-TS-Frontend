@@ -34,10 +34,10 @@ const ToyIndex = () => {
     ev.preventDefault()
 
     try {
-      await dispatch(removeToy(toyId))
+      await dispatch(removeToy(toyId)).unwrap()
       dispatch(showSuccessMessage('Toy removed successfully'))
     } catch (err) {
-      dispatch(showErrorMessage(`Could not remove toy, please try again.`))
+      dispatch(showErrorMessage(`Could not remove toy, please try again later.`))
     }
   }
 

@@ -54,11 +54,11 @@ const ToyEdit = () => {
     ev.preventDefault()
 
     try {
-      await dispatch(saveToy(toyToEdit as Toy))
+      await dispatch(saveToy(toyToEdit as Toy)).unwrap()
       dispatch(showSuccessMessage(`Toy ${toyId ? 'updated' : 'added'} successfully`))
       navigate('/toy')
     } catch (err) {
-      dispatch(showErrorMessage(`Could not save toy, please try again.`))
+      dispatch(showErrorMessage(`Could not save toy, please try again later.`))
     }
   }
 
@@ -117,12 +117,12 @@ const ToyEdit = () => {
 
         <div className="actions-container flex justify-between">
           <Link to="/toy">
-            <button className="btn btn-cancel">{getTranslation('cancel')}</button>
+            <button type="button" className="btn btn-cancel">
+              {getTranslation('cancel')}
+            </button>
           </Link>
 
-          <button type="submit" className="btn btn-save">
-            {getTranslation(toyId ? 'save' : 'add')}
-          </button>
+          <button className="btn btn-save">{getTranslation(toyId ? 'save' : 'add')}</button>
         </div>
       </form>
     </section>
