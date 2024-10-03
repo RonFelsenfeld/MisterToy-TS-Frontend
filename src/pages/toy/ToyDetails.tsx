@@ -6,6 +6,9 @@ import { utilService } from '../../services/util.service'
 import { toyService } from '../../services/toy.service'
 import { getTranslatedLabel } from '../../services/i18n.service'
 
+import { useAppDispatch } from '../../store/store'
+import { showErrorMessage, showSuccessMessage } from '../../store/slices/system.slice'
+
 import { useInternationalization } from '../../customHooks/useInternationalization'
 import { useAuthorization } from '../../customHooks/useAuthorization'
 
@@ -19,6 +22,7 @@ const ToyDetails = () => {
   const [toy, setToy] = useState<Toy | null>(null)
   const { toyId } = useParams()
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
 
   const { isUserLoggedIn } = useAuthorization()
   const { getTranslation } = useInternationalization()
@@ -36,7 +40,7 @@ const ToyDetails = () => {
 
   useEffect(() => {
     if (data) setToy(data.toy)
-    if (error) handleError(error, 'fetching toy')
+    if (error) handleError(error, 'fetching toy', true)
   }, [data, error])
 
   useEffect(() => {
@@ -52,17 +56,17 @@ const ToyDetails = () => {
     setToy(prevToy => ({ ...prevToy!, msgs: updatedMsgs }))
   }
 
-  function handleError(err: Error, msg: string) {
+  function handleError(err: Error, msg: string, isNavigateBack = false) {
     console.error(`Toy Details -> Had issues with ${msg}:`, err.message)
-    navigate('/toy')
+    if (isNavigateBack) navigate('/toy')
   }
 
   async function onAddMsg(msg: string) {
     try {
       await addToyMsg({ variables: { toyId, msg } })
+      dispatch(showSuccessMessage('Message added successfully'))
     } catch (err) {
-      console.error('Toy Details -> Had issues with adding message:', err)
-      return
+      dispatch(showErrorMessage(`Could not add message, please try again later.`))
     }
   }
 
@@ -73,9 +77,9 @@ const ToyDetails = () => {
         ...prevToy!,
         msgs: [...prevToy!.msgs.filter(m => m.id !== msgId)],
       }))
+      dispatch(showSuccessMessage('Message removed successfully'))
     } catch (err) {
-      console.error('Toy Details -> Had issues with removing message:', err)
-      return
+      dispatch(showErrorMessage(`Could not remove message, please try again later.`))
     }
   }
 
