@@ -6,7 +6,8 @@ import {
   MutationUpdaterFunction,
   OperationVariables,
 } from '@apollo/client'
-import { GetToyByIdResponse } from './server.model'
+import { GetToyByIdResponse, ToysQueryOptions } from './server.model'
+import { Toy } from './toy.model'
 
 export interface ClientQuery {
   query: DocumentNode
@@ -20,3 +21,15 @@ export type CacheUpdateFn = MutationUpdaterFunction<
   DefaultContext,
   ApolloCache<any>
 >
+
+export interface UpdateToysCacheArgs {
+  cache: ApolloCache<any>
+  query: DocumentNode
+  toys: Toy[]
+  options?: ToysQueryOptions
+}
+
+export interface GetToysFromCacheArgs {
+  cache: ApolloCache<any>
+  options: ToysQueryOptions
+}

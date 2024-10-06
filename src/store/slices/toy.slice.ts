@@ -4,7 +4,6 @@ import * as apolloService from '../../services/apollo-client.service'
 import { toyService } from '../../services/toy.service'
 import { RootState } from '../store'
 
-import { CacheUpdateFn } from '../../models/apollo.model'
 import { Toy, ToyFilterBy, ToySortBy } from '../../models/toy.model'
 import {
   GetToyByIdResponse,
@@ -34,7 +33,7 @@ export const loadToys = createAsyncThunk(
       const { data, error } = await apolloService.client.query<GetToysResponse>(options)
 
       if (error) throw new Error(error.message)
-      return data?.toys
+      return data.toys
     } catch (err) {
       console.error('Toy Slice -> Had issues with loading toys:', err)
       return rejectWithValue(err)
@@ -48,21 +47,11 @@ export const removeToy = createAsyncThunk(
     const { filterBy, sortBy } = (getState() as RootState).toyModule
 
     try {
-      const updateCacheFn: CacheUpdateFn = cache => {
-        const options = { filterBy, sortBy }
-        const [cachedData, query] = apolloService.getToysFromCache({ cache, options })
+      const mutationType = ToyMutationType.RemoveToy
+      const options = { filterBy, sortBy }
 
-        if (cachedData) {
-          const toys = cachedData.toys.filter(t => t._id !== toyId)
-          apolloService.updateToysCacheQuery({ cache, query, toys })
-        }
-      }
-
-      const mutationOptions = toyService.getMutationOptions(
-        ToyMutationType.RemoveToy,
-        updateCacheFn,
-        { toyId }
-      )
+      const updateCacheFn = apolloService.getUpdateCacheFn(mutationType, options, toyId)
+      const mutationOptions = toyService.getMutationOptions(mutationType, updateCacheFn, { toyId })
 
       await apolloService.client.mutate(mutationOptions)
       return toyId
@@ -79,32 +68,15 @@ export const saveToy = createAsyncThunk(
     const { filterBy, sortBy } = (getState() as RootState).toyModule
 
     try {
-      const updateCacheFn: CacheUpdateFn = (cache, { data }) => {
-        const options = { filterBy, sortBy }
-        const [cachedData, query] = apolloService.getToysFromCache({ cache, options })
-
-        if (cachedData) {
-          let toysToRewrite: Toy[]
-
-          if (toy._id) {
-            const { updateToy } = data as { updateToy: Toy }
-            toysToRewrite = cachedData.toys.map(t => (t._id === updateToy._id ? updateToy : t))
-          } else {
-            const { addToy } = data as { addToy: Toy }
-            toysToRewrite = [...cachedData.toys, addToy]
-          }
-
-          const cacheOptions = { cache, query, toys: toysToRewrite, options }
-          apolloService.updateToysCacheQuery(cacheOptions)
-        }
-      }
-
+      const options = { filterBy, sortBy }
       const mutationType = toy._id ? ToyMutationType.UpdateToy : ToyMutationType.AddToy
+
+      const updateCacheFn = apolloService.getUpdateCacheFn(mutationType, options)
       const mutationOptions = toyService.getMutationOptions(mutationType, updateCacheFn, { toy })
 
       const { data } = await apolloService.client.mutate<GetToyByIdResponse>(mutationOptions)
       if (!data) throw new Error('Toy Slice -> No toy returned from server')
-      return data?.addToy || data?.updateToy
+      return toy._id ? data.updateToy : data.addToy
     } catch (err) {
       console.error('Toy Slice -> Had issues with saving toy:', err)
       return rejectWithValue(err)
@@ -135,14 +107,13 @@ const toySlice = createSlice({
       })
 
       .addCase(saveToy.fulfilled, (state, action: PayloadAction<Toy>) => {
-        const { payload } = action
-        const toyIndex = state.toys!.findIndex(t => t._id === payload._id)
+        if (!state.toys) return
 
-        if (toyIndex < 0) {
-          state.toys!.push(payload)
-        } else {
-          state.toys![toyIndex] = payload
-        }
+        const { payload } = action
+        const toyIndex = state.toys.findIndex(t => t._id === payload._id)
+
+        if (toyIndex < 0) state.toys.push(payload)
+        else state.toys[toyIndex] = payload
       })
   },
 })
